@@ -20,7 +20,7 @@ export const Online = () => {
     //
     // The way this works is that we first mount the webview on about:blank,
     // then we get the userAgent in the JS context of the webview via the
-    // standard navigatorUserAgent, then we post that BACK to react-native,
+    // standard navigator.userAgent, Then we post that BACK to react-native,
     // which unmounts the temporary webview on about:blank then loads our REAL
     // webview.
     //
