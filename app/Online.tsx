@@ -51,8 +51,11 @@ export default function Online() {
     >
 
       {! userAgent && (
+        // It's important that display none is set here so that the control
+        // doesn't temporarily flash
         <WebView
           source={{ uri: INITIAL_LOAD_URL }}
+          style={{display: 'none'}}
           onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
           injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
         />

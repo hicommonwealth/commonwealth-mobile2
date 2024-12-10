@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import NetInfo from '@react-native-community/netinfo';
 import Online from "@/app/Online";
 import Offline from "@/app/Offline";
+import SafeAreaContainer from "@/app/SafeAreaContainer";
 
 /**
  * Detect the net status and switch back and forth between online and offline
@@ -29,21 +30,13 @@ export default function NetworkDetector() {
   // hasBeenOnline which gets set to true once we have the first isConnected
   // event.  After that we mount online and display it for the first time.
 
-  //
-  // when we enable SafeAreaView it takes up some vertical space at the bottom
-  // of the screen for some reason.
-  //
-  // we can enable it by just wrapping this with
-  //
-  // <SafeAreaView style={styles.container}>
-  //
-  // but it's also not using color properly.
-
   return (
-    <>
-      {connection === 'online' && <Online/>}
-      {connection === 'offline' && <Offline/>}
-    </>
+    <SafeAreaContainer>
+      <>
+        {connection === 'online' && <Online/>}
+        {connection === 'offline' && <Offline/>}
+      </>
+    </SafeAreaContainer>
   )
 
 }
