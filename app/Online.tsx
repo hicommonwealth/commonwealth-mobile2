@@ -38,7 +38,8 @@ export default function Online() {
   const handleNavigation = useCallback((event: WebViewNavigation) => {
     // Check if the URL is an external URL
     if (!event.url.startsWith(APP_URL)) {
-      Linking.openURL(event.url); // Open the external URL in the device's main browser
+      Linking.openURL(event.url)
+        .catch(console.error)
       return false; // Prevent the WebView from loading this URL
     }
     return true; // Allow the WebView to load the URL
