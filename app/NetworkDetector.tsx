@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Offline from "@/app/Offline";
 import NetInfo from '@react-native-community/netinfo';
 import Online from "@/app/Online";
+import {SafeAreaView, Text} from "react-native";
+import Offline from "@/app/Offline";
 
 /**
  * Detect the net status and switch back and forth between online and offline
@@ -23,6 +24,10 @@ export default function NetworkDetector() {
   // they don't unmount.  If we unmount the Online component then the scroll
   // position and pending content might be lost.
 
+  // SafeAreaView style={styles.container}
+  // when we enable SafeAreaView it takes up some vertical space at the bottom
+  // of the screen for some reason.
+
   return (
     <>
       {connection === 'online' && <Online/>}
@@ -30,4 +35,11 @@ export default function NetworkDetector() {
     </>
   )
 
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    display: 'flex',
+  },
 }

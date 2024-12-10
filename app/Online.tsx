@@ -2,7 +2,8 @@ import {Linking, View} from "react-native";
 import WebView, {WebViewNavigation} from "react-native-webview";
 import {useCallback, useState} from "react";
 
-const INITIAL_LOAD_URL = 'about:blank';
+// TODO: I think about:blank is what's crashing us.
+const INITIAL_LOAD_URL = 'https://www.example.com';
 
 const APP_URL = 'https://commonwealth.im'
 

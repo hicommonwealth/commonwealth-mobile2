@@ -1,1 +1,3 @@
 - react-native-webview is crashing on expo
+- top navigation needs to work ... back button, forward button, etc.
+- SaveAreaView isn't working properly ...
