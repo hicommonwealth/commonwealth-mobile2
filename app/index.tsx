@@ -1,6 +1,6 @@
 import React from "react";
-import Online from "@/app/Online";
+import NetworkDetector from "@/app/NetworkDetector";
 
 export default function Index() {
-  return <Online/>
+  return <NetworkDetector/>
 }

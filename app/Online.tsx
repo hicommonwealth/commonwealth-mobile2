@@ -1,6 +1,10 @@
-import {View} from "react-native";
-import WebView from "react-native-webview";
+import {Linking, View} from "react-native";
+import WebView, {WebViewNavigation} from "react-native-webview";
 import {useCallback, useState} from "react";
+
+const INITIAL_LOAD_URL = 'about:blank';
+
+const APP_URL = 'https://commonwealth.im'
 
 function removeBuildString(input: string): string {
   // remove the react-native-webview build string from the UA.
@@ -30,6 +34,14 @@ export default function Online() {
     setUserAgent(removeBuildString(userAgent));
   }, [])
 
+  const handleNavigation = useCallback((event: WebViewNavigation) => {
+    // Check if the URL is an external URL
+    if (!event.url.startsWith(APP_URL)) {
+      Linking.openURL(event.url); // Open the external URL in the device's main browser
+      return false; // Prevent the WebView from loading this URL
+    }
+    return true; // Allow the WebView to load the URL
+  }, []);
   return (
     <View
       style={{
@@ -38,16 +50,17 @@ export default function Online() {
     >
 
       {! userAgent && (
-      <WebView
-        source={{ uri: 'https://www.example.com' }}
-        onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
-        injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
-      />
+        <WebView
+          source={{ uri: INITIAL_LOAD_URL }}
+          onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
+          injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
+        />
       )}
 
       {userAgent && (
-        <WebView source={{ uri: 'https://commonwealth.im' }}
+        <WebView source={{ uri: APP_URL }}
                  userAgent={userAgent}
+                 onShouldStartLoadWithRequest={handleNavigation}
                  style={{ flex: 1 }} />
       )}
 
