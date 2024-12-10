@@ -45,6 +45,12 @@
         "projectId": "9dcf81d2-4210-4852-abb0-c04acd17a44e"
       }
     },
-    "owner": "kevin_common_xyz"
+    "owner": "kevin_common_xyz",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/9dcf81d2-4210-4852-abb0-c04acd17a44e"
+    }
   }
 }

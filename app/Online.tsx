@@ -8,7 +8,7 @@ function removeBuildString(input: string): string {
   return input.replace(pattern, '');
 }
 
-export const Online = () => {
+export default function Online() {
 
   const [userAgent, setUserAgent] = useState<string | undefined>(undefined);
 

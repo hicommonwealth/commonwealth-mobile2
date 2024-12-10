@@ -1,6 +1,6 @@
-import {useEffect, useState} from "react";
-import {Online} from "@/app/Online";
-import {Offline} from "@/app/Offline";
+import React, {useEffect, useState} from "react";
+import Online from "@/app/Online";
+import Offline from "@/app/Offline";
 import NetInfo from '@react-native-community/netinfo';
 
 export default function Index() {

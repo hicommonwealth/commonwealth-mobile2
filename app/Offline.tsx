@@ -1,7 +1,7 @@
 import {View, Text} from "react-native";
 import React from "react";
 
-export const Offline = () => {
+export default function Offline() {
   return (
     <View style={styles.centered}>
       <Text style={styles.offlineText}>You are offline!</Text>
