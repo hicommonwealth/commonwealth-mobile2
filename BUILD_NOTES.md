@@ -8,3 +8,9 @@ With pnpm we should do ```expo install```, then invalidate the package-locks.jso
 then do a ```pnpm install``` again.
 
 # ```npx eas update``` will push a new build to the Expo servers
+
+##
+
+Installed knock via push notifications here:
+
+https://docs.knock.app/sdks/expo/push-notifications
