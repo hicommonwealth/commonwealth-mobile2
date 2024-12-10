@@ -51,11 +51,12 @@ export default function Online() {
     >
 
       {! userAgent && (
-        // It's important that display none is set here so that the control
-        // doesn't temporarily flash
+        // It's important that width/height are set to zero here so that the
+        // control doesn't temporarily flash.  DO NOT use display:none because
+        // this will fail on Safari.
         <WebView
           source={{ uri: INITIAL_LOAD_URL }}
-          style={{display: 'none'}}
+          style={{width: 0, height: 0}}
           onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
           injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
         />

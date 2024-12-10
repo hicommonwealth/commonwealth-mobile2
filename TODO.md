@@ -1,5 +1,4 @@
 
-- Fix the top navigation on Android...
 
 # Low Priority Issues which don't block release
 
@@ -10,6 +9,9 @@
   - If that's the issue we can have a _blank URL load our site maybe.
 
 # Resolve Issues
+
+- DONE: Fix the top navigation on Android...
+  - <StatusBar> is needed on android
 
 - DONE: using react-native-safe-area-context to fix the top navigation
 

@@ -1,6 +1,7 @@
 import {useColorScheme, View, Text} from "react-native";
 import React from "react";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {StatusBar} from "expo-status-bar";
 
 type Props = {
   children: React.ReactNode
@@ -19,6 +20,7 @@ export default function SafeAreaContainer(props: Props) {
 
   return (
     <View style={{...styles.container, paddingTop: insets.top, backgroundColor }}>
+      <StatusBar/>
       {props.children}
     </View>
   )
