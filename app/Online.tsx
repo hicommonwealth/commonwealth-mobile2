@@ -38,11 +38,11 @@ export default function Online() {
     >
 
       {! userAgent && (
-        <WebView
-          source={{ uri: 'about:blank' }}
-          onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
-          injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
-        />
+      <WebView
+        source={{ uri: 'https://www.example.com' }}
+        onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
+        injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
+      />
       )}
 
       {userAgent && (
@@ -50,6 +50,7 @@ export default function Online() {
                  userAgent={userAgent}
                  style={{ flex: 1 }} />
       )}
+
     </View>
   );
 }

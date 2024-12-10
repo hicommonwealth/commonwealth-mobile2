@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import Online from "@/app/Online";
 import Offline from "@/app/Offline";
 import NetInfo from '@react-native-community/netinfo';
+import Online from "@/app/Online";
 
 /**
  * Detect the net status and switch back and forth between online and offline

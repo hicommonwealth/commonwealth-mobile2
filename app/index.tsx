@@ -1,6 +1,6 @@
 import React from "react";
-import Offline from "@/app/Offline";
+import Online from "@/app/Online";
 
 export default function Index() {
-  return <Offline/>
+  return <Online/>
 }
