@@ -1,16 +1,31 @@
 import {Linking, View} from "react-native";
 import WebView, {WebViewNavigation} from "react-native-webview";
-import {useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
+import Notifications from "@/app/Notifications";
 
-// TODO: I think about:blank is what's crashing us.
+// TODO: I think about:blank is what's crashing us and we should probably load
+// https://common.xyz/_blank
+//
 const INITIAL_LOAD_URL = 'https://www.example.com';
 
-const APP_URL = 'https://commonwealth.im'
+const MAIN_APP_URL = 'https://common.xyz'
 
 function removeBuildString(input: string): string {
   // remove the react-native-webview build string from the UA.
   const pattern = / Build\/UP1A\.[0-9]+\.[0-9]+; wv/;
   return input.replace(pattern, '');
+}
+
+function isCommonDomain(url: string) {
+  try {
+    const parsedUrl = new URL(url);
+    const domain = parsedUrl.hostname.toLowerCase();
+    return domain.endsWith(".commonwealth.im") || domain.endsWith(".common.xyz") ||
+      domain === "commonwealth.im" || domain === "common.xyz";
+  } catch (error) {
+    console.error("Invalid URL:", error);
+    return false;
+  }
 }
 
 export default function Online() {
@@ -37,7 +52,7 @@ export default function Online() {
 
   const handleNavigation = useCallback((event: WebViewNavigation) => {
     // Check if the URL is an external URL
-    if (!event.url.startsWith(APP_URL)) {
+    if (!isCommonDomain(event.url)) {
       Linking.openURL(event.url)
         .catch(console.error)
       return false; // Prevent the WebView from loading this URL
@@ -64,10 +79,13 @@ export default function Online() {
       )}
 
       {userAgent && (
-        <WebView source={{ uri: APP_URL }}
-                 userAgent={userAgent}
-                 onShouldStartLoadWithRequest={handleNavigation}
-                 style={{ flex: 1 }} />
+        <>
+          <WebView source={{ uri: MAIN_APP_URL }}
+                   userAgent={userAgent}
+                   onShouldStartLoadWithRequest={handleNavigation}
+                   style={{ flex: 1 }} />
+          <Notifications/>
+        </>
       )}
 
     </View>

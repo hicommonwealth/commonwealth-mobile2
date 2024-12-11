@@ -1,21 +1,20 @@
 import React, {ReactNode} from "react";
 import {
-  KnockProvider,
   KnockExpoPushNotificationProvider,
+  KnockProvider,
 } from "@knocklabs/expo";
 
 type Props = {
-  children: ReactNode
 }
 
+// https://docs.knock.app/sdks/expo/push-notifications
 export default function Notifications(props: Props) {
 
-  // FIXME how do I get the knock user ID???
+  // TODO get the notifications from the react-native bridge ...
   return (
-    <KnockProvider apiKey="{YOUR_KNOCK_PUBLIC_API_KEY}" userId="{YOUR_USER_ID}">
-      <KnockExpoPushNotificationProvider knockExpoChannelId="{YOUR_KNOCK_EXPO_CHANNEL_ID}">
+    <KnockProvider apiKey="pk_test_Hd4ZpzlVcz9bqepJQoo9BvZHokgEqvj4T79fPdKqpYM" userId="2">
+      <KnockExpoPushNotificationProvider knockExpoChannelId="fc6e68e5-b7b9-49c1-8fab-6dd7e3510ffb}">
         <>
-          {props.children}
         </>
       </KnockExpoPushNotificationProvider>
     </KnockProvider>
