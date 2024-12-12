@@ -4,7 +4,7 @@ import WebView, {
   WebViewNavigation
 } from "react-native-webview";
 import React, {useCallback, useState} from "react";
-import Notifications from "@/app/Notifications";
+import ExpoNotifications from "@/app/ExpoNotifications";
 import {isInternalURL} from "@/components/isInternalURL";
 
 // TODO: I think about:blank is what's crashing us and we should probably load
@@ -115,7 +115,7 @@ export default function Online() {
                    onShouldStartLoadWithRequest={handleNavigation}
                    style={{ flex: 1 }} />
 
-          {userId !== 0 && <Notifications userId={userId}/>}
+          {userId !== 0 && <ExpoNotifications userId={userId}/>}
 
         </>
       )}

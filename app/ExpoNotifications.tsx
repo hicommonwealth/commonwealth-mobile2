@@ -10,7 +10,10 @@ type Props = {
 
 // https://docs.knock.app/sdks/expo/push-notifications
 // https://docs.knock.app/integrations/push/expo#how-to-configure-expo-with-knock
-export default function Notifications(props: Props) {
+// https://docs.knock.app/sdks/react-native/push-notifications
+// https://docs.expo.dev/push-notifications/sending-notifications-custom/
+
+export default function ExpoNotifications(props: Props) {
 
   // TODO get the notifications from the react-native bridge ...
   return (
