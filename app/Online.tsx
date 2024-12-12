@@ -12,8 +12,9 @@ import {isInternalURL} from "@/components/isInternalURL";
 //
 const INITIAL_LOAD_URL = 'https://www.example.com';
 
-const MAIN_APP_URL = 'http://192.168.86.31:8080'
-//const MAIN_APP_URL = 'https://common.xyz'
+//const MAIN_APP_URL = 'http://192.168.89.37:8080'
+const MAIN_APP_URL = 'https://common.xyz'
+
 
 /**
  * Typed message so that the react-native client knows how to handel this message.
@@ -30,6 +31,7 @@ type TypedData<Data> = {
  */
 type UserInfo = {
   userId: number;
+  knockJWT: string;
   // darkMode: 'dark' | 'light';
 };
 
@@ -43,7 +45,7 @@ export default function Online() {
 
   const [userAgent, setUserAgent] = useState<string | undefined>(undefined);
 
-  const [userId, setUserId] = useState<number>(0)
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
   const handleUserAgent = useCallback((userAgent: string) => {
 
@@ -73,7 +75,7 @@ export default function Online() {
 
       if (userData.data) {
         console.log("Working with user: " + userData.data.userId)
-        setUserId(userData.data.userId)
+        setUserInfo(userData.data)
       }
     }
 
@@ -115,7 +117,9 @@ export default function Online() {
                    onShouldStartLoadWithRequest={handleNavigation}
                    style={{ flex: 1 }} />
 
-          {userId !== 0 && <ExpoNotifications userId={userId}/>}
+          {userInfo && userInfo.userId !== 0 && (
+            <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT}/>
+          )}
 
         </>
       )}
