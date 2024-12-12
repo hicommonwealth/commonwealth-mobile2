@@ -43,6 +43,8 @@ export default function Online() {
 
   const [userAgent, setUserAgent] = useState<string | undefined>(undefined);
 
+  const [userId, setUserId] = useState<number>(0)
+
   const handleUserAgent = useCallback((userAgent: string) => {
 
     // This is a workaround to avoid react-native-device-info which won't work
@@ -71,6 +73,7 @@ export default function Online() {
 
       if (userData.data) {
         console.log("Working with user: " + userData.data.userId)
+        setUserId(userData.data.userId)
       }
     }
 
@@ -111,7 +114,9 @@ export default function Online() {
                    onMessage={event => handlePushMessage(event)}
                    onShouldStartLoadWithRequest={handleNavigation}
                    style={{ flex: 1 }} />
-          <Notifications/>
+
+          {userId !== 0 && <Notifications userId={userId}/>}
+
         </>
       )}
 
