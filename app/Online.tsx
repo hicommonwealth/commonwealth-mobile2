@@ -1,5 +1,8 @@
 import {Linking, View} from "react-native";
-import WebView, {WebViewNavigation} from "react-native-webview";
+import WebView, {
+  WebViewMessageEvent,
+  WebViewNavigation
+} from "react-native-webview";
 import React, {useCallback, useState} from "react";
 import Notifications from "@/app/Notifications";
 
@@ -8,7 +11,26 @@ import Notifications from "@/app/Notifications";
 //
 const INITIAL_LOAD_URL = 'https://www.example.com';
 
+//const MAIN_APP_URL = 'http://192.168.86.31:8080'
 const MAIN_APP_URL = 'https://common.xyz'
+
+/**
+ * Typed message so that the react-native client knows how to handel this message.
+ *
+ * This is teh standard pattern of how to handle postMessage with multiple uses.
+ */
+type TypedData<Data> = {
+  type: string;
+  data: Data;
+};
+
+/**
+ * The actual user info that the client needs.
+ */
+type UserInfo = {
+  userId: number;
+  // darkMode: 'dark' | 'light';
+};
 
 function removeBuildString(input: string): string {
   // remove the react-native-webview build string from the UA.
@@ -50,6 +72,21 @@ export default function Online() {
     setUserAgent(removeBuildString(userAgent));
   }, [])
 
+  const handlePushMessage = useCallback((event: WebViewMessageEvent) => {
+
+    const msg = JSON.parse(event.nativeEvent.data);
+
+    if (msg.type === 'user') {
+      console.log("Got message: ", msg)
+      const userData = msg as TypedData<UserInfo>;
+
+      if (userData.data) {
+        console.log("Working with user: " + userData.data.userId)
+      }
+    }
+
+  }, [])
+
   const handleNavigation = useCallback((event: WebViewNavigation) => {
     // Check if the URL is an external URL
     if (!isCommonDomain(event.url)) {
@@ -82,6 +119,7 @@ export default function Online() {
         <>
           <WebView source={{ uri: MAIN_APP_URL }}
                    userAgent={userAgent}
+                   onMessage={event => handlePushMessage(event)}
                    onShouldStartLoadWithRequest={handleNavigation}
                    style={{ flex: 1 }} />
           <Notifications/>
