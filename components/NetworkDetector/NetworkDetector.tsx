@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import NetInfo from '@react-native-community/netinfo';
 import Online from "@/components/Online/Online";
 import Offline from "@/components/Offline/Offline";
-import SafeAreaContainer from "@/components/SimpleWebview/SafeAreaContainer";
+import SafeAreaContainer from "@/components/SafeAreaContainer/SafeAreaContainer";
 
 /**
  * Detect the net status and switch back and forth between online and offline

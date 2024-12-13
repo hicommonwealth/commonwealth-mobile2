@@ -16,6 +16,12 @@ const ACCEPTED_URL_PATTERNS = [
 export function isInternalURL(url: string) {
   try {
 
+    if (url.startsWith("about:")) {
+      // allow these URL types to always load.  This is needed because sometimes
+      // the browser will load on about:blank on Safari.
+      return true;
+    }
+
     // Check if the domain matches any pattern in ACCEPTED_URL_PATTERNS
     if (ACCEPTED_URL_PATTERNS.some(pattern => pattern.test(url))) {
       console.log("URL is internal: " + url)
