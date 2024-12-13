@@ -4,7 +4,7 @@ import WebView, {
   WebViewNavigation
 } from "react-native-webview";
 import React, {useCallback, useState} from "react";
-import ExpoNotifications from "@/app/ExpoNotifications";
+import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 
 // TODO: I think about:blank is what's crashing us and we should probably load
