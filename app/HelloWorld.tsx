@@ -20,4 +20,4 @@ const styles = {
     fontWeight: 'bold',
     marginBottom: 10,
   },
-};
+} as const;

@@ -5,7 +5,7 @@ import WebView, {
 } from "react-native-webview";
 import React, {useCallback, useState} from "react";
 import ExpoNotifications from "@/app/ExpoNotifications";
-import {isInternalURL} from "@/components/isInternalURL";
+import {isInternalURL} from "@/util/isInternalURL";
 
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank

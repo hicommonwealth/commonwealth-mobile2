@@ -1,11 +1,17 @@
-import {View, Text} from "react-native";
+import {Button, Text, View} from "react-native";
 import React from "react";
 
-export default function Offline() {
+type Props = {
+  onClose: () => void;
+}
+
+export default function About(props: Props) {
   return (
     <View style={styles.centered}>
-      <Text style={styles.offlineText}>You are offline!</Text>
-      <Text style={styles.instructions}>Please check your internet connection.</Text>
+      <Text style={styles.offlineText}>Common Mobile App</Text>
+      <Text style={styles.instructions}></Text>
+
+      <Button title="Close" onPress={props.onClose} />
     </View>
   )
 }
