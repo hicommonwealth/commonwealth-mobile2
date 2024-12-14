@@ -2,6 +2,10 @@
   "build": {
     "preview": {
       "distribution": "internal"
+    },
+    "production": {
+      "developmentClient": false,
+      "distribution": "internal"
     }
   }
 }

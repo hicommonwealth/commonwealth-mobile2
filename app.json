@@ -11,14 +11,18 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
-      }
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      },
+      "bundleIdentifier": "commonwealth-mobile2"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kevin_common_xyz.commonxyz"
     },
     "web": {
       "bundler": "metro",
