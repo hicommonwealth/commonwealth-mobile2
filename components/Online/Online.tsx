@@ -1,4 +1,4 @@
-import {Linking, View} from "react-native";
+import {ActivityIndicator, Linking, View} from "react-native";
 import WebView, {
   WebViewMessageEvent,
   WebViewNavigation
@@ -6,6 +6,7 @@ import WebView, {
 import React, {useCallback, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
+import About from "@/components/About/About";
 
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank
@@ -45,7 +46,10 @@ export default function Online() {
 
   const [userAgent, setUserAgent] = useState<string | undefined>(undefined);
 
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
+  const [url, setUrl] = useState<string | undefined>(MAIN_APP_URL)
+
+  const [view, setView] = useState<'app' | 'about'>('app');
 
   const handleUserAgent = useCallback((userAgent: string) => {
 
@@ -69,6 +73,11 @@ export default function Online() {
 
     const msg = JSON.parse(event.nativeEvent.data);
 
+    if (msg.type === 'about') {
+      setView('about')
+      return;
+    }
+
     if (msg.type === 'user') {
       console.log("Got message: ", msg)
       const userData = msg as TypedData<UserInfo>;
@@ -77,6 +86,7 @@ export default function Online() {
         console.log("Working with user: " + userData.data.userId)
         setUserInfo(userData.data)
       }
+      return;
     }
 
   }, [])
@@ -90,6 +100,13 @@ export default function Online() {
     }
     return true; // Allow the WebView to load the URL
   }, []);
+
+  if (view === 'about') {
+    return <About onClose={() => setView('app')}
+                  userId={userInfo?.userId}
+                  url={url}/>
+  }
+
   return (
     <View
       style={{
@@ -101,12 +118,15 @@ export default function Online() {
         // It's important that width/height are set to zero here so that the
         // control doesn't temporarily flash.  DO NOT use display:none because
         // this will fail on Safari.
-        <WebView
-          source={{ uri: INITIAL_LOAD_URL }}
-          style={{width: 0, height: 0}}
-          onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
-          injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
-        />
+        <>
+          <ActivityIndicator size="large" color="blue"/>
+          <WebView
+            source={{ uri: INITIAL_LOAD_URL }}
+            style={{width: 0, height: 0}}
+            onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
+            injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
+          />
+        </>
       )}
 
       {userAgent && (

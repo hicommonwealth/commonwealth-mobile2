@@ -3,13 +3,21 @@ import React from "react";
 
 type Props = {
   onClose: () => void;
+  userId: number | undefined;
+  url: string | undefined;
 }
 
 export default function About(props: Props) {
   return (
     <View style={styles.centered}>
       <Text style={styles.offlineText}>Common Mobile App</Text>
-      <Text style={styles.instructions}></Text>
+      <Text style={styles.info}>
+        Your userId is: {props.userId}
+      </Text>
+
+      <Text style={styles.info}>
+        Loading URL: {props.url}
+      </Text>
 
       <Button title="Close" onPress={props.onClose} />
     </View>
@@ -27,7 +35,7 @@ const styles = {
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  instructions: {
+  info: {
     fontSize: 16,
     textAlign: 'center',
   },
