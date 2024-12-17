@@ -14,8 +14,11 @@ const appVersion = Constants.expoConfig?.version;
 
 export default function About(props: Props) {
   return (
-    <View style={styles.centered}>
-      <Text style={styles.offlineText}>Common Mobile App</Text>
+    <View style={styles.main}>
+
+      <View style={styles.centered}>
+        <Text style={styles.offlineText}>Common Mobile App</Text>
+      </View>
 
       <Text style={styles.info}>
         App version: {appVersion}
@@ -37,17 +40,22 @@ export default function About(props: Props) {
         User agent raw: {props.userAgentRaw ?? 'none'}
       </Text>
 
-      <Button title="Close" onPress={props.onClose} />
+      <View style={styles.centered}>
+        <Button title="Close" onPress={props.onClose} />
+      </View>
     </View>
   )
 }
 
 const styles = {
-  centered: {
+   main: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'white'
+  },
+  centered: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   offlineText: {
     fontSize: 24,

@@ -1,13 +1,12 @@
-import {ActivityIndicator, Linking, View, Text} from "react-native";
+import {ActivityIndicator, Linking, View, Text, Dimensions} from "react-native";
 import WebView, {
   WebViewMessageEvent,
   WebViewNavigation
 } from "react-native-webview";
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
-import {Gesture, GestureDetector} from "react-native-gesture-handler";
 
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank
@@ -56,17 +55,24 @@ export default function Online() {
   const [url, setUrl] = useState<string | undefined>(MAIN_APP_URL)
 
   const [mode, setMode] = useState<ModeType>('init');
+  const touchStartY = useRef(0);
 
-  const swipeGesture = Gesture.Pan()
-    .onEnd((event) => {
-      console.log("Pan end: ", event)
+  const handleTouchStart = (event: any) => {
+    touchStartY.current = event.nativeEvent.pageY;
+  };
 
-      // Detect a bottom-right upward swipe
-      if (event.translationY < -650 && event.absoluteY < 100) {
-        console.log("Loading about due to swipe!!")
-        setMode('about');
-      }
-    });
+  // Touch End
+  const handleTouchEnd = (event: any) => {
+    const touchEndY = event.nativeEvent.pageY;
+    const swipeDistance = touchStartY.current - touchEndY;
+
+    const { height } = Dimensions.get("window");
+
+    if (swipeDistance > (height / 3)) {
+      console.log("Got fake gesture")
+      setMode('about');
+    }
+  };
 
   const handleUserAgent = useCallback((userAgent: string) => {
 
@@ -88,6 +94,9 @@ export default function Online() {
     setUserAgentRaw(userAgent);
     setUserAgent(removeBuildString(userAgent));
     setMode('web')
+
+    console.log("Setting mode to web")
+
   }, [])
 
   const handlePushMessage = useCallback((event: WebViewMessageEvent) => {
@@ -123,11 +132,13 @@ export default function Online() {
   }, []);
 
   return (
-    <GestureDetector gesture={swipeGesture}>
+    <>
       <View
         style={{
           flex: 1,
         }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
 
         {mode === 'about' && (
@@ -152,7 +163,6 @@ export default function Online() {
               onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
               injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
             />
-            <Text style={{color: 'black'}}>Loading...</Text>
           </>
         )}
 
@@ -167,11 +177,10 @@ export default function Online() {
             {userInfo && userInfo.userId !== 0 && (
               <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT}/>
             )}
-
           </>
         )}
 
       </View>
-    </GestureDetector>
+    </>
   );
 }
