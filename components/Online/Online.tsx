@@ -46,6 +46,11 @@ function removeBuildString(input: string): string {
 
 type ModeType = 'init' | 'about' | 'web'
 
+type TouchStartGesture = {
+  start: number;
+  startY: 0;
+}
+
 export default function Online() {
 
   const [userAgent, setUserAgent] = useState<string | undefined>(undefined);
@@ -55,22 +60,31 @@ export default function Online() {
   const [url, setUrl] = useState<string | undefined>(MAIN_APP_URL)
 
   const [mode, setMode] = useState<ModeType>('init');
-  const touchStartY = useRef(0);
+  const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
 
   const handleTouchStart = (event: any) => {
-    touchStartY.current = event.nativeEvent.pageY;
+    touchStart.current = {
+      start: Date.now(),
+      startY: event.nativeEvent.pageY}
+    ;
   };
 
   // Touch End
   const handleTouchEnd = (event: any) => {
     const touchEndY = event.nativeEvent.pageY;
-    const swipeDistance = touchStartY.current - touchEndY;
+    const swipeDistance = touchStart.current.startY - touchEndY;
+    const duration = Math.abs(touchStart.current.start - Date.now());
 
     const { height } = Dimensions.get("window");
 
-    if (swipeDistance > (height / 3)) {
-      console.log("Got fake gesture")
-      setMode('about');
+    if (swipeDistance > (height * 0.85)) {
+
+      if (duration > 3000) {
+        console.log("Got fake gesture")
+        setMode('about');
+      } else {
+        console.log("too soon: " + duration)
+      }
     }
   };
 
