@@ -5,6 +5,8 @@ type Props = {
   onClose: () => void;
   userId: number | undefined;
   url: string | undefined;
+  userAgent: string | undefined
+  userAgentRaw: string | undefined
 }
 
 export default function About(props: Props) {
@@ -17,6 +19,14 @@ export default function About(props: Props) {
 
       <Text style={styles.info}>
         Loading URL: {props.url}
+      </Text>
+
+      <Text style={styles.info}>
+        User agent: {props.userAgent}
+      </Text>
+
+      <Text style={styles.info}>
+        User agent raw: {props.userAgentRaw}
       </Text>
 
       <Button title="Close" onPress={props.onClose} />
