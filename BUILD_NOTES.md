@@ -23,9 +23,10 @@ https://github.com/expo/fyi/blob/main/apple-2fa-sms-issues-workaround.md
 eas build --profile preview --platform ios 
 ```
 
+To build for all we just don't use the --platform option.
+
 # To register new devices:
 
 eas device:create
-
 
 https://expo.dev/register-device/ea964f87-4685-4274-b328-b907f5c4c8da
