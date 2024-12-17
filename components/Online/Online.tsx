@@ -11,6 +11,8 @@ import About from "@/components/About/About";
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank
 //
+
+// const INITIAL_LOAD_URL = 'https://common.xyz/blank.html';
 const INITIAL_LOAD_URL = 'https://www.example.com';
 
 //const MAIN_APP_URL = 'http://192.168.89.37:8080'
