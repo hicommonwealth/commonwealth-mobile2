@@ -1,6 +1,7 @@
 import {Button, Text, View} from "react-native";
 import React from "react";
 import Constants from 'expo-constants';
+import { KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID } from '@env';
 
 type Props = {
   onClose: () => void;
@@ -22,6 +23,14 @@ export default function About(props: Props) {
 
       <Text style={styles.info}>
         App version: {appVersion}
+      </Text>
+
+      <Text style={styles.info}>
+        KNOCK_PUBLIC_API_KEY: {KNOCK_PUBLIC_API_KEY}
+      </Text>
+
+      <Text style={styles.info}>
+        KNOCK_EXPO_CHANNEL_ID: {KNOCK_EXPO_CHANNEL_ID}
       </Text>
 
       <Text style={styles.info}>
