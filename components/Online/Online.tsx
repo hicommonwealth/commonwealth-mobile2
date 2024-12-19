@@ -13,11 +13,11 @@ import Error from "@/components/Error/Error";
 // https://common.xyz/_blank
 //
 
-// const INITIAL_LOAD_URL = 'https://common.xyz/blank.html';
-const INITIAL_LOAD_URL = 'https://www.example.com';
-
 //const MAIN_APP_URL = 'http://192.168.89.37:8080'
-const MAIN_APP_URL = 'https://common.xyz'
+const MAIN_APP_URL = 'https://commonwealth-frack.herokuapp.com/'
+
+// const INITIAL_LOAD_URL = 'https://common.xyz/blank.html';
+const INITIAL_LOAD_URL = `${MAIN_APP_URL}/blank.html`;
 
 
 /**
