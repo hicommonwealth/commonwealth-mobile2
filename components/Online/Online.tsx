@@ -7,6 +7,7 @@ import React, {useCallback, useMemo, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
+import Error from "@/components/Error/Error";
 
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank
@@ -61,6 +62,11 @@ export default function Online() {
 
   const [mode, setMode] = useState<ModeType>('init');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
+  const [error, setError] = useState<string | undefined>(undefined);
+
+  const retryWebview = () => {
+    setError(undefined);
+  }
 
   const handleTouchStart = (event: any) => {
     touchStart.current = {
@@ -145,6 +151,10 @@ export default function Online() {
     return true; // Allow the WebView to load the URL
   }, []);
 
+  if (error) {
+    return <Error error={error} onRetry={retryWebview}/>;
+  }
+
   return (
     <>
       <View
@@ -175,6 +185,7 @@ export default function Online() {
               source={{ uri: INITIAL_LOAD_URL }}
               style={{width: 0, height: 0}}
               onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
+              onError={(event) => setError(event.nativeEvent.description)}
               injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
             />
           </>
@@ -186,6 +197,7 @@ export default function Online() {
                      userAgent={userAgent}
                      onMessage={event => handlePushMessage(event)}
                      onShouldStartLoadWithRequest={handleNavigation}
+                     onError={(event) => setError(event.nativeEvent.description)}
                      style={{ flex: 1 }} />
 
             {userInfo && userInfo.userId !== 0 && (
