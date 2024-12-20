@@ -6,6 +6,7 @@ import { KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID } from '@env';
 type Props = {
   onClose: () => void;
   userId: number | undefined;
+  knockJWT: string | undefined;
   url: string | undefined;
   userAgent: string | undefined
   userAgentRaw: string | undefined
@@ -38,6 +39,10 @@ export default function About(props: Props) {
       </Text>
 
       <Text style={styles.info}>
+        Has knockJWT: {props.knockJWT !== undefined ? 'yes' : 'no'}
+      </Text>
+
+      <Text style={styles.info}>
         App URL: {props.url}
       </Text>
 
@@ -50,7 +55,9 @@ export default function About(props: Props) {
       </Text>
 
       <View style={styles.centered}>
-        <Button title="Close" onPress={props.onClose} />
+         <View style={styles.button}>
+          <Button title="Close" onPress={props.onClose} />
+        </View>
       </View>
     </View>
   )
@@ -74,4 +81,7 @@ const styles = {
   info: {
     fontSize: 16,
   },
+  button: {
+     padding: 8
+  }
 } as const;

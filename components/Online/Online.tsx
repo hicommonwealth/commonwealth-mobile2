@@ -86,7 +86,7 @@ export default function Online() {
     if (swipeDistance > (height * 0.85)) {
 
       if (duration > 3000) {
-        console.log("Got fake gesture")
+        console.log("Got about page gesture... loading about page.")
         setMode('about');
       } else {
         console.log("too soon: " + duration)
@@ -171,6 +171,7 @@ export default function Online() {
                    userAgent={userAgent}
                    userAgentRaw={userAgentRaw}
                    userId={userInfo?.userId}
+                   knockJWT={userInfo?.knockJWT}
                    url={url}/>
           </>
         )}

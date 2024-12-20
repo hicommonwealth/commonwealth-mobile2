@@ -3,6 +3,7 @@ import {
   KnockExpoPushNotificationProvider,
   KnockProvider,
 } from "@knocklabs/expo";
+import { KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID } from '@env';
 
 type Props = {
   userId: number
@@ -17,12 +18,16 @@ type Props = {
 
 export default function ExpoNotifications(props: Props) {
 
+  console.log('knock initialized with', {
+    KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID
+  });
+
   // TODO get the notifications from the react-native bridge ...
   return (
-    <KnockProvider apiKey="pk_test_Hd4ZpzlVcz9bqepJQoo9BvZHokgEqvj4T79fPdKqpYM"
+    <KnockProvider apiKey={KNOCK_PUBLIC_API_KEY}
                    userId={`${props.userId}`}
                    userToken={props.knockJWT}>
-      <KnockExpoPushNotificationProvider knockExpoChannelId="c416d699-c6ac-4288-8d76-9a792cf53ffa">
+      <KnockExpoPushNotificationProvider knockExpoChannelId={KNOCK_EXPO_CHANNEL_ID}>
         <>
         </>
       </KnockExpoPushNotificationProvider>
