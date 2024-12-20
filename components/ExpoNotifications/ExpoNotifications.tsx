@@ -19,7 +19,7 @@ type Props = {
 export default function ExpoNotifications(props: Props) {
 
   console.log('knock initialized with', {
-    KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID
+    KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID, userId: props.userId,
   });
 
   // TODO get the notifications from the react-native bridge ...

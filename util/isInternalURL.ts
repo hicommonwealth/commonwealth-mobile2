@@ -20,6 +20,7 @@ export function isInternalURL(url: string) {
     if (url.startsWith("about:")) {
       // allow these URL types to always load.  This is needed because sometimes
       // the browser will load on about:blank on Safari.
+      console.log("URL is an 'about:' URL: " + url)
       return true;
     }
 
