@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "commonwealth-mobile2",
+    "name": "Common",
     "slug": "commonxyz",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -39,7 +39,17 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#ffffff",
+          "defaultChannel": "default",
+          "enableBackgroundRemoteNotifications": true
+        }
       ]
+
     ],
     "experiments": {
       "typedRoutes": true
