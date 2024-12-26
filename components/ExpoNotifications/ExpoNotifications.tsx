@@ -12,6 +12,7 @@ import {
 type Props = {
   userId: number
   knockJWT: string
+  onLink: (link: string) => void;
 }
 
 
@@ -43,7 +44,7 @@ export default function ExpoNotifications(props: Props) {
                    userToken={props.knockJWT}>
       <KnockExpoPushNotificationProvider knockExpoChannelId={KNOCK_EXPO_CHANNEL_ID}>
         <>
-          <NotificationHandler/>
+          <NotificationHandler onLink={props.onLink}/>
         </>
       </KnockExpoPushNotificationProvider>
     </KnockProvider>

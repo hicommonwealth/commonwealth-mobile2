@@ -88,6 +88,15 @@ export default function Online() {
     return () => backHandler.remove();
   }, []);
 
+  const navigateToLink = useCallback((link: string) => {
+    if (webViewRef.current) {
+      webViewRef.current.postMessage(JSON.stringify({
+        type: 'navigate-to-link',
+        link
+      }));
+    }
+  }, [url])
+
   const handleTouchStart = (event: any) => {
     touchStart.current = {
       start: Date.now(),
@@ -223,7 +232,7 @@ export default function Online() {
                      style={{ flex: 1 }} />
 
             {userInfo && userInfo.userId !== 0 && (
-              <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT}/>
+              <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={navigateToLink}/>
             )}
           </>
         )}

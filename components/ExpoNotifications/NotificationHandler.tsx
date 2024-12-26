@@ -3,7 +3,11 @@ import { useExpoPushNotifications } from "@knocklabs/expo";
 import * as Notifications from "expo-notifications";
 import {Linking} from "react-native";
 
-export const NotificationHandler = () => {
+type Props = {
+  onLink: (link: string) => void;
+}
+
+export const NotificationHandler = (props: Props) => {
 
   const {onNotificationReceived, onNotificationTapped} = useExpoPushNotifications()
 
@@ -27,7 +31,7 @@ export const NotificationHandler = () => {
         event_data.body ||
         event_data.comment_body ||
         'No body';
-      
+
       Notifications.scheduleNotificationAsync({
         content: {
           title,
@@ -63,6 +67,7 @@ export const NotificationHandler = () => {
       // there than adapts the URL and changes it for us. However, we need this
       // for deep linking anyway.
       Linking.openURL(url).catch(console.error);
+      props.onLink(url);
 
     });
   }, []);
