@@ -74,12 +74,16 @@ export default function Online() {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
 
       if (webViewRef.current) {
+        console.log("Handling back button!")
+
         // goBack might be good if we're not within the common.xyz site so we
         // can bail out of auth pages but there's also no UI for this yet.
         // webViewRef.current.goBack();
         webViewRef.current.postMessage(JSON.stringify({
           type: 'navigate-back'
         }));
+      } else {
+        console.warn("No webview")
       }
 
       return true;
@@ -228,6 +232,7 @@ export default function Online() {
         {mode === 'web' && (
           <>
             <WebView source={{ uri: MAIN_APP_URL }}
+                     ref={webViewRef}
                      userAgent={userAgent}
                      onMessage={event => handlePushMessage(event)}
                      onShouldStartLoadWithRequest={handleNavigation}
