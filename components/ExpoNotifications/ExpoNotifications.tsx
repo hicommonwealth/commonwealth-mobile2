@@ -37,7 +37,6 @@ export default function ExpoNotifications(props: Props) {
     KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID, userId: props.userId,
   });
 
-  // TODO get the notifications from the react-native bridge ...
   return (
     <KnockProvider apiKey={KNOCK_PUBLIC_API_KEY}
                    userId={`${props.userId}`}

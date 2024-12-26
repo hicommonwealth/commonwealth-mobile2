@@ -32,14 +32,14 @@ export const NotificationHandler = (props: Props) => {
         event_data.comment_body ||
         'No body';
 
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title,
-          body,
-          sound: 'default',
-        },
-        trigger: null,
-      }).catch(console.error);
+      // Notifications.scheduleNotificationAsync({
+      //   content: {
+      //     title,
+      //     body,
+      //     sound: 'default',
+      //   },
+      //   trigger: null,
+      // }).catch(console.error);
 
     });
 
@@ -62,11 +62,6 @@ export const NotificationHandler = (props: Props) => {
         event_data?.data?.community_stakes_url ||
         'https://common.xyz';
 
-      // TODO: OK this is SUPER hard to fix now and we're going to have to
-      // take this URL, then push it into the webapp and have an updated router
-      // there than adapts the URL and changes it for us. However, we need this
-      // for deep linking anyway.
-      Linking.openURL(url).catch(console.error);
       props.onLink(url);
 
     });

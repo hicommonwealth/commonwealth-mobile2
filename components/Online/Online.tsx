@@ -89,6 +89,9 @@ export default function Online() {
   }, []);
 
   const navigateToLink = useCallback((link: string) => {
+
+    console.log("navigating to link: " + link)
+
     if (webViewRef.current) {
       webViewRef.current.postMessage(JSON.stringify({
         type: 'navigate-to-link',
