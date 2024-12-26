@@ -3,11 +3,12 @@ import WebView, {
   WebViewMessageEvent,
   WebViewNavigation
 } from "react-native-webview";
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
+import { BackHandler } from 'react-native';
 
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank
@@ -63,10 +64,29 @@ export default function Online() {
   const [mode, setMode] = useState<ModeType>('init');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
+  const webViewRef = useRef<WebView | null>(null);
 
   const retryWebview = () => {
     setError(undefined);
   }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+
+      if (webViewRef.current) {
+        // goBack might be good if we're not within the common.xyz site so we
+        // can bail out of auth pages but there's also no UI for this yet.
+        // webViewRef.current.goBack();
+        webViewRef.current.postMessage(JSON.stringify({
+          type: 'navigate-back'
+        }));
+      }
+
+      return true;
+    });
+
+    return () => backHandler.remove();
+  }, []);
 
   const handleTouchStart = (event: any) => {
     touchStart.current = {
@@ -183,6 +203,7 @@ export default function Online() {
           <>
             <ActivityIndicator size="large" color="blue"/>
             <WebView
+              ref={webViewRef}
               source={{ uri: INITIAL_LOAD_URL }}
               style={{width: 0, height: 0}}
               onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
