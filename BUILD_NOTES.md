@@ -23,6 +23,14 @@ https://github.com/expo/fyi/blob/main/apple-2fa-sms-issues-workaround.md
 eas build --profile preview --platform ios 
 ```
 
+or 
+
+```bash
+eas build --profile preview --platform all 
+```
+
+for all platforms.
+
 To build for all we just don't use the --platform option.
 
 # To register new devices:
