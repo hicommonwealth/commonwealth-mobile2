@@ -79,9 +79,15 @@ export default function Online() {
         // goBack might be good if we're not within the common.xyz site so we
         // can bail out of auth pages but there's also no UI for this yet.
         // webViewRef.current.goBack();
-        webViewRef.current.postMessage(JSON.stringify({
-          type: 'navigate-back'
-        }));
+        // webViewRef.current.postMessage(JSON.stringify({
+        //   type: 'navigate-back'
+        // }));
+
+        // this is a better implementation I think. It should work with react
+        // nav history in our app too because that's regular 'history' plus
+        // the user can back out of auth.
+        webViewRef.current.goBack();
+
       } else {
         console.warn("No webview")
       }
