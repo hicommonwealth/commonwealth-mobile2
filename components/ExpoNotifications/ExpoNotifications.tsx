@@ -3,18 +3,19 @@ import {
   KnockExpoPushNotificationProvider,
   KnockProvider,
 } from "@knocklabs/expo";
-import { KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID } from '@env';
 import * as Notifications from 'expo-notifications';
 import {
   NotificationHandler
 } from "@/components/ExpoNotifications/NotificationHandler";
+import {config} from "@/util/config";
+import KNOCK_EXPO_CHANNEL_ID = config.KNOCK_EXPO_CHANNEL_ID;
+import KNOCK_PUBLIC_API_KEY = config.KNOCK_PUBLIC_API_KEY;
 
 type Props = {
   userId: number
   knockJWT: string
   onLink: (link: string) => void;
 }
-
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

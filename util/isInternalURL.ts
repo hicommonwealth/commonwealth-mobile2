@@ -1,5 +1,6 @@
 const ACCEPTED_URL_PATTERNS = [
   /^https:\/\/accounts\.google\.com(\/.*)?$/,
+  /^https:\/\/accounts\.youtube\.com(\/.*)?$/,
   /^https:\/\/auth\.magic\.link(\/.*)?$/,
   /^https:\/\/appleid\.apple\.com(\/auth\/.*)?$/,
   /^https:\/\/iforgot\.apple\.com(\/password\/.*)?$/,
