@@ -9,16 +9,13 @@ import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
 import { BackHandler } from 'react-native';
+import {config} from "@/util/config";
+import MAIN_APP_URL = config.MAIN_APP_URL;
+import INITIAL_LOAD_URL = config.INITIAL_LOAD_URL;
 
 // TODO: I think about:blank is what's crashing us and we should probably load
 // https://common.xyz/_blank
 //
-
-//const MAIN_APP_URL = 'http://192.168.89.37:8080'
-const MAIN_APP_URL = 'https://commonwealth-frack.herokuapp.com/'
-
-// const INITIAL_LOAD_URL = 'https://common.xyz/blank.html';
-const INITIAL_LOAD_URL = `${MAIN_APP_URL}/blank.html`;
 
 
 /**

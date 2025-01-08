@@ -6,6 +6,8 @@ export default function Login() {
 
   const [strategy, setStrategy] = useState<AuthStrategy | undefined>(undefined)
 
+  console.log('FIXME: strategy', strategy)
+
   return (
     <>
       {! strategy && <PickAuthStrategy onStrategyPicked={setStrategy}/>}
