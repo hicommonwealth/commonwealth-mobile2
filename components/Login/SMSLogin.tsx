@@ -1,5 +1,6 @@
 import { Button, TextInput, View, StyleSheet } from "react-native";
 import { useState } from "react";
+import {useMagic} from "@/hooks/useMagic";
 
 type Props = {
   onCancel: () => void
@@ -8,9 +9,26 @@ type Props = {
 export default function SMSLogin(props: Props) {
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  const magic = useMagic()
+
   const handleSubmit = () => {
     if (phoneNumber.trim()) {
       // TODO: handle the phone number here.
+
+      console.log("Trying to auth via SMS")
+
+      async function doAsync() {
+
+        const bearer = await magic.auth.loginWithSMS({
+          phoneNumber: phoneNumber.trim()
+        })
+
+        console.log("Got bearer token: ", bearer)
+
+      }
+
+      doAsync().catch(console.error)
+
     } else {
       alert("Please enter a valid phone number.");
     }
