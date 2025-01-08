@@ -1,4 +1,5 @@
 const ACCEPTED_URL_PATTERNS = [
+  /^https:\/\/www\.google\.com\/recaptcha(\/.*)?$/,
   /^https:\/\/accounts\.google\.com(\/.*)?$/,
   /^https:\/\/accounts\.youtube\.com(\/.*)?$/,
   /^https:\/\/auth\.magic\.link(\/.*)?$/,

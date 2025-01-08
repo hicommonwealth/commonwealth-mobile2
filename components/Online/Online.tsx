@@ -230,6 +230,7 @@ export default function Online() {
               style={{width: 0, height: 0}}
               onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
               onError={(event) => setError(event.nativeEvent.description)}
+              webviewDebuggingEnabled={__DEV__}
               injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
             />
           </>
@@ -242,6 +243,7 @@ export default function Online() {
                      userAgent={userAgent}
                      onMessage={event => handlePushMessage(event)}
                      onShouldStartLoadWithRequest={handleNavigation}
+                     webviewDebuggingEnabled={__DEV__}
                      onError={(event) => setError(event.nativeEvent.description)}
                      style={{ flex: 1 }} />
 
