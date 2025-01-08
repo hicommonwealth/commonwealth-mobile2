@@ -231,6 +231,7 @@ export default function Online() {
               onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
               onError={(event) => setError(event.nativeEvent.description)}
               webviewDebuggingEnabled={__DEV__}
+              allowsBackForwardNavigationGestures={true}
               injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
             />
           </>
@@ -245,6 +246,7 @@ export default function Online() {
                      onShouldStartLoadWithRequest={handleNavigation}
                      webviewDebuggingEnabled={__DEV__}
                      onError={(event) => setError(event.nativeEvent.description)}
+                     allowsBackForwardNavigationGestures={true}
                      style={{ flex: 1 }} />
 
             {userInfo && userInfo.userId !== 0 && (
