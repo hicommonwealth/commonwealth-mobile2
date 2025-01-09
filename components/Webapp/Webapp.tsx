@@ -198,7 +198,7 @@ export default function Webapp(props: Props) {
 
         setAuthRequested(undefined);
       } else {
-        console.log("Got auth-ready message, but no auth request")
+        console.log("Got auth-ready message, but no auth request so not logging in yet.")
       }
 
     }
