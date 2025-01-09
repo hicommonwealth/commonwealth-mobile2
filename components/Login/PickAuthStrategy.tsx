@@ -21,6 +21,7 @@ const styles = {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "white",
   },
   buttonWrapper: {
     width: "100%", // Makes the button expand horizontally

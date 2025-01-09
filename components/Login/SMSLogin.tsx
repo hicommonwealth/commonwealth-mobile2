@@ -1,9 +1,11 @@
 import { Button, TextInput, View, StyleSheet } from "react-native";
 import { useState } from "react";
 import {useMagic} from "@/hooks/useMagic";
+import {AuthRequested} from "@/hooks/AuthRequested";
 
 type Props = {
   onCancel: () => void
+  onAuthRequested: (authRequested: AuthRequested) => void;
 };
 
 export default function SMSLogin(props: Props) {
@@ -24,6 +26,16 @@ export default function SMSLogin(props: Props) {
         })
 
         console.log("Got bearer token: ", bearer)
+
+        if (bearer) {
+          console.log("Legit bearer token so calling onAuthRequested")
+          props.onAuthRequested({bearer})
+        } else {
+          console.warn('Got back a bad bearer token.')
+          props.onCancel()
+        }
+
+        // FIXME: callback to the parent...
 
       }
 
@@ -61,6 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+    backgroundColor: "white",
   },
   inputWrapper: {
     width: "100%",

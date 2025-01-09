@@ -168,7 +168,7 @@ export default function Webapp(props: Props) {
     }
 
     if (msg.type === 'log') {
-      console.log(msg.data)
+      console.log("Got log from React Webview: ", msg.data)
     }
 
     if (msg.type === 'user') {
