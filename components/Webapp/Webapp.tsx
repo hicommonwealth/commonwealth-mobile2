@@ -167,6 +167,10 @@ export default function Webapp(props: Props) {
       return;
     }
 
+    if (msg.type === 'log') {
+      console.log(msg.data)
+    }
+
     if (msg.type === 'user') {
       console.log("Got message: ", msg)
       const userData = msg as TypedData<UserInfo>;
