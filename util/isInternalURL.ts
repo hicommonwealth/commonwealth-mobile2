@@ -1,7 +1,15 @@
-const ACCEPTED_URL_PATTERNS: RegExp[] = []
+import {config} from "@/util/config";
+
+const ACCEPTED_URL_PATTERNS: RegExp[] = [
+  /https?:\/\/(?:www\.)?auth\.magic\.link(?:\/[^\s]*)?/
+]
 
 export function isInternalURL(url: string) {
   try {
+
+    if (url.startsWith(config.MAIN_APP_URL)) {
+      return true
+    }
 
     if (url.startsWith("about:")) {
       // allow these URL types to always load.  This is needed because sometimes

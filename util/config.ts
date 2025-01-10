@@ -2,7 +2,7 @@ export namespace config {
 
   //const MAIN_APP_URL = 'http://192.168.89.37:8080'
   // export const MAIN_APP_URL = 'https://common.xyz'
-  export const MAIN_APP_URL = 'https://commonwealth-frack.herokuapp.com/'
+  export const MAIN_APP_URL = 'https://commonwealth-frack.herokuapp.com'
   export const INITIAL_LOAD_URL = `${MAIN_APP_URL}/blank.html`;
 
   export const KNOCK_PUBLIC_API_KEY="pk_EkjqgrIByZo85tIqdBkCmihVBtTB_ixY_37oTG_Au1Y"

@@ -21,6 +21,8 @@ export default function SMSLogin(props: Props) {
 
       async function doAsync() {
 
+        magic.auth.loginWithCredential()
+
         const bearer = await magic.auth.loginWithSMS({
           phoneNumber: phoneNumber.trim()
         })
@@ -34,8 +36,6 @@ export default function SMSLogin(props: Props) {
           console.warn('Got back a bad bearer token.')
           props.onCancel()
         }
-
-        // FIXME: callback to the parent...
 
       }
 
