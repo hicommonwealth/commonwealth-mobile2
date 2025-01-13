@@ -1,6 +1,5 @@
 import React from "react";
 import Webapp from "@/components/Webapp/Webapp";
-import Login from "@/components/Login/Login";
 import {AuthRequested} from "@/hooks/AuthRequested";
 
 export default function Online() {
@@ -10,21 +9,10 @@ export default function Online() {
   const [authStarted, setAuthStarted] = React.useState(true)
   const [authRequested, setAuthRequested] = React.useState<AuthRequested | undefined>(undefined)
 
-  // FIXME: Login needs to call back with onAuthRequested
-
-  function handleAuthRequested(authRequested: AuthRequested) {
-    console.log('FIXME login: handleAuthRequested', authRequested)
-    setAuthStarted(false)
-    setAuthRequested(authRequested)
-  }
-
   return (
     <>
-      {! authStarted && <Webapp onAuthStarted={() => setAuthStarted(true)}
-                         authRequested={authRequested}/>}
-
-      {authStarted && <Login onCancel={() => setAuthStarted(false)} onAuthRequested={handleAuthRequested}/>}
-
+      <Webapp onAuthStarted={() => setAuthStarted(true)}
+              authRequested={authRequested}/>
     </>
   )
 }
