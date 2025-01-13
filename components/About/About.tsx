@@ -10,8 +10,6 @@ type Props = {
   userId: number | undefined;
   knockJWT: string | undefined;
   url: string | undefined;
-  userAgent: string | undefined
-  userAgentRaw: string | undefined
 }
 
 const appVersion = Constants.expoConfig?.version;
@@ -46,14 +44,6 @@ export default function About(props: Props) {
 
       <Text style={styles.info}>
         App URL: {props.url}
-      </Text>
-
-      <Text style={styles.info}>
-        User agent: {props.userAgent ?? 'none'}
-      </Text>
-
-      <Text style={styles.info}>
-        User agent raw: {props.userAgentRaw ?? 'none'}
       </Text>
 
       <View style={styles.centered}>

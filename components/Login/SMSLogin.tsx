@@ -21,7 +21,9 @@ export default function SMSLogin(props: Props) {
 
       async function doAsync() {
 
-        magic.auth.loginWithCredential()
+        // FIXME: we have to handle errors:
+        //
+        // https://magic.link/docs/api/client-side-sdks/react-native#error-handling-0
 
         const bearer = await magic.auth.loginWithSMS({
           phoneNumber: phoneNumber.trim()

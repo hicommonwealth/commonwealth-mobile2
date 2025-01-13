@@ -8,7 +8,6 @@ import Error from "@/components/Error/Error";
 import {config} from "@/util/config";
 import {AuthRequested} from "@/hooks/AuthRequested";
 import MAIN_APP_URL = config.MAIN_APP_URL;
-import INITIAL_LOAD_URL = config.INITIAL_LOAD_URL;
 
 /**
  * Typed message so that the react-native client knows how to handel this message.
@@ -35,7 +34,7 @@ function removeBuildString(input: string): string {
   return input.replace(pattern, '');
 }
 
-type ModeType = 'init' | 'about' | 'web'
+type ModeType = 'about' | 'web'
 
 type TouchStartGesture = {
   start: number;
@@ -49,13 +48,10 @@ type Props = {
 
 export default function Webapp(props: Props) {
 
-  const [userAgent, setUserAgent] = useState<string | undefined>(undefined);
-  const [userAgentRaw, setUserAgentRaw] = useState<string | undefined>(undefined);
-
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const [url, setUrl] = useState<string | undefined>(MAIN_APP_URL)
 
-  const [mode, setMode] = useState<ModeType>('init');
+  const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -132,31 +128,6 @@ export default function Webapp(props: Props) {
       }
     }
   };
-
-  const handleUserAgent = useCallback((userAgent: string) => {
-
-    console.log("Got user agent: " + userAgent);
-
-    // This is a workaround to avoid react-native-device-info which won't work
-    // on expo because it's a non-linked native mobile. That's the standard
-    // way to get the userAgent, but it won't work with expo.
-    //
-    // The way this works is that we first mount the webview on about:blank,
-    // then we get the userAgent in the JS context of the webview via the
-    // standard navigator.userAgent, Then we post that BACK to react-native,
-    // which unmounts the temporary webview on about:blank then loads our REAL
-    // webview.
-    //
-    // Without this hack, Google auth will refuse to load because it blocks
-    // 'unsafe' browsers.
-
-    setUserAgentRaw(userAgent);
-    setUserAgent(removeBuildString(userAgent));
-    setMode('web')
-
-    console.log("Setting mode to web")
-
-  }, [])
 
   const handlePushMessage = (event: WebViewMessageEvent) => {
 
@@ -236,30 +207,9 @@ export default function Webapp(props: Props) {
         {mode === 'about' && (
           <>
             <About onClose={() => setMode('web')}
-                   userAgent={userAgent}
-                   userAgentRaw={userAgentRaw}
                    userId={userInfo?.userId}
                    knockJWT={userInfo?.knockJWT}
                    url={url}/>
-          </>
-        )}
-
-        {mode === 'init' && (
-          // It's important that width/height are set to zero here so that the
-          // control doesn't temporarily flash.  DO NOT use display:none because
-          // this will fail on Safari.
-          <>
-            <ActivityIndicator size="large" color="blue"/>
-            <WebView
-              ref={webViewRef}
-              source={{ uri: INITIAL_LOAD_URL }}
-              style={{width: 0, height: 0}}
-              onMessage={(event) => handleUserAgent(event.nativeEvent.data)}
-              onError={(event) => setError(event.nativeEvent.description)}
-              webviewDebuggingEnabled={__DEV__}
-              allowsBackForwardNavigationGestures={true}
-              injectedJavaScript={`window.ReactNativeWebView.postMessage(navigator.userAgent);`}
-            />
           </>
         )}
 
@@ -267,7 +217,6 @@ export default function Webapp(props: Props) {
           <>
             <WebView source={{ uri: MAIN_APP_URL }}
                      ref={webViewRef}
-                     userAgent={userAgent}
                      onMessage={event => handlePushMessage(event)}
                      onShouldStartLoadWithRequest={handleNavigation}
                      webviewDebuggingEnabled={__DEV__}
