@@ -1,4 +1,4 @@
-import {ActivityIndicator, BackHandler, Dimensions, Linking, View} from "react-native";
+import {Alert, BackHandler, Dimensions, Linking, View} from "react-native";
 import WebView, {WebViewMessageEvent, WebViewNavigation} from "react-native-webview";
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
@@ -6,7 +6,6 @@ import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
 import {config} from "@/util/config";
-import {AuthRequested} from "@/hooks/AuthRequested";
 import MAIN_APP_URL = config.MAIN_APP_URL;
 
 /**
@@ -28,12 +27,6 @@ type UserInfo = {
   // darkMode: 'dark' | 'light';
 };
 
-function removeBuildString(input: string): string {
-  // remove the react-native-webview build string from the UA.
-  const pattern = / Build\/UP1A\.[0-9]+\.[0-9]+; wv/;
-  return input.replace(pattern, '');
-}
-
 type ModeType = 'about' | 'web'
 
 type TouchStartGesture = {
@@ -42,8 +35,6 @@ type TouchStartGesture = {
 }
 
 type Props = {
-  onAuthStarted: () => void
-  authRequested: AuthRequested | undefined;
 }
 
 export default function Webapp(props: Props) {
@@ -54,8 +45,6 @@ export default function Webapp(props: Props) {
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
-
-  const [authRequested, setAuthRequested] = useState<AuthRequested | undefined>(props.authRequested);
 
   const webViewRef = useRef<WebView | null>(null);
 
@@ -92,16 +81,14 @@ export default function Webapp(props: Props) {
   }, []);
 
   const navigateToLink = useCallback((link: string) => {
-
     console.log("navigating to link: " + link)
-
     if (webViewRef.current) {
       webViewRef.current.postMessage(JSON.stringify({
         type: 'navigate-to-link',
         link
       }));
     }
-  }, [url])
+  }, [])
 
   const handleTouchStart = (event: any) => {
     touchStart.current = {
@@ -153,31 +140,6 @@ export default function Webapp(props: Props) {
       return;
     }
 
-    if (msg.type === 'auth-started') {
-      // this will cause the UI to unmount the webview, then starte the auth
-      // process on the local device.
-      props.onAuthStarted()
-    }
-
-    if (msg.type === 'auth-ready') {
-
-      // what will happen now is that the react bridge ont the client, will tell
-      // the mobile app to auth... then the webapp will finish the process.
-
-      if (authRequested) {
-        console.log("Got auth-ready message, sending auth request")
-        webViewRef.current?.postMessage(JSON.stringify({
-          type: 'auth-request',
-          bearer: authRequested.bearer
-        }))
-
-        setAuthRequested(undefined);
-      } else {
-        console.log("Got auth-ready message, but no auth request so not logging in yet.")
-      }
-
-    }
-
   }
 
   const handleNavigation = useCallback((event: WebViewNavigation) => {
@@ -189,6 +151,19 @@ export default function Webapp(props: Props) {
     }
     return true; // Allow the WebView to load the URL
   }, []);
+
+  useEffect(() => {
+    const handleDeepLink = (event: { url: string }) => {
+      const { url } = event;
+      console.log("Deep link received:", url);
+      navigateToLink(url)
+    };
+
+    // Listen for deep link events
+    const subscription = Linking.addEventListener("url", handleDeepLink);
+
+    return () => subscription.remove();
+  }, [navigateToLink]);
 
   if (error) {
     return <Error error={error} onRetry={retryWebview}/>;
