@@ -36,8 +36,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "*.common.xyz",
-              "pathPrefix": "/"
+              "host": "*.common.xyz"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
@@ -48,8 +47,7 @@
           "data": [
             {
               "scheme": "https",
-              "host": "commonwealth-frack.herokuapp.com",
-              "pathPrefix": "/"
+              "host": "commonwealth-frack.herokuapp.com"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
