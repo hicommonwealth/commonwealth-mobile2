@@ -1,6 +1,6 @@
 import {Alert, BackHandler, Dimensions, Linking, View} from "react-native";
 import WebView, {WebViewMessageEvent, WebViewNavigation} from "react-native-webview";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {memo, useCallback, useEffect, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
@@ -33,10 +33,7 @@ type TouchStartGesture = {
   startY: 0;
 }
 
-type Props = {
-}
-
-export default function Webapp(props: Props) {
+export default memo(function Webapp() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const [ver, setVer] = useState(0)
@@ -82,10 +79,26 @@ export default function Webapp(props: Props) {
   }, []);
 
   const changeURL = useCallback((url: string) => {
-    setUrl(url)
-    const ver = verRef.current + 1
-    verRef.current = ver
-    setVer(ver)
+
+    Alert.alert(
+      'FIXME: Got a URL', // Title
+      'URL' + url, // Message
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            // FIXME: this code should be the entire changeURL function when we
+            // have fixed the problem.
+            setUrl(url)
+            const ver = verRef.current + 1
+            verRef.current = ver
+            setVer(ver)
+          },
+        },
+      ]
+    );
+
+
   }, [])
 
   const navigateToLink = useCallback((link: string) => {
@@ -175,7 +188,13 @@ export default function Webapp(props: Props) {
     // TODO: get the initial URL but right now we don't do anything with it. I
     // think this might be a queue and if we don't listen for the first one, we
     // won't get subsequent URLs.  However, we DO need to get the initial URL.
-    Linking.getInitialURL().catch(console.error)
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          changeURL(url);
+        }
+      })
+      .catch(console.error)
 
     return () => subscription.remove();
   }, []);
@@ -229,4 +248,4 @@ export default function Webapp(props: Props) {
       </View>
     </>
   );
-}
+})
