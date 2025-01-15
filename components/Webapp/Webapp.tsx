@@ -6,6 +6,8 @@ import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
 import {config} from "@/util/config";
+import {useURL} from "expo-linking";
+import {useRouter} from "expo-router";
 
 /**
  * Typed message so that the react-native client knows how to handel this message.
@@ -33,16 +35,20 @@ type TouchStartGesture = {
   startY: 0;
 }
 
-export default memo(function Webapp() {
+type Props = {
+}
+
+export default memo(function Webapp(props: Props) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-  const [ver, setVer] = useState(0)
-  const verRef = useRef(0)
-  const [url, setUrl] = useState<string>(config.MAIN_APP_URL)
+  const url = useURL()
+  const router = useRouter()
 
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
+
+  console.log("FIXME URL: " + url)
 
   const webViewRef = useRef<WebView | null>(null);
 
@@ -80,26 +86,32 @@ export default memo(function Webapp() {
 
   const changeURL = useCallback((url: string) => {
 
-    Alert.alert(
-      'FIXME: Got a URL', // Title
-      'URL' + url, // Message
-      [
-        {
-          text: 'OK',
-          onPress: () => {
-            // FIXME: this code should be the entire changeURL function when we
-            // have fixed the problem.
-            setUrl(url)
-            const ver = verRef.current + 1
-            verRef.current = ver
-            setVer(ver)
-          },
-        },
-      ]
-    );
+    // rewriteExpoURL
+    //router.push({href: url})
 
+  }, [router]);
 
-  }, [])
+  // const changeURL = useCallback((url: string) => {
+  //
+  //   Alert.alert(
+  //     'FIXME: Got a URL', // Title
+  //     'URL' + url, // Message
+  //     [
+  //       {
+  //         text: 'OK',
+  //         onPress: () => {
+  //           // FIXME: this code should be the entire changeURL function when we
+  //           // have fixed the problem.
+  //           setUrl(url)
+  //           const ver = verRef.current + 1
+  //           verRef.current = ver
+  //           setVer(ver)
+  //         },
+  //       },
+  //     ]
+  //   );
+  //
+  // }, [])
 
   const navigateToLink = useCallback((link: string) => {
     console.log("navigating to link: " + link)
@@ -173,31 +185,36 @@ export default memo(function Webapp() {
     return true; // Allow the WebView to load the URL
   }, []);
 
-  useEffect(() => {
-    const handleDeepLink = (event: { url: string }) => {
-      const { url } = event;
-      console.log("Deep link received:", url);
-      //navigateToLink(url)
-      //webViewRef.current.
-      changeURL(url)
-    };
-
-    // Listen for deep link events
-    const subscription = Linking.addEventListener("url", handleDeepLink);
-
-    // TODO: get the initial URL but right now we don't do anything with it. I
-    // think this might be a queue and if we don't listen for the first one, we
-    // won't get subsequent URLs.  However, we DO need to get the initial URL.
-    Linking.getInitialURL()
-      .then(url => {
-        if (url) {
-          changeURL(url);
-        }
-      })
-      .catch(console.error)
-
-    return () => subscription.remove();
-  }, []);
+  // useEffect(() => {
+  //   const handleDeepLink = (event: { url: string }) => {
+  //     const { url } = event;
+  //     console.log("Deep link received:", url);
+  //     //navigateToLink(url)
+  //     //webViewRef.current.
+  //     //changeURL(url)
+  //   };
+  //
+  //   // Listen for deep link events
+  //   const subscription = Linking.addEventListener("url", handleDeepLink);
+  //
+  //   async function doAsync() {
+  //     // TODO: get the initial URL but right now we don't do anything with it. I
+  //     // think this might be a queue and if we don't listen for the first one, we
+  //     // won't get subsequent URLs.  However, we DO need to get the initial URL.
+  //     const initialURL = await Linking.getInitialURL()
+  //
+  //     if (initialURL) {
+  //       setUrl(initialURL)
+  //     } else {
+  //       changeURL(config.INITIAL_LOAD_URL)
+  //     }
+  //
+  //   }
+  //
+  //   doAsync().catch(console.error)
+  //
+  //   return () => subscription.remove();
+  // }, []);
 
   if (error) {
     return <Error error={error} onRetry={retryWebview}/>;
@@ -218,26 +235,22 @@ export default memo(function Webapp() {
             <About onClose={() => setMode('web')}
                    userId={userInfo?.userId}
                    knockJWT={userInfo?.knockJWT}
-                   url={url}/>
+                   url={rewriteExpoURL(url) ?? config.INITIAL_LOAD_URL}/>
           </>
         )}
 
         {mode === 'web' && (
           <>
-            <WebView source={{ uri: url }}
-                     ref={webViewRef}
-                     // this is a hack to force the WebView to remount when the
-                     // URL changes, otherwise it won't always unmount if the
-                     // url changes which is confusing because the history
-                     // inside the browser might be wrong, and we might not be on
-                     // the latest URL due to history.
-                     key={ver}
-                     onMessage={event => handlePushMessage(event)}
-                     onShouldStartLoadWithRequest={handleNavigation}
-                     webviewDebuggingEnabled={__DEV__}
-                     onError={(event) => setError(event.nativeEvent.description)}
-                     allowsBackForwardNavigationGestures={true}
-                     style={{ flex: 1 }} />
+            {url && (
+              <WebView source={{ uri: rewriteExpoURL(url) ?? config.INITIAL_LOAD_URL }}
+                       ref={webViewRef}
+                       onMessage={event => handlePushMessage(event)}
+                       onShouldStartLoadWithRequest={handleNavigation}
+                       webviewDebuggingEnabled={__DEV__}
+                       onError={(event) => setError(event.nativeEvent.description)}
+                       allowsBackForwardNavigationGestures={true}
+                       style={{ flex: 1 }} />
+            )}
 
             {userInfo && userInfo.userId !== 0 && (
               <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={changeURL}/>
@@ -249,3 +262,16 @@ export default memo(function Webapp() {
     </>
   );
 })
+
+function rewriteExpoURL(url: string | null) {
+
+  if (! url) {
+    return url
+  }
+
+  const initialURL = new URL(config.INITIAL_LOAD_URL)
+  const rewriteURL = new URL(url)
+
+  return `${initialURL.origin}${rewriteURL.pathname}${rewriteURL.search}`
+
+}

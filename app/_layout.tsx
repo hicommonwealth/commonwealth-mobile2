@@ -1,4 +1,4 @@
-import React, {memo} from 'react'
+import React, {memo, useEffect} from 'react'
 import {Slot} from "expo-router";
 
 export default memo(function RootLayout() {
