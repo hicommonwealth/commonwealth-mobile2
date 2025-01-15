@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {memo} from 'react'
 import {Slot} from "expo-router";
 
-export default function RootLayout() {
+export default memo(function RootLayout() {
   return (
     <>
       <Slot />
@@ -9,4 +9,4 @@ export default function RootLayout() {
     </>
   )
 
-}
+})
