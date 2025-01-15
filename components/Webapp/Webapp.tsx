@@ -40,7 +40,7 @@ type Props = {
 export default function Webapp(props: Props) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-  const [url, setUrl] = useState<string | undefined>(MAIN_APP_URL)
+  const [url, setUrl] = useState<string>(MAIN_APP_URL)
 
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
@@ -156,7 +156,8 @@ export default function Webapp(props: Props) {
     const handleDeepLink = (event: { url: string }) => {
       const { url } = event;
       console.log("Deep link received:", url);
-      navigateToLink(url)
+      //navigateToLink(url)
+      setUrl(url)
     };
 
     // Listen for deep link events
@@ -190,7 +191,7 @@ export default function Webapp(props: Props) {
 
         {mode === 'web' && (
           <>
-            <WebView source={{ uri: MAIN_APP_URL }}
+            <WebView source={{ uri: url }}
                      ref={webViewRef}
                      onMessage={event => handlePushMessage(event)}
                      onShouldStartLoadWithRequest={handleNavigation}
