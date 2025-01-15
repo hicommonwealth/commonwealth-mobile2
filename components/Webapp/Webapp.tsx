@@ -6,7 +6,6 @@ import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
 import {config} from "@/util/config";
-import MAIN_APP_URL = config.MAIN_APP_URL;
 
 /**
  * Typed message so that the react-native client knows how to handel this message.
@@ -40,7 +39,7 @@ type Props = {
 export default function Webapp(props: Props) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-  const [url, setUrl] = useState<string>(MAIN_APP_URL)
+  const [url, setUrl] = useState<string>(config.MAIN_APP_URL)
 
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
@@ -164,7 +163,7 @@ export default function Webapp(props: Props) {
     const subscription = Linking.addEventListener("url", handleDeepLink);
 
     return () => subscription.remove();
-  }, [navigateToLink]);
+  }, []);
 
   if (error) {
     return <Error error={error} onRetry={retryWebview}/>;
@@ -201,7 +200,7 @@ export default function Webapp(props: Props) {
                      style={{ flex: 1 }} />
 
             {userInfo && userInfo.userId !== 0 && (
-              <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={navigateToLink}/>
+              <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={setUrl}/>
             )}
           </>
         )}

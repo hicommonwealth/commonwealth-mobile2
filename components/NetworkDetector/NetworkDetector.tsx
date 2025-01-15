@@ -3,6 +3,7 @@ import NetInfo from '@react-native-community/netinfo';
 import Online from "@/components/Online/Online";
 import Offline from "@/components/Offline/Offline";
 import SafeAreaContainer from "@/components/SafeAreaContainer/SafeAreaContainer";
+import {View, Text} from "react-native";
 
 /**
  * Detect the net status and switch back and forth between online and offline
@@ -33,6 +34,11 @@ export default function NetworkDetector() {
   return (
     <SafeAreaContainer>
       <>
+        {!connection && (
+          <View>
+            <Text>Detecting network state .... </Text>
+          </View>
+        )}
         {connection === 'online' && <Online/>}
         {connection === 'offline' && <Offline/>}
       </>
