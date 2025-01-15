@@ -39,6 +39,8 @@ type Props = {
 export default function Webapp(props: Props) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
+  const [ver, setVer] = useState(0)
+  const verRef = useRef(0)
   const [url, setUrl] = useState<string>(config.MAIN_APP_URL)
 
   const [mode, setMode] = useState<ModeType>('web');
@@ -78,6 +80,13 @@ export default function Webapp(props: Props) {
 
     return () => backHandler.remove();
   }, []);
+
+  const changeURL = useCallback((url: string) => {
+    setUrl(url)
+    const ver = verRef.current + 1
+    verRef.current = ver
+    setVer(ver)
+  }, [])
 
   const navigateToLink = useCallback((link: string) => {
     console.log("navigating to link: " + link)
@@ -156,11 +165,17 @@ export default function Webapp(props: Props) {
       const { url } = event;
       console.log("Deep link received:", url);
       //navigateToLink(url)
-      setUrl(url)
+      //webViewRef.current.
+      changeURL(url)
     };
 
     // Listen for deep link events
     const subscription = Linking.addEventListener("url", handleDeepLink);
+
+    // TODO: get the initial URL but right now we don't do anything with it. I
+    // think this might be a queue and if we don't listen for the first one, we
+    // won't get subsequent URLs.  However, we DO need to get the initial URL.
+    Linking.getInitialURL().catch(console.error)
 
     return () => subscription.remove();
   }, []);
@@ -192,6 +207,12 @@ export default function Webapp(props: Props) {
           <>
             <WebView source={{ uri: url }}
                      ref={webViewRef}
+                     // this is a hack to force the WebView to remount when the
+                     // URL changes, otherwise it won't always unmount if the
+                     // url changes which is confusing because the history
+                     // inside the browser might be wrong, and we might not be on
+                     // the latest URL due to history.
+                     key={ver}
                      onMessage={event => handlePushMessage(event)}
                      onShouldStartLoadWithRequest={handleNavigation}
                      webviewDebuggingEnabled={__DEV__}
@@ -200,7 +221,7 @@ export default function Webapp(props: Props) {
                      style={{ flex: 1 }} />
 
             {userInfo && userInfo.userId !== 0 && (
-              <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={setUrl}/>
+              <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={changeURL}/>
             )}
           </>
         )}
