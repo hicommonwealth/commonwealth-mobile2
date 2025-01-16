@@ -1,4 +1,4 @@
-import {Alert, BackHandler, Dimensions, Linking, View} from "react-native";
+import {Alert, BackHandler, Dimensions, Linking, View, Text} from "react-native";
 import WebView, {WebViewMessageEvent, WebViewNavigation} from "react-native-webview";
 import React, {memo, useCallback, useEffect, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
@@ -230,6 +230,11 @@ export default memo(function Webapp(props: Props) {
         onTouchEnd={handleTouchEnd}
       >
 
+        <View style={Styles.textContainer}>
+          <Text>input url: {url}</Text>
+          <Text>rewritten url: {rewriteExpoURL(url)}</Text>
+        </View>
+
         {mode === 'about' && (
           <>
             <About onClose={() => setMode('web')}
@@ -265,8 +270,12 @@ export default memo(function Webapp(props: Props) {
 
 function rewriteExpoURL(url: string | null) {
 
-  if (! url) {
-    return url
+  if (url === null || url === undefined) {
+    return config.INITIAL_LOAD_URL;
+  }
+
+  if (url.trim() === '') {
+    return config.INITIAL_LOAD_URL;
   }
 
   const initialURL = new URL(config.INITIAL_LOAD_URL)
@@ -275,3 +284,9 @@ function rewriteExpoURL(url: string | null) {
   return `${initialURL.origin}${rewriteURL.pathname}${rewriteURL.search}`
 
 }
+
+const Styles = {
+  textContainer: {
+    backgroundColor: 'red', color: 'white'
+  }
+} as const

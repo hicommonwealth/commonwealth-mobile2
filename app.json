@@ -15,6 +15,10 @@
       "androidCollapsedTitle": "Updates from Common"
     },
     "ios": {
+      "associatedDomains": [
+        "applinks:common.xyz",
+        "applinks:commonwealth-frack.herokuapp.com"
+      ],
       "supportsTablet": true,
       "infoPlist": {
         "UIBackgroundModes": [
