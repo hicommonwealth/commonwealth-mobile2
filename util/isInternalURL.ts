@@ -1,7 +1,10 @@
 import {config} from "@/util/config";
 
+// TODO magic.link might have to look at /send and /send-legacy URIs and not
+// sure why these are used.
 const ACCEPTED_URL_PATTERNS: RegExp[] = [
   /^https:\/\/auth\.magic\.link/,
+  /^https:\/\/www\.google\.com\/recaptcha\//
 ]
 
 export function isInternalURL(url: string) {

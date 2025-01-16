@@ -183,6 +183,9 @@ export default function Webapp(props: Props) {
   }
 
   const handleNavigation = useCallback((event: WebViewNavigation) => {
+    // TODO: we're given a 'navigationType' for why these are used and
+    // it might help us approve some of them.
+    console.log("handleNavigation: ", event)
     // Check if the URL is an external URL
     if (!isInternalURL(event.url)) {
       Linking.openURL(event.url)
