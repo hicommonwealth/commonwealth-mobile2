@@ -1,6 +1,6 @@
-import {Alert, BackHandler, Dimensions, Linking, View, Text} from "react-native";
+import {BackHandler, Dimensions, Linking, Text, View} from "react-native";
 import WebView, {WebViewMessageEvent, WebViewNavigation} from "react-native-webview";
-import React, {memo, useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
@@ -38,7 +38,7 @@ type TouchStartGesture = {
 type Props = {
 }
 
-export default memo(function Webapp(props: Props) {
+export default function Webapp(props: Props) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const url = useURL()
@@ -266,7 +266,7 @@ export default memo(function Webapp(props: Props) {
       </View>
     </>
   );
-})
+}
 
 function rewriteExpoURL(url: string | null) {
 

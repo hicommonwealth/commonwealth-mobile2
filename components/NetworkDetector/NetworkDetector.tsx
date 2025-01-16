@@ -1,14 +1,14 @@
-import React, {memo, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import NetInfo from '@react-native-community/netinfo';
 import Online from "@/components/Online/Online";
 import Offline from "@/components/Offline/Offline";
 import SafeAreaContainer from "@/components/SafeAreaContainer/SafeAreaContainer";
-import {View, Text} from "react-native";
+import {Text, View} from "react-native";
 
 /**
  * Detect the net status and switch back and forth between online and offline
  */
-export default memo(function NetworkDetector() {
+export default function NetworkDetector() {
   const [connection, setConnection] = useState<'online' | 'offline' | null>(null);
 
   useEffect(() => {
@@ -45,4 +45,4 @@ export default memo(function NetworkDetector() {
     </SafeAreaContainer>
   )
 
-})
+}
