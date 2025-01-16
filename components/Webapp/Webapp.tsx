@@ -10,6 +10,11 @@ import {useURL} from "expo-linking";
 import {useRouter} from "expo-router";
 
 /**
+ * Enable a fake URL bar to debug the URL we're visiting.
+ */
+const ENABLE_URL_BAR = false
+
+/**
  * Typed message so that the react-native client knows how to handel this message.
  *
  * This is teh standard pattern of how to handle postMessage with multiple uses.
@@ -41,14 +46,16 @@ type Props = {
 export default function Webapp(props: Props) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-  const url = useURL()
+  const expoURL = useURL()
+  const url = rewriteExpoURL(expoURL)
   const router = useRouter()
 
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
 
-  console.log("FIXME URL: " + url)
+  console.log("expoURL: " + expoURL)
+  console.log("URL: " + url)
 
   const webViewRef = useRef<WebView | null>(null);
 
@@ -230,24 +237,26 @@ export default function Webapp(props: Props) {
         onTouchEnd={handleTouchEnd}
       >
 
-        <View style={Styles.textContainer}>
-          <Text>input url: {url}</Text>
-          <Text>rewritten url: {rewriteExpoURL(url)}</Text>
-        </View>
+        {ENABLE_URL_BAR && (
+          <View style={Styles.textContainer}>
+            <Text>expoURL url: {expoURL}</Text>
+            <Text>url: {url}</Text>
+          </View>
+        )}
 
         {mode === 'about' && (
           <>
             <About onClose={() => setMode('web')}
                    userId={userInfo?.userId}
                    knockJWT={userInfo?.knockJWT}
-                   url={rewriteExpoURL(url) ?? config.INITIAL_LOAD_URL}/>
+                   url={url}/>
           </>
         )}
 
         {mode === 'web' && (
           <>
             {url && (
-              <WebView source={{ uri: rewriteExpoURL(url) ?? config.INITIAL_LOAD_URL }}
+              <WebView source={{ uri: url }}
                        ref={webViewRef}
                        onMessage={event => handlePushMessage(event)}
                        onShouldStartLoadWithRequest={handleNavigation}
@@ -271,14 +280,14 @@ export default function Webapp(props: Props) {
 function rewriteExpoURL(url: string | null) {
 
   if (url === null || url === undefined) {
-    return config.INITIAL_LOAD_URL;
+    return config.MAIN_APP_URL;
   }
 
   if (url.trim() === '') {
-    return config.INITIAL_LOAD_URL;
+    return config.MAIN_APP_URL;
   }
 
-  const initialURL = new URL(config.INITIAL_LOAD_URL)
+  const initialURL = new URL(config.MAIN_APP_URL)
   const rewriteURL = new URL(url)
 
   return `${initialURL.origin}${rewriteURL.pathname}${rewriteURL.search}`
