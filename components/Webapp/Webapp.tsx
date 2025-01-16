@@ -258,11 +258,13 @@ export default function Webapp(props: Props) {
             {url && (
               <WebView source={{ uri: url }}
                        ref={webViewRef}
+                       sharedCookiesEnabled={true}
                        onMessage={event => handlePushMessage(event)}
                        onShouldStartLoadWithRequest={handleNavigation}
                        webviewDebuggingEnabled={__DEV__}
                        onError={(event) => setError(event.nativeEvent.description)}
                        allowsBackForwardNavigationGestures={true}
+                       javaScriptCanOpenWindowsAutomatically={true}
                        style={{ flex: 1 }} />
             )}
 

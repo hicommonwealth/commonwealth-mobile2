@@ -1,6 +1,7 @@
 import {config} from "@/util/config";
 
 const ACCEPTED_URL_PATTERNS: RegExp[] = [
+  /^https:\/\/auth\.magic\.link/,
 ]
 
 export function isInternalURL(url: string) {
