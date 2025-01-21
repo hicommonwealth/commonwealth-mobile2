@@ -4,7 +4,9 @@ import {config} from "@/util/config";
 // sure why these are used.
 const ACCEPTED_URL_PATTERNS: RegExp[] = [
   /^https:\/\/auth\.magic\.link/,
-  /^https:\/\/www\.google\.com\/recaptcha\//
+  /^https:\/\/api\.magic\.link/,
+  /^https:\/\/www\.google\.com\/recaptcha\//,
+  /^https:\/\/appleid\.apple\.com/,
 ]
 
 export function isInternalURL(url: string) {
