@@ -40,14 +40,11 @@ type TouchStartGesture = {
   startY: 0;
 }
 
-type Props = {
-}
-
-export default function Webapp(props: Props) {
+export default function Webapp() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const expoURL = useURL()
-  const url = rewriteExpoURL(expoURL)
+  const [url, setUrl] = useState<string>(rewriteExpoURL(expoURL))
   const router = useRouter()
 
   const [mode, setMode] = useState<ModeType>('web');
@@ -64,6 +61,7 @@ export default function Webapp(props: Props) {
   }
 
   useEffect(() => {
+
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
 
       if (webViewRef.current) {
@@ -85,6 +83,8 @@ export default function Webapp(props: Props) {
         console.warn("No webview")
       }
 
+      // TODO , return false if we can go back...
+
       return true;
     });
 
@@ -92,43 +92,8 @@ export default function Webapp(props: Props) {
   }, []);
 
   const changeURL = useCallback((url: string) => {
-
-    // rewriteExpoURL
-    //router.push({href: url})
-
-  }, [router]);
-
-  // const changeURL = useCallback((url: string) => {
-  //
-  //   Alert.alert(
-  //     'FIXME: Got a URL', // Title
-  //     'URL' + url, // Message
-  //     [
-  //       {
-  //         text: 'OK',
-  //         onPress: () => {
-  //           // FIXME: this code should be the entire changeURL function when we
-  //           // have fixed the problem.
-  //           setUrl(url)
-  //           const ver = verRef.current + 1
-  //           verRef.current = ver
-  //           setVer(ver)
-  //         },
-  //       },
-  //     ]
-  //   );
-  //
-  // }, [])
-
-  const navigateToLink = useCallback((link: string) => {
-    console.log("navigating to link: " + link)
-    if (webViewRef.current) {
-      webViewRef.current.postMessage(JSON.stringify({
-        type: 'navigate-to-link',
-        link
-      }));
-    }
-  }, [])
+    setUrl(url)
+  }, []);
 
   const handleTouchStart = (event: any) => {
     touchStart.current = {
@@ -194,37 +159,6 @@ export default function Webapp(props: Props) {
     }
     return true; // Allow the WebView to load the URL
   }, []);
-
-  // useEffect(() => {
-  //   const handleDeepLink = (event: { url: string }) => {
-  //     const { url } = event;
-  //     console.log("Deep link received:", url);
-  //     //navigateToLink(url)
-  //     //webViewRef.current.
-  //     //changeURL(url)
-  //   };
-  //
-  //   // Listen for deep link events
-  //   const subscription = Linking.addEventListener("url", handleDeepLink);
-  //
-  //   async function doAsync() {
-  //     // TODO: get the initial URL but right now we don't do anything with it. I
-  //     // think this might be a queue and if we don't listen for the first one, we
-  //     // won't get subsequent URLs.  However, we DO need to get the initial URL.
-  //     const initialURL = await Linking.getInitialURL()
-  //
-  //     if (initialURL) {
-  //       setUrl(initialURL)
-  //     } else {
-  //       changeURL(config.INITIAL_LOAD_URL)
-  //     }
-  //
-  //   }
-  //
-  //   doAsync().catch(console.error)
-  //
-  //   return () => subscription.remove();
-  // }, []);
 
   if (error) {
     return <Error error={error} onRetry={retryWebview}/>;
