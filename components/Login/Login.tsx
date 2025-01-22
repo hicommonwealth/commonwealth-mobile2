@@ -11,10 +11,6 @@ type Props = {
 export default function Login(props: Props) {
 
   const [strategy, setStrategy] = useState<AuthStrategy | undefined>(undefined)
-
-  console.log('FIXME: strategy', strategy)
-
-  // FIXME put a button to cancel at the bottom
   return (
     <>
       {! strategy && <PickAuthStrategy onStrategyPicked={setStrategy}/>}
