@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Common",
+    "name": "Common: Launch and Earn Coins",
     "slug": "commonxyz",
     "version": "1.0.7",
     "orientation": "portrait",
@@ -25,7 +25,7 @@
           "remote-notification"
         ]
       },
-      "bundleIdentifier": "commonwealth-mobile2"
+      "bundleIdentifier": "xyz.common.mobile"
     },
     "android": {
       "adaptiveIcon": {
