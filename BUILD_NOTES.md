@@ -38,3 +38,38 @@ To build for all we just don't use the --platform option.
 eas device:create
 
 https://expo.dev/register-device/ea964f87-4685-4274-b328-b907f5c4c8da
+
+
+
+
+
+# For prod
+
+```bash
+eas build  --platform ios --profile production 
+eas submit --platform ios --profile production
+
+```
+
+Using push key with ID HB42U77ZXH
+
+
+Invalid Provisioning Profile for Apple App Store distribution. The application
+was signed with an Ad Hoc/Enterprise Provisioning Profile, which is meant for
+"Internal Distribution". In order to distribute an app on the store, it must be
+signed with a Distribution Provisioning Profile. Ensure that you are submitting
+the correct build, or rebuild the application with a Distribution Provisioning
+Profile and submit that new build.
+
+
+## eas.json
+
+We MUST have our configuration NOT be set to the following:
+
+```json
+      "developmentClient": false,
+      "distribution": "internal",
+      "channel": "production"
+```
+
+which is set by default. 
