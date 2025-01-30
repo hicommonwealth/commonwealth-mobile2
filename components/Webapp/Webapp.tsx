@@ -1,6 +1,6 @@
 import {BackHandler, Dimensions, Linking, Text, View} from "react-native";
 import WebView, {WebViewMessageEvent, WebViewNavigation} from "react-native-webview";
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
@@ -8,6 +8,7 @@ import Error from "@/components/Error/Error";
 import {config} from "@/util/config";
 import {useURL} from "expo-linking";
 import {useRouter} from "expo-router";
+import {NotificationsListener} from "@/components/Webapp/NotificationsListener";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -50,11 +51,21 @@ export default function Webapp() {
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
-
   console.log("expoURL: " + expoURL)
   console.log("URL: " + url)
 
   const webViewRef = useRef<WebView | null>(null);
+
+  const notificationsListener = useMemo(() => {
+
+    const postMessage = (msg: string) => {
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(msg)
+      }
+    }
+
+    return new NotificationsListener(postMessage);
+  }, [])
 
   const retryWebview = () => {
     setError(undefined);
@@ -122,6 +133,8 @@ export default function Webapp() {
   };
 
   const handleMessage = (event: WebViewMessageEvent) => {
+
+    notificationsListener.handleMessage(event)
 
     const msg = JSON.parse(event.nativeEvent.data);
 
