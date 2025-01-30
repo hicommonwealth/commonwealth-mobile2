@@ -3,7 +3,16 @@ import * as Notifications from "expo-notifications";
 
 export class NotificationsListener {
 
-  public constructor(private postMessage: (msg: string) => void) {
+  public constructor(private postMessage: (msg: string) => void,
+                     private onPermissions: (status: Notifications.PermissionStatus) => void) {
+
+    const doAsync = async () => {
+      // we have to get the initial permissions or else we won't mount notifications.
+      const {status} = await Notifications.getPermissionsAsync()
+      this.onPermissions(status)
+    }
+
+    doAsync().catch(console.error)
 
   }
 
@@ -46,6 +55,7 @@ export class NotificationsListener {
         }
 
         this.postMessage(JSON.stringify(response))
+        this.onPermissions(status)
       }
 
       doAsync().catch(console.error)

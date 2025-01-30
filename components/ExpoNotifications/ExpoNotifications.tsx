@@ -34,6 +34,8 @@ Notifications.setNotificationHandler({
 
 export default function ExpoNotifications(props: Props) {
 
+  console.log("Listening for permissions with user ID: ", props.userId);
+
   console.log('knock initialized with', {
     KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID, userId: props.userId,
   });

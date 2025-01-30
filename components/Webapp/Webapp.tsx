@@ -9,6 +9,7 @@ import {config} from "@/util/config";
 import {useURL} from "expo-linking";
 import {useRouter} from "expo-router";
 import {NotificationsListener} from "@/components/Webapp/NotificationsListener";
+import * as Notifications from "expo-notifications";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -51,10 +52,8 @@ export default function Webapp() {
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
   const [error, setError] = useState<string | undefined>(undefined);
-  console.log("expoURL: " + expoURL)
-  console.log("URL: " + url)
-
   const webViewRef = useRef<WebView | null>(null);
+  const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
 
   const notificationsListener = useMemo(() => {
 
@@ -64,8 +63,14 @@ export default function Webapp() {
       }
     }
 
-    return new NotificationsListener(postMessage);
+    return new NotificationsListener(postMessage, status => {
+      console.log("Got listener notification permission status: " + status)
+      setNotificationStatus(status);
+    });
   }, [])
+
+  console.log("expoURL: " + expoURL)
+  console.log("URL: " + url)
 
   const retryWebview = () => {
     setError(undefined);
@@ -218,7 +223,7 @@ export default function Webapp() {
                        style={{ flex: 1 }} />
             )}
 
-            {userInfo && userInfo.userId !== 0 && (
+            {notificationStatus === 'granted' && userInfo && userInfo.userId !== 0 && (
               <ExpoNotifications userId={userInfo.userId} knockJWT={userInfo.knockJWT} onLink={changeURL}/>
             )}
           </>
