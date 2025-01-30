@@ -121,7 +121,7 @@ export default function Webapp() {
     }
   };
 
-  const handlePushMessage = (event: WebViewMessageEvent) => {
+  const handleMessage = (event: WebViewMessageEvent) => {
 
     const msg = JSON.parse(event.nativeEvent.data);
 
@@ -196,7 +196,7 @@ export default function Webapp() {
               <WebView source={{ uri: url }}
                        ref={webViewRef}
                        sharedCookiesEnabled={true}
-                       onMessage={event => handlePushMessage(event)}
+                       onMessage={event => handleMessage(event)}
                        onShouldStartLoadWithRequest={handleNavigation}
                        webviewDebuggingEnabled={__DEV__}
                        onError={(event) => setError(event.nativeEvent.description)}
