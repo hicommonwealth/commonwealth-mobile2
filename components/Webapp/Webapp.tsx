@@ -10,7 +10,7 @@ import {useURL} from "expo-linking";
 import {useRouter} from "expo-router";
 import {NotificationsListener} from "@/components/Webapp/NotificationsListener";
 import * as Notifications from "expo-notifications";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
  */
@@ -41,8 +41,10 @@ type TouchStartGesture = {
   start: number;
   startY: 0;
 }
-
-export default function Webapp() {
+type WebAppProps = {
+  handleSafeAreaVisibility: (showSafeArea: boolean) => void;
+};
+export default function Webapp({handleSafeAreaVisibility}:WebAppProps) {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const expoURL = useURL()
@@ -54,7 +56,7 @@ export default function Webapp() {
   const [error, setError] = useState<string | undefined>(undefined);
   const webViewRef = useRef<WebView | null>(null);
   const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
-
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
   const notificationsListener = useMemo(() => {
 
     const postMessage = (msg: string) => {
@@ -107,6 +109,25 @@ export default function Webapp() {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(() => {
+    const checkFirstLaunch = async () => {
+      try {
+        const firstTime = await AsyncStorage.getItem("isFirstTime");
+        if (firstTime === null) {
+          setIsFirstLaunch(true);
+          const newUrl = `${url}/onboarding`;
+          setUrl(newUrl);
+          await AsyncStorage.setItem("isFirstTime", "false");
+        } else {
+          setIsFirstLaunch(false);
+        }
+      } catch (error) {
+        console.error("Error checking first launch:", error);
+      }
+    };
+
+    checkFirstLaunch();
+  }, []);
   const changeURL = useCallback((url: string) => {
     setUrl(url)
   }, []);
@@ -177,7 +198,17 @@ export default function Webapp() {
     }
     return true; // Allow the WebView to load the URL
   }, []);
-
+  const handleNavigationStateChange = (newNavState: any) => {
+    const { url } = newNavState;
+    // Hide WebView for onboarding route
+    if (url.includes("/onboarding")) {
+      handleSafeAreaVisibility(false);
+    }
+    // Show WebView for dashboard route
+    else if (!url.includes("/onboarding")) {
+      handleSafeAreaVisibility(true);
+    }
+  };
   if (error) {
     return <Error error={error} onRetry={retryWebview}/>;
   }
@@ -220,7 +251,10 @@ export default function Webapp() {
                        onError={(event) => setError(event.nativeEvent.description)}
                        allowsBackForwardNavigationGestures={true}
                        javaScriptCanOpenWindowsAutomatically={true}
-                       style={{ flex: 1 }} />
+                       style={{ flex: 1 }} 
+                       onNavigationStateChange={handleNavigationStateChange}
+                       
+                       />
             )}
 
             {notificationStatus === 'granted' && userInfo && userInfo.userId !== 0 && (

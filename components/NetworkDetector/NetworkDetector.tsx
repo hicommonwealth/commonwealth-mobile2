@@ -10,11 +10,19 @@ import {Text, View} from "react-native";
  */
 export default function NetworkDetector() {
   const [connection, setConnection] = useState<'online' | 'offline' | null>(null);
-
+  //for animation we need to avoid safeArea
+  const [isShowSafeArea, setIsShowSafeArea] = React.useState(false);
+  const handleSafeAreaVisibility = React.useCallback((visible: boolean) => {
+    setIsShowSafeArea(visible);
+  }, []);
   useEffect(() => {
-    return NetInfo.addEventListener(state => {
+
+    const unsubscribe = NetInfo.addEventListener((state) => {
       state.isConnected ? setConnection('online') : setConnection('offline')
     });
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   if (connection === null) {
@@ -30,7 +38,9 @@ export default function NetworkDetector() {
   // extra logic for this.  Shouldn't be too hard though we would just add
   // hasBeenOnline which gets set to true once we have the first isConnected
   // event.  After that we mount online and display it for the first time.
-
+  if (connection === "online" && !isShowSafeArea) {
+    return <Online handleSafeAreaVisibility={handleSafeAreaVisibility} />;
+  }
   return (
     <SafeAreaContainer>
       <>
@@ -39,10 +49,11 @@ export default function NetworkDetector() {
             <Text>Detecting network state .... </Text>
           </View>
         )}
-        {connection === 'online' && <Online/>}
-        {connection === 'offline' && <Offline/>}
+        {connection === "online" && (
+          <Online handleSafeAreaVisibility={handleSafeAreaVisibility} />
+        )}
+        {connection === "offline" && <Offline />}
       </>
     </SafeAreaContainer>
-  )
-
+  );
 }
