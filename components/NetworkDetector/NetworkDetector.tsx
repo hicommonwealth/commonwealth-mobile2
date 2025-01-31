@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
-import NetInfo from "@react-native-community/netinfo";
+import React, {useEffect, useState} from "react";
+import NetInfo from '@react-native-community/netinfo';
 import Online from "@/components/Online/Online";
 import Offline from "@/components/Offline/Offline";
 import SafeAreaContainer from "@/components/SafeAreaContainer/SafeAreaContainer";
-import { Text, View } from "react-native";
+import {Text, View} from "react-native";
 
 /**
  * Detect the net status and switch back and forth between online and offline
  */
 export default function NetworkDetector() {
-  const [connection, setConnection] = useState<"online" | "offline" | null>(
-    null
-  );
+  const [connection, setConnection] = useState<'online' | 'offline' | null>(null);
   //for animation we need to avoid safeArea
   const [isShowSafeArea, setIsShowSafeArea] = React.useState(false);
   const handleSafeAreaVisibility = React.useCallback((visible: boolean) => {
     setIsShowSafeArea(visible);
   }, []);
   useEffect(() => {
+
     const unsubscribe = NetInfo.addEventListener((state) => {
-      state.isConnected ? setConnection("online") : setConnection("offline");
+      state.isConnected ? setConnection('online') : setConnection('offline')
     });
     return () => {
       unsubscribe();
