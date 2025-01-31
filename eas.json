@@ -5,9 +5,6 @@
       "channel": "preview"
     },
     "production": {
-      "developmentClient": false,
-      "distribution": "internal",
-      "channel": "production"
     }
   },
   "submit": {

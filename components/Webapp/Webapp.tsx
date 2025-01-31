@@ -11,7 +11,6 @@ import WebView, {
   WebViewMessageEvent,
   WebViewNavigation,
 } from "react-native-webview";
-import React, { useCallback, useEffect, useRef, useState } from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
 import { isInternalURL } from "@/util/isInternalURL";
 import About from "@/components/About/About";
@@ -21,6 +20,9 @@ import { useURL } from "expo-linking";
 import { useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NotificationsListener } from "@/components/Webapp/NotificationsListener";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
  */
@@ -64,11 +66,27 @@ export default function Webapp({ handleSafeAreaVisibility }: WebAppProps) {
   const touchStart = useRef<TouchStartGesture>({ start: 0, startY: 0 });
   const [error, setError] = useState<string | undefined>(undefined);
   const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(null);
+  const webViewRef = useRef<WebView | null>(null);
+
+  const [notificationStatus, setNotificationStatus] = useState<
+    Notifications.PermissionStatus | undefined
+  >(undefined);
+
+  const notificationsListener = useMemo(() => {
+    const postMessage = (msg: string) => {
+      if (webViewRef.current) {
+        webViewRef.current.postMessage(msg);
+      }
+    };
+
+    return new NotificationsListener(postMessage, (status) => {
+      console.log("Got listener notification permission status: " + status);
+      setNotificationStatus(status);
+    });
+  }, []);
 
   console.log("expoURL: " + expoURL);
   console.log("URL: " + url);
-
-  const webViewRef = useRef<WebView | null>(null);
 
   const retryWebview = () => {
     setError(undefined);
@@ -154,7 +172,9 @@ export default function Webapp({ handleSafeAreaVisibility }: WebAppProps) {
     }
   };
 
-  const handlePushMessage = (event: WebViewMessageEvent) => {
+  const handleMessage = (event: WebViewMessageEvent) => {
+    notificationsListener.handleMessage(event);
+
     const msg = JSON.parse(event.nativeEvent.data);
     if (msg.type === "about") {
       setMode("about");
@@ -239,7 +259,7 @@ export default function Webapp({ handleSafeAreaVisibility }: WebAppProps) {
                 source={{ uri: url }}
                 ref={webViewRef}
                 sharedCookiesEnabled={true}
-                onMessage={(event) => handlePushMessage(event)}
+                onMessage={(event) => handleMessage(event)}
                 onShouldStartLoadWithRequest={handleNavigation}
                 webviewDebuggingEnabled={__DEV__}
                 onError={(event) => setError(event.nativeEvent.description)}
@@ -250,13 +270,15 @@ export default function Webapp({ handleSafeAreaVisibility }: WebAppProps) {
               />
             )}
 
-            {userInfo && userInfo.userId !== 0 && (
-              <ExpoNotifications
-                userId={userInfo.userId}
-                knockJWT={userInfo.knockJWT}
-                onLink={changeURL}
-              />
-            )}
+            {notificationStatus === "granted" &&
+              userInfo &&
+              userInfo.userId !== 0 && (
+                <ExpoNotifications
+                  userId={userInfo.userId}
+                  knockJWT={userInfo.knockJWT}
+                  onLink={changeURL}
+                />
+              )}
           </>
         )}
       </View>
