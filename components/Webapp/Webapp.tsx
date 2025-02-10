@@ -5,11 +5,11 @@ import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications"
 import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
-import {config} from "@/util/config";
 import {useURL} from "expo-linking";
 import {useRouter} from "expo-router";
 import {NotificationsListener} from "@/components/Webapp/NotificationsListener";
 import * as Notifications from "expo-notifications";
+import {rewriteExpoURL} from "@/components/Webapp/rewriteExpoURL";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -232,23 +232,6 @@ export default function Webapp() {
       </View>
     </>
   );
-}
-
-function rewriteExpoURL(url: string | null) {
-
-  if (url === null || url === undefined) {
-    return config.MAIN_APP_URL;
-  }
-
-  if (url.trim() === '') {
-    return config.MAIN_APP_URL;
-  }
-
-  const initialURL = new URL(config.MAIN_APP_URL)
-  const rewriteURL = new URL(url)
-
-  return `${initialURL.origin}${rewriteURL.pathname}${rewriteURL.search}`
-
 }
 
 const Styles = {
