@@ -23,7 +23,8 @@
       "infoPlist": {
         "UIBackgroundModes": [
           "remote-notification"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       },
       "bundleIdentifier": "xyz.common.mobile"
     },
@@ -43,7 +44,10 @@
               "host": "*.common.xyz"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         },
         {
           "action": "VIEW",
@@ -54,7 +58,10 @@
               "host": "commonwealth-frack.herokuapp.com"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ]
     },
@@ -83,7 +90,6 @@
           "enableBackgroundRemoteNotifications": true
         }
       ]
-
     ],
     "experiments": {
       "typedRoutes": true
