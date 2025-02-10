@@ -204,6 +204,11 @@ export default function Webapp() {
             <About onClose={() => setMode('web')}
                    userId={userInfo?.userId}
                    knockJWT={userInfo?.knockJWT}
+                   onURL={(url) => {
+                     console.log("Changing URL to: " + url)
+                     setUrl(url);
+                     setMode('web');
+                   }}
                    url={url}/>
           </>
         )}

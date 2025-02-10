@@ -7,6 +7,7 @@ import KNOCK_EXPO_CHANNEL_ID = config.KNOCK_EXPO_CHANNEL_ID;
 
 type Props = {
   onClose: () => void;
+  onURL: (url: string) => void
   userId: number | undefined;
   knockJWT: string | undefined;
   url: string | undefined;
@@ -47,7 +48,16 @@ export default function About(props: Props) {
       </Text>
 
       <View style={styles.centered}>
-         <View style={styles.button}>
+
+        <View style={styles.button}>
+          <Button title="Use Frack" onPress={() => props.onURL('https://commonwealth-frack.herokuapp.com')} />
+        </View>
+
+        <View style={styles.button}>
+          <Button title="Use Prod" onPress={() => props.onURL('https://common.xyz')} />
+        </View>
+
+        <View style={styles.button}>
           <Button title="Close" onPress={props.onClose} />
         </View>
       </View>
