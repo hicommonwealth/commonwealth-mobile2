@@ -50,11 +50,11 @@ export default function About(props: Props) {
       <View style={styles.centered}>
 
         <View style={styles.button}>
-          <Button title="Use Frack" onPress={() => props.onURL('https://commonwealth-frack.herokuapp.com')} />
+          <Button title="Use frack" onPress={() => props.onURL('https://commonwealth-frack.herokuapp.com')} />
         </View>
 
         <View style={styles.button}>
-          <Button title="Use Prod" onPress={() => props.onURL('https://common.xyz')} />
+          <Button title="Use common.xyz" onPress={() => props.onURL('https://common.xyz')} />
         </View>
 
         <View style={styles.button}>
