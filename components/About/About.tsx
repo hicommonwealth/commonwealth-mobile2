@@ -1,9 +1,10 @@
-import {Button, Text, View} from "react-native";
+import {Button, ScrollView, Text, View} from "react-native";
 import React from "react";
 import Constants from 'expo-constants';
 import {config} from "@/util/config";
 import KNOCK_PUBLIC_API_KEY = config.KNOCK_PUBLIC_API_KEY;
 import KNOCK_EXPO_CHANNEL_ID = config.KNOCK_EXPO_CHANNEL_ID;
+import {getLogEntries} from "@/util/interceptLogging";
 
 type Props = {
   onClose: () => void;
@@ -14,6 +15,8 @@ type Props = {
 }
 
 const appVersion = Constants.expoConfig?.version;
+
+const logEntries = getLogEntries()
 
 export default function About(props: Props) {
   return (
@@ -47,6 +50,14 @@ export default function About(props: Props) {
         App URL: {props.url}
       </Text>
 
+      <ScrollView style={styles.logs}>
+        {logEntries.map((item, index) => (
+          <Text key={index}>
+            {item.level} ${JSON.stringify(item.args)}
+          </Text>
+        ))}
+      </ScrollView>
+
       <View style={styles.centered}>
 
         <View style={styles.button}>
@@ -66,7 +77,10 @@ export default function About(props: Props) {
 }
 
 const styles = {
-   main: {
+  logs: {
+    flex: 1
+  },
+  main: {
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white'
