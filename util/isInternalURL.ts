@@ -12,7 +12,11 @@ const ACCEPTED_URL_PATTERNS: RegExp[] = [
 export function isInternalURL(url: string) {
   try {
 
-    if (url.startsWith(config.MAIN_APP_URL)) {
+    if (url.startsWith(config.MAIN_APP_URL_PROD)) {
+      return true
+    }
+
+    if (url.startsWith(config.MAIN_APP_URL_FRACK)) {
       return true
     }
 
