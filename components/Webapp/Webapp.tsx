@@ -182,6 +182,8 @@ export default function Webapp() {
     return <Error error={error} onRetry={retryWebview}/>;
   }
 
+  console.log(`Rendering with mode ${mode} for url: ` + url)
+
   return (
     <>
       <View
