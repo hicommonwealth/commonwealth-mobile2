@@ -16,6 +16,9 @@ export function rewriteExpoURL(url: string | null) {
   const initialURL = new URL(config.MAIN_APP_URL)
   const rewriteURL = new URL(url)
 
+  console.log('rewriteExpoURL: initialURL: ' + initialURL)
+  console.log('rewriteExpoURL: rewriteURL: ' + rewriteURL)
+
   return `${initialURL.origin}${rewriteURL.pathname}${rewriteURL.search}`
 
 }
