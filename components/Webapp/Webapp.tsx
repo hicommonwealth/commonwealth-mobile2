@@ -45,8 +45,7 @@ type TouchStartGesture = {
 export default function Webapp() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-  const expoURL = useURL()
-  const [url, setUrl] = useState<string>(rewriteExpoURL(expoURL))
+  const url = rewriteExpoURL(useURL())
   const router = useRouter()
 
   const [mode, setMode] = useState<ModeType>('web');
@@ -69,7 +68,6 @@ export default function Webapp() {
     });
   }, [])
 
-  console.log("expoURL: " + expoURL)
   console.log("URL: " + url)
 
   const retryWebview = () => {
@@ -108,8 +106,8 @@ export default function Webapp() {
   }, []);
 
   const changeURL = useCallback((url: string) => {
-    setUrl(url)
-  }, []);
+    router.replace(url as any)
+  }, [router]);
 
   const handleTouchStart = (event: any) => {
     touchStart.current = {
@@ -196,7 +194,6 @@ export default function Webapp() {
 
         {ENABLE_URL_BAR && (
           <View style={Styles.textContainer}>
-            <Text>expoURL url: {expoURL}</Text>
             <Text>url: {url}</Text>
           </View>
         )}
@@ -208,7 +205,7 @@ export default function Webapp() {
                    knockJWT={userInfo?.knockJWT}
                    onURL={(url) => {
                      console.log("Changing URL to: " + url)
-                     setUrl(url);
+                     router.replace(url as any);
                      setMode('web');
                    }}
                    url={url}/>
