@@ -221,7 +221,7 @@ export default function Webapp() {
                        sharedCookiesEnabled={true}
                        onMessage={event => handleMessage(event)}
                        onShouldStartLoadWithRequest={handleNavigation}
-                       webviewDebuggingEnabled={__DEV__}
+                       webviewDebuggingEnabled={true}
                        onError={(event) => setError(event.nativeEvent.description)}
                        allowsBackForwardNavigationGestures={true}
                        javaScriptCanOpenWindowsAutomatically={true}
