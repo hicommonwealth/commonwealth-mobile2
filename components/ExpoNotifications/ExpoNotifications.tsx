@@ -8,8 +8,6 @@ import {
   NotificationHandler
 } from "@/components/ExpoNotifications/NotificationHandler";
 import {config} from "@/util/config";
-import KNOCK_EXPO_CHANNEL_ID = config.KNOCK_EXPO_CHANNEL_ID;
-import KNOCK_PUBLIC_API_KEY = config.KNOCK_PUBLIC_API_KEY;
 
 type Props = {
   userId: number
@@ -36,15 +34,13 @@ export default function ExpoNotifications(props: Props) {
 
   console.log("Listening for permissions with user ID: ", props.userId);
 
-  console.log('knock initialized with', {
-    KNOCK_PUBLIC_API_KEY, KNOCK_EXPO_CHANNEL_ID, userId: props.userId,
-  });
+  console.log('knock initialized with config', config);
 
   return (
-    <KnockProvider apiKey={KNOCK_PUBLIC_API_KEY}
+    <KnockProvider apiKey={config.KNOCK_PUBLIC_API_KEY}
                    userId={`${props.userId}`}
                    userToken={props.knockJWT}>
-      <KnockExpoPushNotificationProvider knockExpoChannelId={KNOCK_EXPO_CHANNEL_ID}>
+      <KnockExpoPushNotificationProvider knockExpoChannelId={config.KNOCK_EXPO_CHANNEL_ID}>
         <>
           <NotificationHandler onLink={props.onLink}/>
         </>
