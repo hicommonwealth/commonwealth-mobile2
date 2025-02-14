@@ -38,6 +38,10 @@ export default function About(props: Props) {
       </Text>
 
       <Text style={styles.info}>
+        config name: {config.name}
+      </Text>
+
+      <Text style={styles.info}>
         KNOCK_PUBLIC_API_KEY: {config.KNOCK_PUBLIC_API_KEY}
       </Text>
 
