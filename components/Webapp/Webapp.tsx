@@ -46,7 +46,6 @@ export default function Webapp() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const url = rewriteExpoURL(useURL())
-  const router = useRouter()
 
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
@@ -106,8 +105,10 @@ export default function Webapp() {
   }, []);
 
   const changeURL = useCallback((url: string) => {
-    router.replace(url as any)
-  }, [router]);
+    // NOTE: this isn't the ideal way to handle this but expo routing always
+    // opens the URL in the user's native browser.
+    webViewRef.current?.injectJavaScript(`document.location.href='${url}'`)
+  }, []);
 
   const handleTouchStart = (event: any) => {
     touchStart.current = {
@@ -203,11 +204,6 @@ export default function Webapp() {
             <About onClose={() => setMode('web')}
                    userId={userInfo?.userId}
                    knockJWT={userInfo?.knockJWT}
-                   onURL={(url) => {
-                     console.log("Changing URL to: " + url)
-                     router.replace(url as any);
-                     setMode('web');
-                   }}
                    url={url}/>
           </>
         )}

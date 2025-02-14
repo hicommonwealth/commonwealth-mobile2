@@ -7,7 +7,6 @@ import {useRemounter} from "@/components/Remounter/useRemounter";
 
 type Props = {
   onClose: () => void;
-  onURL: (url: string) => void
   userId: number | undefined;
   knockJWT: string | undefined;
   url: string | undefined;
