@@ -107,7 +107,10 @@ export default function Webapp() {
   const changeURL = useCallback((url: string) => {
     // NOTE: this isn't the ideal way to handle this but expo routing always
     // opens the URL in the user's native browser.
-    webViewRef.current?.injectJavaScript(`document.location.href='${url}'`)
+    // webViewRef.current?.injectJavaScript(`document.location.href='${url}'`)
+
+    webViewRef.current?.injectJavaScript(`window.history.pushState({}, '', '${url}')`)
+
   }, []);
 
   const handleTouchStart = (event: any) => {
