@@ -22,7 +22,8 @@ export default function SafeAreaContainer(props: Props) {
 
   return (
     <View style={{...styles.container, ...mode, paddingTop: insets.top}}>
-      <StatusBar style={darkMode ? "dark" : "light"}/>
+      <StatusBar backgroundColor={mode.backgroundColor}
+                 style={darkMode ? "dark" : "light"}/>
       {props.children}
     </View>
   )
