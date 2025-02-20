@@ -22,7 +22,7 @@ export default function SafeAreaContainer(props: Props) {
 
   return (
     <View style={{...styles.container, ...mode, paddingTop: insets.top}}>
-      <StatusBar/>
+      <StatusBar style={darkMode ? "dark" : "light"}/>
       {props.children}
     </View>
   )
@@ -34,11 +34,9 @@ const styles = {
   },
   darkMode: {
     backgroundColor: '#000',
-    color: '#fff',
   },
   lightMode: {
     backgroundColor: '#fff',
-    color: '#000',
   }
 }
 
