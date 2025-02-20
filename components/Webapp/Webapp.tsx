@@ -6,10 +6,10 @@ import {isInternalURL} from "@/util/isInternalURL";
 import About from "@/components/About/About";
 import Error from "@/components/Error/Error";
 import {useURL} from "expo-linking";
-import {useRouter} from "expo-router";
 import {NotificationsListener} from "@/components/Webapp/NotificationsListener";
 import * as Notifications from "expo-notifications";
 import {rewriteExpoURL} from "@/components/Webapp/rewriteExpoURL";
+import SafeAreaContainer from "@/components/SafeAreaContainer/SafeAreaContainer";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -32,7 +32,7 @@ type TypedData<Data> = {
 type UserInfo = {
   userId: number;
   knockJWT: string;
-  // darkMode: 'dark' | 'light';
+  darkMode: boolean | undefined | null;
 };
 
 type ModeType = 'about' | 'web'
@@ -188,7 +188,7 @@ export default function Webapp() {
   console.log(`Rendering with mode ${mode} for url: ` + url)
 
   return (
-    <>
+    <SafeAreaContainer darkMode={userInfo?.darkMode ?? undefined}>
       <View
         style={{
           flex: 1,
@@ -234,7 +234,7 @@ export default function Webapp() {
         )}
 
       </View>
-    </>
+    </SafeAreaContainer>
   );
 }
 

@@ -7,8 +7,6 @@ export default function Online() {
   // re-mount the main view.
 
   return (
-    <>
-      <Webapp/>
-    </>
+    <Webapp/>
   )
 }
