@@ -52,6 +52,7 @@ export default function Webapp() {
   const [error, setError] = useState<string | undefined>(undefined);
   const webViewRef = useRef<WebView | null>(null);
   const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
+  const canGoBackRef = useRef(false);
 
   const notificationsListener = useMemo(() => {
 
@@ -77,7 +78,7 @@ export default function Webapp() {
 
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
 
-      if (webViewRef.current) {
+      if (canGoBackRef.current && webViewRef.current) {
         console.log("Handling back button!")
 
         // goBack might be good if we're not within the common.xyz site so we
@@ -91,14 +92,12 @@ export default function Webapp() {
         // nav history in our app too because that's regular 'history' plus
         // the user can back out of auth.
         webViewRef.current.goBack();
-
-      } else {
-        console.warn("No webview")
+        return true
       }
 
       // TODO , return false if we can go back...
 
-      return true;
+      return false;
     });
 
     return () => backHandler.remove();
@@ -224,6 +223,9 @@ export default function Webapp() {
                        onError={(event) => setError(event.nativeEvent.description)}
                        allowsBackForwardNavigationGestures={true}
                        javaScriptCanOpenWindowsAutomatically={true}
+                       onNavigationStateChange={(event) => {
+                         canGoBackRef.current = event.canGoBack;
+                       }}
                        style={{ flex: 1 }} />
             )}
 

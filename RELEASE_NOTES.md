@@ -1,3 +1,7 @@
+# pending
+
+- android back button should now work.
+
 # 1.0.5
 
 New release out!!! 
