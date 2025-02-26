@@ -1,4 +1,4 @@
-import {BackHandler, Dimensions, Linking, Text, View} from "react-native";
+import {BackHandler, Dimensions, Linking, RefreshControl, ScrollView, Text, View} from "react-native";
 import WebView, {WebViewMessageEvent, WebViewNavigation} from "react-native-webview";
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import ExpoNotifications from "@/components/ExpoNotifications/ExpoNotifications";
@@ -46,6 +46,7 @@ export default function Webapp() {
 
   const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
   const url = rewriteExpoURL(useURL())
+  const [refreshing, setRefreshing] = useState(false);
 
   const [mode, setMode] = useState<ModeType>('web');
   const touchStart = useRef<TouchStartGesture>({start: 0, startY: 0});
@@ -53,6 +54,19 @@ export default function Webapp() {
   const webViewRef = useRef<WebView | null>(null);
   const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
   const canGoBackRef = useRef(false);
+
+  const triggerRefresh = () => {
+
+    try {
+      setRefreshing(true);
+      if (webViewRef.current) {
+        webViewRef.current.reload();
+      }
+    } finally {
+      setRefreshing(false);
+    }
+
+  };
 
   const notificationsListener = useMemo(() => {
 
@@ -214,19 +228,31 @@ export default function Webapp() {
         {mode === 'web' && (
           <>
             {url && (
-              <WebView source={{ uri: url }}
-                       ref={webViewRef}
-                       sharedCookiesEnabled={true}
-                       onMessage={event => handleMessage(event)}
-                       onShouldStartLoadWithRequest={handleNavigation}
-                       webviewDebuggingEnabled={true}
-                       onError={(event) => setError(event.nativeEvent.description)}
-                       allowsBackForwardNavigationGestures={true}
-                       javaScriptCanOpenWindowsAutomatically={true}
-                       onNavigationStateChange={(event) => {
-                         canGoBackRef.current = event.canGoBack;
-                       }}
-                       style={{ flex: 1 }} />
+              <ScrollView style={{}}
+                          contentContainerStyle={{ flex: 1 }}
+                          refreshControl={
+                            <RefreshControl
+                              refreshing={refreshing}
+                              enabled={true}
+                              onRefresh={() => {
+                                triggerRefresh();
+                              }}
+                            />
+                          }>
+                <WebView source={{ uri: url }}
+                         ref={webViewRef}
+                         sharedCookiesEnabled={true}
+                         onMessage={event => handleMessage(event)}
+                         onShouldStartLoadWithRequest={handleNavigation}
+                         webviewDebuggingEnabled={true}
+                         onError={(event) => setError(event.nativeEvent.description)}
+                         allowsBackForwardNavigationGestures={true}
+                         javaScriptCanOpenWindowsAutomatically={true}
+                         onNavigationStateChange={(event) => {
+                           canGoBackRef.current = event.canGoBack;
+                         }}
+                         style={{ flex: 1 }} />
+              </ScrollView>
             )}
 
             {notificationStatus === 'granted' && userInfo && userInfo.userId !== 0 && (

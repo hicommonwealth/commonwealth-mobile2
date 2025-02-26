@@ -7,6 +7,7 @@ import {Remounter} from "@/components/Remounter/Remounter";
 interceptLogging()
 
 export default function RootLayout() {
+
   return (
     <Remounter>
 
