@@ -20,10 +20,14 @@ export default function SafeAreaContainer(props: Props) {
   // a half inch at the bottom so we're only using the paddingTop now to
   // reserve space near the top.
 
+  // WARN: pretty sure the style must be INVERTED for darkMode so when darkMode
+  // is true it must be light not dark because, it's changing the foreground
+  // mode.
+
   return (
     <View style={{...styles.container, ...mode, paddingTop: insets.top}}>
       <StatusBar backgroundColor={mode.backgroundColor}
-                 style={darkMode ? "dark" : "light"}/>
+                 style={darkMode ? "light" : "dark"}/>
       {props.children}
     </View>
   )
