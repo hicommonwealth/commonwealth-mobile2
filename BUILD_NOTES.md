@@ -73,3 +73,13 @@ We MUST have our configuration NOT be set to the following:
 ```
 
 which is set by default. 
+
+
+# Android
+
+Follow these instructions:
+
+
+https://docs.expo.dev/submit/android/
+
+https://github.com/expo/fyi/blob/main/creating-google-service-account.md
