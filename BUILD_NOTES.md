@@ -83,3 +83,20 @@ Follow these instructions:
 https://docs.expo.dev/submit/android/
 
 https://github.com/expo/fyi/blob/main/creating-google-service-account.md
+
+## Upload Key Management
+
+You will have to upload a new certificate to the play store at some point.
+
+eas will manage the certificates for you but you need to upload the upload certificate.
+
+Here's how to export it
+
+- run eas credentials, select android, product, then keystore, then download existing credentials.
+- it will PRINT the full details of the keystore for you including the password.
+
+Then, you have to export the keystore, with the path and alias it provides.
+
+```text
+keytool -export -rfc -keystore "@kevin_common_xyz__commonxyz.jks" -alias 6b4b5b92044f12b34b71c7545b1b9342 -file upload_certificate.pem
+```
