@@ -34,7 +34,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.kevin_common_xyz.commonxyz",
+      "package": "xyz.common.mobile",
       "intentFilters": [
         {
           "action": "VIEW",
