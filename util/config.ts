@@ -25,7 +25,7 @@ const FRACK_CONFIG: Config = {
 
 const BETA_CONFIG: Config = {
   name: 'beta',
-  MAIN_APP_URL: 'https://common.xyz/',
+  MAIN_APP_URL: 'https://beta.commonwealth.im',
   KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
   KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
 }
