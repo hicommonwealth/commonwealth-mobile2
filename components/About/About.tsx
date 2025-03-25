@@ -75,6 +75,10 @@ export default function About(props: Props) {
         </View>
 
         <View style={styles.button}>
+          <Button title="Use beta" onPress={() => changeConfig('beta')} />
+        </View>
+
+        <View style={styles.button}>
           <Button title="Use common.xyz" onPress={() => changeConfig('prod')} />
         </View>
 
