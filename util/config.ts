@@ -1,5 +1,5 @@
 
-export type ConfigName = 'prod' | 'frack'
+export type ConfigName = 'prod' | 'frack' | 'beta'
 
 export type Config = {
   name: ConfigName
@@ -26,6 +26,15 @@ const FRACK_CONFIG: Config = {
   MAGIC_PUBLISHABLE_KEY: 'pk_live_EF89AABAFB87D6F4'
 }
 
+const BETA_CONFIG: Config = {
+  name: 'beta',
+  MAIN_APP_URL: 'https://common.xyz/',
+  KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
+  KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
+  MAGIC_PUBLISHABLE_KEY: 'pk_live_EF89AABAFB87D6F4'
+}
+
+
 export function setConfig(conf: ConfigName) {
   switch (conf) {
     case "prod":
@@ -34,7 +43,11 @@ export function setConfig(conf: ConfigName) {
     case "frack":
       config = FRACK_CONFIG
       return
-
+    case "beta":
+      config = BETA_CONFIG
+      return
+    default:
+      throw new Error("Unknown config: " + conf)
   }
 }
 
