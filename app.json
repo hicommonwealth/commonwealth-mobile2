@@ -2,7 +2,7 @@
   "expo": {
     "name": "Common",
     "slug": "commonxyz",
-    "version": "1.0.31",
+    "version": "1.0.32",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "commonxyz",
@@ -29,7 +29,7 @@
       "bundleIdentifier": "xyz.common.mobile"
     },
     "android": {
-      "versionCode": 3,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
