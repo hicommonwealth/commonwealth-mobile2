@@ -242,6 +242,7 @@ export default function Webapp() {
                 <WebView source={{ uri: url }}
                          ref={webViewRef}
                          sharedCookiesEnabled={true}
+                         domStorageEnabled={true}
                          onMessage={event => handleMessage(event)}
                          onShouldStartLoadWithRequest={handleNavigation}
                          webviewDebuggingEnabled={true}
