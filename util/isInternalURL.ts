@@ -8,6 +8,7 @@ const ACCEPTED_URL_PATTERNS: RegExp[] = [
   /^https:\/\/www\.google\.com\/recaptcha\//,
   /^https:\/\/appleid\.apple\.com/,
   /^https:\/\/challenge\.turnstile\.com/,
+  /^https:\/\/challenges\.cloudflare\.com/,
 ]
 
 export function isInternalURL(url: string) {
