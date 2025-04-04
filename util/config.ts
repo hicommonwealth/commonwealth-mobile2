@@ -1,5 +1,5 @@
 
-export type ConfigName = 'prod' | 'frack' | 'beta'
+export type ConfigName = 'prod' | 'frack' | 'beta' | 'test'
 
 export type Config = {
   name: ConfigName
@@ -18,7 +18,7 @@ const PROD_CONFIG: Config = {
 
 const FRACK_CONFIG: Config = {
   name: 'frack',
-  MAIN_APP_URL: 'https://commonwealth-frack.herokuapp.com/mobile-signin',
+  MAIN_APP_URL: 'https://commonwealth-frack.herokuapp.com',
   KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
   KNOCK_PUBLIC_API_KEY: "pk_EkjqgrIByZo85tIqdBkCmihVBtTB_ixY_37oTG_Au1Y",
 }
@@ -30,6 +30,12 @@ const BETA_CONFIG: Config = {
   KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
 }
 
+const TEST_CONFIG: Config = {
+  name: 'beta',
+  MAIN_APP_URL: 'https://iframetester.com/?url=https://example.com',
+  KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
+  KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
+}
 
 export function setConfig(conf: ConfigName) {
   switch (conf) {
@@ -41,6 +47,9 @@ export function setConfig(conf: ConfigName) {
       return
     case "beta":
       config = BETA_CONFIG
+      return
+    case "test":
+      config = TEST_CONFIG
       return
     default:
       throw new Error("Unknown config: " + conf)

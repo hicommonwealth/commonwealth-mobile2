@@ -182,6 +182,7 @@ export default function Webapp() {
   }
 
   const handleNavigation = useCallback((event: WebViewNavigation) => {
+
     // TODO: we're given a 'navigationType' for why these are used and
     // it might help us approve some of them.
     console.log("handleNavigation: ", event)
