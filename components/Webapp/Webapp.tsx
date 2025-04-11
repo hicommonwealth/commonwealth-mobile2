@@ -183,6 +183,10 @@ export default function Webapp() {
 
   const handleNavigation = useCallback((event: WebViewNavigation) => {
 
+    // TODO: I think mainDocumentURL is what we should be looking at not URL ...
+    // I think url if for ANY URL but mainDocumentURL would be different if it
+    // was an iframe.
+
     // TODO: we're given a 'navigationType' for why these are used and
     // it might help us approve some of them.
     console.log("handleNavigation: ", event)
