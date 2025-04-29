@@ -1,4 +1,12 @@
 
+First install the expo client:
+
+```text
+npm install --global eas-cli
+```
+
+Then do ```eas login``` to login to expo.
+
 # ```npx expo install``` will install new packages. 
 
 DO NOT do ```npm install``` because ```expo install``` will check for compatible 
@@ -67,9 +75,9 @@ Profile and submit that new build.
 We MUST have our configuration NOT be set to the following:
 
 ```json
-      "developmentClient": false,
-      "distribution": "internal",
-      "channel": "production"
+  "developmentClient": false,
+  "distribution": "internal",
+  "channel": "production"
 ```
 
 which is set by default. 
