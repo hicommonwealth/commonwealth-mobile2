@@ -1,5 +1,11 @@
+// START privy polyfills
+import 'fast-text-encoding';
+import 'react-native-get-random-values';
+import '@ethersproject/shims';
+// END privy polyfills
+
 import {PrivyProvider} from '@privy-io/expo';
-import React, { memo } from 'react';
+import React, {memo} from 'react';
 import {config} from "@/util/config";
 
 type DefaultPrivyProvider = {
@@ -14,8 +20,7 @@ export const LoadPrivy = memo(function LoadPrivy(props: DefaultPrivyProvider) {
   return (
     <PrivyProvider
       appId={config.PRIVY_APP_ID}
-      clientId={config.PRIVY_CLIENT_ID}
-    >
+      clientId={config.PRIVY_CLIENT_ID}>
       {children}
     </PrivyProvider>
   );

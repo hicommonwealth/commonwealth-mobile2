@@ -10,11 +10,9 @@ export default function RootLayout() {
 
   return (
     <Remounter>
-
       <SafeAreaProvider>
         <NetworkDetector/>
       </SafeAreaProvider>
-
     </Remounter>
   )
 
