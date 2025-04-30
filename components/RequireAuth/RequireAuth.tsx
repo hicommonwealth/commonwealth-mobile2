@@ -1,11 +1,13 @@
 import {config} from "@/util/config"
 import {DoAuth} from "@/components/RequireAuth/DoAuth";
+import {PrivyElements} from "@privy-io/expo/ui";
+import React, {memo} from "react";
 
 type Props = {
   children: React.ReactNode;
 }
 
-export const RequireAuth = (props: Props) => {
+export const RequireAuth = memo(function (props: Props){
 
   const { children } = props;
 
@@ -13,6 +15,11 @@ export const RequireAuth = (props: Props) => {
     return children
   }
 
-  return <DoAuth>{children}</DoAuth>
+  return (
+    <>
+      <PrivyElements/>
+      <DoAuth>{children}</DoAuth>
+    </>
+  )
 
-}
+})

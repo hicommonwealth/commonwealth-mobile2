@@ -5,8 +5,9 @@
     "paths": {
       "@/*": [
         "./*"
-      ]
-    }
+      ],
+    },
+    "moduleResolution": "bundler"
   },
   "include": [
     "**/*.ts",

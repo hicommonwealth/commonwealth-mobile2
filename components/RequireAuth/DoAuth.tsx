@@ -1,5 +1,4 @@
-import {config} from "@/util/config"
-import {usePrivy} from '@privy-io/expo';
+import { usePrivy} from '@privy-io/expo';
 import {PrivyLogin} from "@/components/PrivyLogin/PrivyLogin";
 
 type Props = {

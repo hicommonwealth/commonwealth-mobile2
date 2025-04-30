@@ -19,5 +19,9 @@ export const WaitForPrivy = memo(function WaitForPrivy(
     );
   }
 
-  return children;
+  return (
+    <>
+      {children}
+    </>
+  )
 });
