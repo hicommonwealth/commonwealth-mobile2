@@ -1,5 +1,6 @@
 import {usePrivy} from '@privy-io/expo';
 import React, {memo} from 'react';
+import {LoadingView} from "@/components/LoadingView/LoadingView";
 
 type WaitForPrivyProps = {
   children: React.ReactNode;
@@ -13,11 +14,8 @@ export const WaitForPrivy = memo(function WaitForPrivy(
   const { isReady } = usePrivy();
 
   if (!isReady) {
-    // TODO: use our loading indicator.
     return (
-      <>
-        Waiting for privy...
-      </>
+      <LoadingView/>
     );
   }
 

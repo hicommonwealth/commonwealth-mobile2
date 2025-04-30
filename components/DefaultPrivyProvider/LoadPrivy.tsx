@@ -12,10 +12,12 @@ type DefaultPrivyProvider = {
   children: React.ReactNode;
 };
 
+/**
+ * Load privy. The polyfills MUST be loaded above via imports. They CANNOT be
+ * loaded elsewhere.
+ */
 export const LoadPrivy = memo(function LoadPrivy(props: DefaultPrivyProvider) {
   const { children } = props;
-
-  if (!config.PRIVY_APP_ID) return <div>Privy not configured in .env</div>;
 
   return (
     <PrivyProvider
