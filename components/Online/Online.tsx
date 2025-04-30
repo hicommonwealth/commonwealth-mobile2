@@ -1,6 +1,7 @@
 import React from "react";
 import Webapp from "@/components/Webapp/Webapp";
 import {DefaultPrivyProvider} from "@/components/DefaultPrivyProvider/DefaultPrivyProvider";
+import {RequireAuth} from "@/components/RequireAuth/RequireAuth";
 
 export default function Online() {
 
@@ -9,7 +10,9 @@ export default function Online() {
 
   return (
     <DefaultPrivyProvider>
-      <Webapp/>
+      <RequireAuth>
+        <Webapp/>
+      </RequireAuth>
     </DefaultPrivyProvider>
   )
 }
