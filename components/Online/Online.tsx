@@ -1,5 +1,6 @@
 import React from "react";
 import Webapp from "@/components/Webapp/Webapp";
+import {DefaultPrivyProvider} from "@/components/DefaultPrivyProvider/DefaultPrivyProvider";
 
 export default function Online() {
 
@@ -7,6 +8,8 @@ export default function Online() {
   // re-mount the main view.
 
   return (
-    <Webapp/>
+    <DefaultPrivyProvider>
+      <Webapp/>
+    </DefaultPrivyProvider>
   )
 }
