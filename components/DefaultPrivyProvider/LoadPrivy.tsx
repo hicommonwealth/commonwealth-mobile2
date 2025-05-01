@@ -25,7 +25,14 @@ export const LoadPrivy = memo(function LoadPrivy(props: DefaultPrivyProvider) {
       <PrivyFonts />
       <PrivyProvider
         appId={config.PRIVY_APP_ID}
-        clientId={config.PRIVY_CLIENT_ID}>
+        clientId={config.PRIVY_CLIENT_ID}
+        config={{
+          embedded: {
+            ethereum: {
+              createOnLogin: 'users-without-wallets',
+            },
+          },
+        }}>
         {children}
       </PrivyProvider>
     </>
