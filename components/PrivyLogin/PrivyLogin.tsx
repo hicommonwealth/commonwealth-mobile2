@@ -10,8 +10,6 @@ export const PrivyLogin = () => {
 
   const [mode, setMode] = React.useState<AuthMode | undefined>(undefined)
 
-  // FIXME try to unmount and then show JUST PrivyElements...
-
   const handleEmail = () => {
     setMode('email')
   }
@@ -24,7 +22,7 @@ export const PrivyLogin = () => {
 
   if (mode === 'email') {
     return (
-      <LoginWithEmail/>
+      <LoginWithEmail onCancel={() => setMode(undefined)}/>
     )
   }
 
@@ -32,7 +30,7 @@ export const PrivyLogin = () => {
     <View style={styles.container}>
 
       <Button onPress={handleGoogle} title='Login with Google'/>
-      <Button onPress={() => setMode('email')} title='Login with Eail'/>
+      <Button onPress={handleEmail} title='Login with Email'/>
       {/*<Button onPress={() => login({provider: 'apple'})} title='Login with Apple'/>*/}
     </View>
   )

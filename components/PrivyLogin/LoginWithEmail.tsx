@@ -1,12 +1,25 @@
 import {useLoginWithEmail} from '@privy-io/expo';
 import React, {useState} from "react";
 import {Button, TextInput, View, Text} from "react-native";
+import {CodeDialog} from "@/components/PrivyLogin/CodeDialog";
 
-export function LoginWithEmail() {
+type Props = {
+  onCancel: () => void;
+}
+
+export function LoginWithEmail(props: Props) {
+  const {onCancel} = props;
   const [email, setEmail] = useState('');
   const {sendCode, loginWithCode} = useLoginWithEmail();
   const [codeSent, setCodeSent] = useState(false);
   const [code, setCode] = useState("");
+
+  const handleCode = (code: string) => {
+    async function doAsync() {
+      await loginWithCode({code: code, email})
+    }
+    doAsync().catch(console.error);
+  }
 
   const handleSendCode = () => {
 
@@ -40,15 +53,10 @@ export function LoginWithEmail() {
 
       {codeSent && (
         <>
-          <TextInput
-            value={code}
-            onChangeText={setCode}
-            placeholder="Code"
-            inputMode="text"
-          />
 
-          <Button onPress={() => loginWithCode({code: code, email})}
-                  title='Login'/>
+          <CodeDialog onComplete={handleCode}
+                      headerText={'Enter the code we sent to your email'}
+                      onCancel={onCancel} />
         </>
       )}
     </View>
