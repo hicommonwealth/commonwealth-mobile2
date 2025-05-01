@@ -17,7 +17,6 @@ export function EnterEmail(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.loginBox}>
-        <Text style={styles.header}>Login</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
