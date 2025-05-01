@@ -13,7 +13,6 @@ export function LoginWithEmail(props: Props) {
   const [email, setEmail] = useState('');
   const {sendCode, loginWithCode} = useLoginWithEmail();
   const [codeSent, setCodeSent] = useState(false);
-  const [code, setCode] = useState("");
 
   const handleCode = (code: string) => {
     async function doAsync() {
@@ -22,8 +21,8 @@ export function LoginWithEmail(props: Props) {
     doAsync().catch(console.error);
   }
 
-  const handleSendCode = () => {
-
+  const handleSendCode = (email: string) => {
+    setEmail(email);
     async function doAsync() {
       await sendCode({email});
       setCodeSent(true);
@@ -37,7 +36,7 @@ export function LoginWithEmail(props: Props) {
     <View style={{flex: 1}}>
 
       {! codeSent && (
-        <EnterEmail onEmail={setEmail} onCancel={onCancel}/>
+        <EnterEmail onEmail={handleSendCode} onCancel={onCancel}/>
       )}
 
       {codeSent && (

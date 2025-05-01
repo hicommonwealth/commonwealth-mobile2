@@ -11,7 +11,7 @@ export function EnterEmail(props: Props) {
   const [email, setEmail] = useState('');
 
   const handleSendCode = () => {
-    onEmail(email)
+    onEmail(email);
   };
 
   return (
@@ -25,7 +25,14 @@ export function EnterEmail(props: Props) {
           inputMode="email"
           style={styles.input}
         />
-        <Button onPress={handleSendCode} title="Send Code" />
+        <View style={styles.buttonRow}>
+          <View style={styles.button}>
+            <Button onPress={onCancel} title="Cancel" color="#888" />
+          </View>
+          <View style={styles.button}>
+            <Button onPress={handleSendCode} title="Send Code" />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -53,5 +60,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingHorizontal: 12,
     marginBottom: 16,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 4,
   },
 });
