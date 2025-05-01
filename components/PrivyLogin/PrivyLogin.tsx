@@ -2,16 +2,13 @@ import {View, Button, StyleSheet} from "react-native";
 import {useLoginWithOAuth} from "@privy-io/expo";
 import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
+import {LoginWithSMS} from "@/components/PrivyLogin/LoginWithSMS";
 
-type AuthMode = 'email';
+type AuthMode = 'email' | 'sms';
 
 export const PrivyLogin = () => {
   const {login} = useLoginWithOAuth();
   const [mode, setMode] = React.useState<AuthMode | undefined>(undefined);
-
-  const handleEmail = () => {
-    setMode('email');
-  };
 
   const handleGoogle = () => {
     login({provider: 'google'}).catch(console.error);
@@ -23,6 +20,12 @@ export const PrivyLogin = () => {
     );
   }
 
+  if (mode === 'sms') {
+    return (
+      <LoginWithSMS onCancel={() => setMode(undefined)} />
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonGroup}>
@@ -30,7 +33,10 @@ export const PrivyLogin = () => {
           <Button onPress={handleGoogle} title="Login with Google" />
         </View>
         <View style={styles.button}>
-          <Button onPress={handleEmail} title="Login with Email" />
+          <Button onPress={() => setMode('email')} title="Login with Email" />
+        </View>
+        <View style={styles.button}>
+          <Button onPress={() => setMode('sms')} title="Login with SMS" />
         </View>
         {/*<View style={styles.button}>
           <Button onPress={() => login({provider: 'apple'})} title="Login with Apple" />
