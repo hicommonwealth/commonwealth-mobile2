@@ -10,7 +10,7 @@ export const AuthDebug = () => {
 
   return (
     <View>
-      <Text>Logged in as user: {JSON.stringify(user, null, 2)}</Text>
+      <Text>Logged in as user: {user?.id}</Text>
 
       <Button title="Logout" onPress={handleLogout}/>
     </View>
