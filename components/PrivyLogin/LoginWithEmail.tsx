@@ -33,11 +33,11 @@ export function LoginWithEmail(props: Props) {
   }
 
   return (
-    <View>
-      <Text>Login</Text>
+    <View style={{flex: 1}}>
 
       {! codeSent && (
         <>
+          <Text>Login</Text>
           <TextInput
             value={email}
             onChangeText={setEmail}

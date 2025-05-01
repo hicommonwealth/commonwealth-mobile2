@@ -94,15 +94,22 @@ export const CodeDialog = ({ onComplete, onCancel, headerText }: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: 24,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   body: {
     alignItems: 'center',
   },
   title: {
     marginBottom: 8,
+    fontSize: 32,
+    textAlign: 'center',
   },
   subtitle: {
     marginBottom: 24,
+    fontSize: 18,
+    textAlign: 'center',
   },
   codeRow: {
     flexDirection: 'row',
