@@ -1,13 +1,14 @@
 import {View, Button} from "react-native";
 import {useLoginWithOAuth} from "@privy-io/expo";
-import {PrivyElements} from "@privy-io/expo/ui";
 import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
+
+type AuthMode = 'email'
 
 export const PrivyLogin = () => {
   const {login} = useLoginWithOAuth();
 
-  const [mode, setMode] = React.useState<string>('email')
+  const [mode, setMode] = React.useState<AuthMode | undefined>(undefined)
 
   // FIXME try to unmount and then show JUST PrivyElements...
 

@@ -12,12 +12,20 @@ export const RequireAuth = memo(function (props: Props){
   const { children } = props;
 
   if (! config.PRIVY_ENABLED) {
+    // two component levels are required here.  if Auth is not enabled, we have
+    // to return BEFORE we try to use the privy load.
     return children
   }
 
+  // FIXME: add the PrivyElements color scheme here...
+
   return (
     <>
-      <PrivyElements/>
+      <PrivyElements config={{
+        mfa: {
+          enableMfaVerificationUIs: true
+        }
+      }}/>
       <DoAuth>{children}</DoAuth>
     </>
   )
