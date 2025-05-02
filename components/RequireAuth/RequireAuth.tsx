@@ -17,7 +17,7 @@ export const RequireAuth = memo(function (props: Props){
     return children
   }
 
-  // FIXME: add the PrivyElements color scheme here...
+  // TODO: add the PrivyElements color scheme here...
 
   return (
     <>

@@ -1,3 +1,45 @@
+# Privy Auth
+
+Privy is the source of truth for auth.
+
+We make the webapp auth last LONGER than privy auth.
+
+The following assumes they're using the mobile app, with privy enabled.
+
+## Not authenticated
+
+This is the default/initial state.  RequireAuth forces them through the auth
+flow.  We then push the auth status information into the client and it triggers
+auth.
+
+## Authenticated 
+
+This is the status when they are authenticated already in the client.  
+
+They're already authenticated in react-native, so the webview loads up properly.
+
+Their session in the browser is still active, so the app loads as normal. 
+
+## Accidental DE-authentication
+
+If *somehow* the user is not authenticated, we call SignOut again which triggers
+the auth flow in react-native.  
+
+This could happen with clock skew or a lost cookie but normally shouldn't happen.
+
+## Sign Out 
+
+If the user tries to "Sign Out" in the webapp, we actually sign them out in
+react-native via RPC
+
+At this point the RequireAuth component loads, and they're forced through the local auth status.
+
+## RPS required for this
+
+- privySignOut: forcibly sign out the user in react-native so RequireAuth is triggered 
+
+# Magic Auth
+
 Here's how auth works.
 
 The client only loads the webapp. 
