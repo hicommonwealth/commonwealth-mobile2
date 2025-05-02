@@ -9,7 +9,7 @@ type Broadcaster = (status: IPrivyAuthStatus) => void
 /**
  * This broadcasts the privy status to the webapp...
  */
-export function usePrivyBroadcaster(broadcaster: Broadcaster | undefined) {
+export function usePrivyAuthStatusBroadcaster(broadcaster: Broadcaster | undefined) {
 
   const status = usePrivyAuthStatus()
 

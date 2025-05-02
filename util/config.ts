@@ -9,6 +9,12 @@ export type Config = {
   PRIVY_APP_ID: string;
   PRIVY_CLIENT_ID: string;
   PRIVY_ENABLED: boolean
+
+  /**
+   * When true, we do not continue auth as normal, and forward it to the client,
+   * instead, we show a debug screen with the user information from Privy.
+   */
+  PRIVY_DEBUG: boolean
 }
 
 const PROD_CONFIG: Config = {
@@ -20,6 +26,7 @@ const PROD_CONFIG: Config = {
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: false,
+  PRIVY_DEBUG: false,
 }
 
 const FRACK_CONFIG: Config = {
@@ -30,6 +37,7 @@ const FRACK_CONFIG: Config = {
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: true,
+  PRIVY_DEBUG: true,
 }
 
 const BETA_CONFIG: Config = {
@@ -40,16 +48,18 @@ const BETA_CONFIG: Config = {
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: true,
+  PRIVY_DEBUG: false,
 }
 
 const TEST_CONFIG: Config = {
   name: 'test',
-  MAIN_APP_URL: 'https://iframetester.com/?url=https://example.com',
+  MAIN_APP_URL: 'http://192.168.86.42',
   KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
   KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: true,
+  PRIVY_DEBUG: false,
 }
 
 export function setConfig(conf: ConfigName) {
@@ -71,4 +81,4 @@ export function setConfig(conf: ConfigName) {
   }
 }
 
-export let config = PROD_CONFIG
+export let config = FRACK_CONFIG
