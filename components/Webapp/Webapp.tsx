@@ -11,6 +11,14 @@ import * as Notifications from "expo-notifications";
 import {rewriteExpoURL} from "@/components/Webapp/rewriteExpoURL";
 import SafeAreaContainer from "@/components/SafeAreaContainer/SafeAreaContainer";
 
+// START privy polyfills
+import 'fast-text-encoding';
+import 'react-native-get-random-values';
+import '@ethersproject/shims';
+// END privy polyfills
+
+import {usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
+
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
  */
@@ -54,6 +62,7 @@ export default function Webapp() {
   const webViewRef = useRef<WebView | null>(null);
   const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
   const canGoBackRef = useRef(false);
+  const privyAuthStatus = usePrivyAuthStatus()
 
   const triggerRefresh = () => {
 
@@ -87,6 +96,17 @@ export default function Webapp() {
   const retryWebview = () => {
     setError(undefined);
   }
+
+  useEffect(() => {
+    if (webViewRef.current) {
+      const msg = JSON.stringify({
+        type: 'privy.auth-status',
+        data: privyAuthStatus
+      })
+      console.log("Sending privy auth status: " + msg)
+      webViewRef.current.postMessage(msg)
+    }
+  }, [privyAuthStatus])
 
   useEffect(() => {
 

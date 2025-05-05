@@ -53,7 +53,9 @@ const BETA_CONFIG: Config = {
 
 const TEST_CONFIG: Config = {
   name: 'test',
-  MAIN_APP_URL: 'http://192.168.86.42',
+  // TODO: this won't work now because privy requires https
+  // for anything other than localhost.
+  MAIN_APP_URL: 'http://192.168.86.42:8080',
   KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
   KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
