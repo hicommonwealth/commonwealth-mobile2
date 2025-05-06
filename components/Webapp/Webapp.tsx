@@ -79,6 +79,7 @@ export default function Webapp() {
 
   };
 
+  // TODO: refactor this to a hook.
   const notificationsListener = useMemo(() => {
 
     const postMessage = (msg: string) => {
@@ -177,8 +178,17 @@ export default function Webapp() {
 
   const handleMessage = (event: WebViewMessageEvent) => {
 
+    const postMessage = (msg: string) => {
+      if (webViewRef.current) {
+        console.log("FIXME 123 Sending message: " + msg)
+        webViewRef.current.postMessage(msg)
+      } else {
+        console.log("FIXME 123.1 NOT Sending message: " + msg)
+      }
+    }
+
     notificationsListener.handleMessage(event)
-    signMessageListener(event)
+    signMessageListener(event, postMessage)
 
     const msg = JSON.parse(event.nativeEvent.data);
 
@@ -225,6 +235,18 @@ export default function Webapp() {
   if (error) {
     return <Error error={error} onRetry={retryWebview}/>;
   }
+
+  useEffect(() => {
+
+    setInterval(() => {
+      console.log("Sending message to webview... at " + Date.now())
+      webViewRef.current?.postMessage(JSON.stringify({'hello': 'world'}))
+    }, 1000)
+
+    return () => {
+      console.log("Webapp unmounting...")
+    }
+  }, [])
 
   console.log(`Rendering with mode ${mode} for url: ` + url)
 
