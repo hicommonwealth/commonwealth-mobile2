@@ -66,7 +66,7 @@ export default function Webapp() {
   const privyAuthStatus = usePrivyAuthStatus()
   const signMessageListener = useSignMessageListener();
 
-  const triggerRefresh = () => {
+  const triggerRefresh = useCallback(() => {
 
     try {
       setRefreshing(true);
@@ -77,22 +77,22 @@ export default function Webapp() {
       setRefreshing(false);
     }
 
-  };
+  }, []);
+
+  const postMessage = useCallback((message: string) => {
+    const escaped = JSON.stringify(message);
+    webViewRef.current?.injectJavaScript(
+      `window.dispatchEvent(new MessageEvent('message', { data: ${escaped} }));`
+    );
+  }, [])
 
   // TODO: refactor this to a hook.
   const notificationsListener = useMemo(() => {
-
-    const postMessage = (msg: string) => {
-      if (webViewRef.current) {
-        webViewRef.current.postMessage(msg)
-      }
-    }
-
     return new NotificationsListener(postMessage, status => {
       console.log("Got listener notification permission status: " + status)
       setNotificationStatus(status);
     });
-  }, [])
+  }, [postMessage])
 
   console.log("URL: " + url)
 
@@ -107,9 +107,9 @@ export default function Webapp() {
         data: privyAuthStatus
       })
       console.log("Sending privy auth status: " + msg)
-      webViewRef.current.postMessage(msg)
+      postMessage(msg)
     }
-  }, [privyAuthStatus])
+  }, [privyAuthStatus, postMessage])
 
   useEffect(() => {
 
@@ -178,15 +178,6 @@ export default function Webapp() {
 
   const handleMessage = (event: WebViewMessageEvent) => {
 
-    const postMessage = (msg: string) => {
-      if (webViewRef.current) {
-        console.log("FIXME 123 Sending message: " + msg)
-        webViewRef.current.postMessage(msg)
-      } else {
-        console.log("FIXME 123.1 NOT Sending message: " + msg)
-      }
-    }
-
     notificationsListener.handleMessage(event)
     signMessageListener(event, postMessage)
 
@@ -239,23 +230,14 @@ export default function Webapp() {
   useEffect(() => {
 
     setInterval(() => {
-      if (webViewRef.current) {
-        console.log("Sending(1) message to webview... at " + Date.now())
-        webViewRef.current.postMessage(JSON.stringify({'hello': 'world' + Date.now()}))
-
-        webViewRef.current?.injectJavaScript(`
-          window.dispatchEvent(new MessageEvent('message', { data: 'hello from React Native' }));
-        `);
-
-      } else {
-        console.log("Webview NOT READY.")
-      }
+      // console.log("Sending hello world message...")
+      // postMessage(JSON.stringify({'hello': 'world' + Date.now()}))
     }, 1000)
 
     return () => {
       console.log("Webapp unmounting...")
     }
-  }, [])
+  }, [postMessage])
 
   console.log(`Rendering with mode ${mode} for url: ` + url)
 
