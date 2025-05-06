@@ -7,7 +7,7 @@ type RequestArguments = {
   params?: Array<any> | undefined;
 };
 
-export function usePrivyEthereumWalletRequest() {
+export function usePrivyEthereumWalletRequestListener() {
   const {wallets} = useEmbeddedEthereumWallet();
 
   const handler = useCallback(async (request: RequestArguments): Promise<any> => {
