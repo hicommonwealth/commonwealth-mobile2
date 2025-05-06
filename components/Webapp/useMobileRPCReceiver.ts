@@ -26,7 +26,8 @@ type ProtoResponseObject<Response> = {
 export function useMobileRPCReceiver<Request, Response>(type: string,
                                                         handler: (request: Request) => Promise<Response>) {
 
-  const invoker = useCallback(async (protoRequest: ProtoRequestObject<Request>) => {
+  const invoker = useCallback(async (protoRequest: ProtoRequestObject<Request>,
+                                     postMessage: (msg: string) => void) => {
     console.log("protoRequest", protoRequest)
     const data = await handler(protoRequest.data)
 
@@ -47,7 +48,7 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
     const protoRequest = toProtoRequest<Request>(type, event.nativeEvent.data);
 
     if (protoRequest) {
-      invoker(protoRequest)
+      invoker(protoRequest, postMessage)
         .catch(e => {
           console.error("Could not handle RPC: ", e)
 

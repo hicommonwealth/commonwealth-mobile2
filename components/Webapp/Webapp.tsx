@@ -21,6 +21,7 @@ import {usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
 import {usePrivySignMessageListener} from "@/components/Webapp/usePrivySignMessageListener";
 import { config } from "@/util/config";
 import {usePrivyLogoutListener} from "@/components/Webapp/usePrivyLogoutListener";
+import {usePrivyEthereumWalletRequest} from "@/components/Webapp/usePrivyEthereumWalletRequest";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -68,6 +69,7 @@ export default function Webapp() {
   const privyAuthStatus = usePrivyAuthStatus()
   const signMessageListener = usePrivySignMessageListener();
   const privyLogoutListener = usePrivyLogoutListener();
+  const privyEthereumWalletRequest = usePrivyEthereumWalletRequest()
 
   const triggerRefresh = useCallback(() => {
 
@@ -184,7 +186,8 @@ export default function Webapp() {
     notificationsListener.handleMessage(event)
     signMessageListener(event, postMessage)
     privyLogoutListener(event, postMessage)
-
+    privyEthereumWalletRequest(event, postMessage)
+    
     const msg = JSON.parse(event.nativeEvent.data);
 
     if (msg.type === 'about') {
