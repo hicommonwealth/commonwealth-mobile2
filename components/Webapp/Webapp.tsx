@@ -239,8 +239,17 @@ export default function Webapp() {
   useEffect(() => {
 
     setInterval(() => {
-      console.log("Sending message to webview... at " + Date.now())
-      webViewRef.current?.postMessage(JSON.stringify({'hello': 'world'}))
+      if (webViewRef.current) {
+        console.log("Sending(1) message to webview... at " + Date.now())
+        webViewRef.current.postMessage(JSON.stringify({'hello': 'world' + Date.now()}))
+
+        webViewRef.current?.injectJavaScript(`
+          window.dispatchEvent(new MessageEvent('message', { data: 'hello from React Native' }));
+        `);
+
+      } else {
+        console.log("Webview NOT READY.")
+      }
     }, 1000)
 
     return () => {
