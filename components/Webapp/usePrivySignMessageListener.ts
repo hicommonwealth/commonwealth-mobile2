@@ -2,7 +2,7 @@ import {useSignMessage} from "@privy-io/expo/ui";
 import {useCallback} from "react";
 import {useMobileRPCReceiver} from "@/components/Webapp/useMobileRPCReceiver";
 
-export function useSignMessageListener() {
+export function usePrivySignMessageListener() {
 
   const {signMessage} = useSignMessage()
 

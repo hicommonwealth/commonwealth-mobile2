@@ -63,8 +63,6 @@ export function usePrivyAuthStatus() {
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [identityToken, setIdentityToken] = useState<string | null>(null)
 
-  // FIXME: getIdentityToken and getAccessToken have to be called now...
-
   useEffect(() => {
 
     async function doAsync() {

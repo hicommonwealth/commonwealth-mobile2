@@ -18,7 +18,9 @@ import '@ethersproject/shims';
 // END privy polyfills
 
 import {usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
-import {useSignMessageListener} from "@/components/Webapp/useSignMessageListener";
+import {usePrivySignMessageListener} from "@/components/Webapp/usePrivySignMessageListener";
+import { config } from "@/util/config";
+import {usePrivyLogoutListener} from "@/components/Webapp/usePrivyLogoutListener";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -64,7 +66,8 @@ export default function Webapp() {
   const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
   const canGoBackRef = useRef(false);
   const privyAuthStatus = usePrivyAuthStatus()
-  const signMessageListener = useSignMessageListener();
+  const signMessageListener = usePrivySignMessageListener();
+  const privyLogoutListener = usePrivyLogoutListener();
 
   const triggerRefresh = useCallback(() => {
 
@@ -180,6 +183,7 @@ export default function Webapp() {
 
     notificationsListener.handleMessage(event)
     signMessageListener(event, postMessage)
+    privyLogoutListener(event, postMessage)
 
     const msg = JSON.parse(event.nativeEvent.data);
 
@@ -280,7 +284,7 @@ export default function Webapp() {
                               }}
                             />
                           }>
-                <WebView source={{ uri: 'https://commonwealth-frack.herokuapp.com/_internal/debug-privy-mobile' }}
+                <WebView source={{ uri: config.WEBAPP_DEBUG_URL ?? url }}
                          ref={webViewRef}
                          sharedCookiesEnabled={true}
                          domStorageEnabled={true}
