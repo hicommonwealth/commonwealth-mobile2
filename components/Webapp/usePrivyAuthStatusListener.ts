@@ -1,0 +1,15 @@
+import {useCallback} from "react";
+import {useMobileRPCReceiver} from "@/components/Webapp/useMobileRPCReceiver";
+import {IPrivyAuthStatus, usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
+
+export function usePrivyAuthStatusListener() {
+  const privyAuthStatus = usePrivyAuthStatus();
+
+  const handler = useCallback(async (request: {}): Promise<IPrivyAuthStatus> => {
+    return await privyAuthStatus()
+  }, [privyAuthStatus])
+
+  return useMobileRPCReceiver<{}, IPrivyAuthStatus>('privy.authStatus', handler)
+
+}
+

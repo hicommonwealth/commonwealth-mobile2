@@ -1,5 +1,5 @@
 import {WalletSsoSource} from "@/util/WalletSsoSource";
-import {useEffect, useMemo, useState} from "react";
+import {useCallback, useMemo} from "react";
 import {config} from "@/util/config";
 import {useEmbeddedEthereumWallet, useIdentityToken, usePrivy} from "@privy-io/expo";
 
@@ -25,31 +25,8 @@ export interface IPrivyAuthStatus {
   userAuth: UserAuth | null,
 }
 
-// TODO what are the problems here
-// - initial login is easy...
-//   - there is a single source of truth
-//     - react-native realizes its offline
-//     - then triggers login in react-native
-//     - when complete, we forward this to the client
-// - FIXME: do I have the user status, in react-native?
-//    - I THINK we do so I could have them load RequireAuth
-//      and then send the token data to the client again.
-//    - FIXME: it depends on how useUSerStatus works... I think.
-// - FIXME manual logout needs to work too...
-//   - FIXME signOut DOES NOT work in the client ...
-//      it triggers it it react-native...
-
-
-
-// TODO: I think the client needs to have a way to trigger auth...
-
-// TODO: we need the auth token,
-// TODO: we need the auth type... SMS, email, google
 // TODO: what about solana wallets?
 // TODO: what about bitcoin wallets?
-
-// TODO: major issue, if the client EXPIRES, how do we get the latest access
-// token?
 
 export function usePrivyAuthStatus() {
 
@@ -60,24 +37,6 @@ export function usePrivyAuthStatus() {
 
   const enabled = config.PRIVY_ENABLED
   const authenticated = !!user && !!wallet
-  const [accessToken, setAccessToken] = useState<string | null>(null)
-  const [identityToken, setIdentityToken] = useState<string | null>(null)
-
-  useEffect(() => {
-
-    async function doAsync() {
-      if (user) {
-        console.log("Getting access and identity tokens...")
-        const accessToken = await getAccessToken()
-        const identityToken = await getIdentityToken()
-        setAccessToken(accessToken)
-        setIdentityToken(identityToken)
-      }
-    }
-
-    doAsync().catch(console.error)
-
-  }, [user])
 
   const ssoProvider: WalletSsoSource | null = useMemo(() => {
     return user?.linked_accounts.map(account => {
@@ -115,34 +74,36 @@ export function usePrivyAuthStatus() {
     }).find(current => current !== null) ?? null
   }, [])
 
-  const userAuth: UserAuth | null = useMemo(() => {
+  return useCallback(async (): Promise<IPrivyAuthStatus> => {
 
-    if (user && identityToken && accessToken && ssoProvider && wallet) {
-      return {
-        id: user.id,
-        identityToken,
-        ssoOAuthToken: accessToken,
-        ssoProvider,
-        address: wallet?.address ?? null,
+    async function createUserAuth(): Promise<UserAuth | null> {
+      if (user && ssoProvider) {
+
+        console.log("Getting access and identity tokens...")
+        const accessToken = await getAccessToken()
+        const identityToken = await getIdentityToken()
+
+        const userAuth: UserAuth = {
+          id: user.id,
+          identityToken: identityToken!,
+          ssoOAuthToken: accessToken!,
+          ssoProvider,
+          address: wallet?.address ?? null,
+        }
+
+        return userAuth
+
       }
+      return null
     }
-
-    return null
-
-  }, [user, identityToken, accessToken, ssoProvider, wallet])
-
-  const status: IPrivyAuthStatus = useMemo(() => {
 
     return {
       enabled,
       authenticated,
-      address: wallet.address || null,
-      userAuth
+      userAuth: await createUserAuth()
     }
 
-  }, [enabled, authenticated, wallet, userAuth])
-
-  return status
+  }, [ssoProvider, user, wallet, getAccessToken, getIdentityToken])
 
 }
 

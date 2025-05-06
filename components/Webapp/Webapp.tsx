@@ -66,7 +66,6 @@ export default function Webapp() {
   const webViewRef = useRef<WebView | null>(null);
   const [notificationStatus, setNotificationStatus] = useState<Notifications.PermissionStatus | undefined>(undefined);
   const canGoBackRef = useRef(false);
-  const privyAuthStatus = usePrivyAuthStatus()
   const signMessageListener = usePrivySignMessageListener();
   const privyLogoutListener = usePrivyLogoutListener();
   const privyEthereumWalletRequest = usePrivyEthereumWalletRequestListener()
@@ -104,17 +103,6 @@ export default function Webapp() {
   const retryWebview = () => {
     setError(undefined);
   }
-
-  useEffect(() => {
-    if (webViewRef.current) {
-      const msg = JSON.stringify({
-        type: 'privy.auth-status',
-        data: privyAuthStatus
-      })
-      console.log("Sending privy auth status: " + msg)
-      postMessage(msg)
-    }
-  }, [privyAuthStatus, postMessage])
 
   useEffect(() => {
 
