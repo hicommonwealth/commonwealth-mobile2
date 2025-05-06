@@ -11,10 +11,16 @@ export type Config = {
   PRIVY_ENABLED: boolean
 
   /**
-   * When true, we do not continue auth as normal, and forward it to the client,
+   * When true, we do not continue auth as normal (and forward it to the client),
    * instead, we show a debug screen with the user information from Privy.
    */
   PRIVY_DEBUG: boolean
+
+  /**
+   * When defined, we load this URL instead of the default URL in the webapp for
+   * debug purposes.
+   */
+  WEBAPP_DEBUG_URL: string | null
 }
 
 const PROD_CONFIG: Config = {
@@ -27,6 +33,7 @@ const PROD_CONFIG: Config = {
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: false,
   PRIVY_DEBUG: false,
+  WEBAPP_DEBUG_URL: null,
 }
 
 const FRACK_CONFIG: Config = {
@@ -38,6 +45,8 @@ const FRACK_CONFIG: Config = {
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: true,
   PRIVY_DEBUG: false,
+  WEBAPP_DEBUG_URL: null,
+  // WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-privy-mobile',
 }
 
 const BETA_CONFIG: Config = {
@@ -49,6 +58,7 @@ const BETA_CONFIG: Config = {
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: true,
   PRIVY_DEBUG: false,
+  WEBAPP_DEBUG_URL: null,
 }
 
 const TEST_CONFIG: Config = {
@@ -62,6 +72,7 @@ const TEST_CONFIG: Config = {
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_ENABLED: true,
   PRIVY_DEBUG: false,
+  WEBAPP_DEBUG_URL: null,
 }
 
 export function setConfig(conf: ConfigName) {
