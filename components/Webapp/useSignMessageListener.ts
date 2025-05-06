@@ -1,41 +1,23 @@
 import {useSignMessage} from "@privy-io/expo/ui";
 import {useCallback} from "react";
-import {WebViewMessageEvent} from "react-native-webview";
+import {useMobileRPCReceiver} from "@/components/Webapp/useMobileRPCReceiver";
 
 export function useSignMessageListener() {
 
   const {signMessage} = useSignMessage()
 
-  return useCallback((event: WebViewMessageEvent, postMessage: (msg: string) => void) => {
-    const msg = JSON.parse(event.nativeEvent.data);
+  const handleSignMessage = useCallback(async (message: string): Promise<string> => {
+    const result = await signMessage({message})
 
-    if (msg.type === 'privy.sign_message') {
-      const message: string = msg.data.message
-
-      const __requestID = msg.__requestID
-
-      console.log("FIXME: ", msg)
-      console.log("FIXME: __requestID: ", __requestID)
-
-      async function doAsync() {
-        // send the response back...
-        const result = await signMessage({message})
-        console.log("FIXME sending result back: result: ", result)
-
-        console.log("FIXME: 2345" + typeof result)
-        postMessage(JSON.stringify({
-          data: {
-            signature: result,
-            // FIXME which __requestID
-            __requestID
-          },
-          __requestID
-        }))
-      }
-
-      doAsync().catch(console.error)
-
+    if (typeof result === 'string') {
+      // the result type of signMessage is wrong.
+      return result;
     }
+
+    return result.signature
+
   }, [signMessage])
+
+  return useMobileRPCReceiver<string, string>('privy.signMessage', handleSignMessage)
 
 }
