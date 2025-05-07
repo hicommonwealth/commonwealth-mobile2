@@ -11,7 +11,7 @@ export const RequireAuth = memo(function (props: Props){
 
   const { children } = props;
 
-  if (! config.PRIVY_ENABLED) {
+  if (! config.PRIVY_MOBILE_ENABLED) {
     // two component levels are required here.  if Auth is not enabled, we have
     // to return BEFORE we try to use the privy load.
     return children

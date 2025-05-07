@@ -28,7 +28,7 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
 
   const invoker = useCallback(async (protoRequest: ProtoRequestObject<Request>,
                                      postMessage: (msg: string) => void) => {
-    console.log("protoRequest", protoRequest)
+    console.log("protoRequest", JSON.stringify(protoRequest, null, 2))
     const data = await handler(protoRequest.data)
 
     const protoResponse: ProtoResponseObject<Response> = {
@@ -38,6 +38,8 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
       data,
       error: null
     }
+
+    console.log("FIXME sending protoResponse:", JSON.stringify(protoResponse, null, 2))
 
     postMessage(JSON.stringify(protoResponse))
 
@@ -61,6 +63,8 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
               message: (e as any).message ?? 'unknown error'
             }
           }
+
+          console.log("FIXME sending protoResponse:", JSON.stringify(protoResponse, null, 2))
 
           postMessage(JSON.stringify(protoResponse))
         })

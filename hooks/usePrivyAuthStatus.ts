@@ -35,7 +35,7 @@ export function usePrivyAuthStatus() {
   const {wallets} = useEmbeddedEthereumWallet()
   const wallet = wallets[0] ?? undefined
 
-  const enabled = config.PRIVY_ENABLED
+  const enabled = config.PRIVY_MOBILE_ENABLED
   const authenticated = !!user && !!wallet
 
   const ssoProvider: WalletSsoSource | null = useMemo(() => {

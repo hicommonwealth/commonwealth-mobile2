@@ -19,6 +19,8 @@ export const DoAuth = (props: Props) => {
     return <PrivyLogin/>
   }
 
+  console.log("FIXME: PRIVY_DEBUG: " + config.PRIVY_DEBUG);
+
   if (config.PRIVY_DEBUG) {
     return (
       <AuthDebug/>
