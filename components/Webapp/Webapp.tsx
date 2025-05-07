@@ -291,6 +291,10 @@ export default function Webapp() {
                          onNavigationStateChange={(event) => {
                            canGoBackRef.current = event.canGoBack;
                          }}
+                         injectedJavaScriptBeforeContentLoaded={`
+                            window.PRIVY_MOBILE_ENABLED = ${config.PRIVY_MOBILE_ENABLED};
+                            true;
+                        `}
                          style={{ flex: 1 }} />
               </ScrollView>
             )}

@@ -12,7 +12,7 @@ export const DefaultPrivyProvider = memo(function DefaultPrivyProvider(
 ) {
   const { children } = props;
 
-  if (!config.PRIVY_ENABLED) {
+  if (!config.PRIVY_MOBILE_ENABLED) {
     return children;
   }
 
