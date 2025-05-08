@@ -5,6 +5,10 @@ import {
   useNotificationsRequestPermissionsAsyncListener
 } from "@/hooks/notifications/useNotificationsRequestPermissionsAsyncListener";
 
+/**
+ * General notifications listener to make sure they're all backed together so we
+ * can register tehm once.
+ */
 export function useNotificationsListener() {
 
   const notificationsGetPermissionsAsyncListener = useNotificationsGetPermissionsAsyncListener()
