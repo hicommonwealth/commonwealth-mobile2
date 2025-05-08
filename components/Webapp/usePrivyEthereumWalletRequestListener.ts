@@ -13,7 +13,8 @@ export function usePrivyEthereumWalletRequestListener() {
   const handler = useCallback(async (request: RequestArguments): Promise<any> => {
     const wallet = wallets[0]; // Replace this with your desired wallet
     const provider = await wallet.getProvider();
-    return await provider.request(request)
+    const result = await provider.request(request)
+    return result;
   }, [wallets])
 
   return useMobileRPCReceiver<RequestArguments, any>('privy.ethereumWalletRequest', handler)

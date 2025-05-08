@@ -31,15 +31,19 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
     console.log("protoRequest", JSON.stringify(protoRequest, null, 2))
     const data = await handler(protoRequest.data)
 
+    // FIXME: I think this can return null... which could be breaking the client...
+
+    console.log("FIXME: got data from handler: ", JSON.stringify(data, null, 2))
+
     const protoResponse: ProtoResponseObject<Response> = {
       $id: protoRequest.$id,
       type: type,
       variant: 'response',
-      data,
+      data: data ?? null,
       error: null
     }
 
-    console.log("FIXME sending protoResponse:", JSON.stringify(protoResponse, null, 2))
+    console.log("FIXME sending protoResponse:", JSON.stringify(protoResponse, null, 2) + '\n for protoRequest: ' + JSON.stringify(protoRequest, null, 2))
 
     postMessage(JSON.stringify(protoResponse))
 
