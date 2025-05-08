@@ -1,7 +1,7 @@
 import {useCallback} from "react";
 import {WebViewMessageEvent} from "react-native-webview";
 
-type EvenSubscribeMessage<EventData> = {
+type EvenSubscribeMessage = {
   $id: string;
   type: string;
   variant: 'event-subscribe';
