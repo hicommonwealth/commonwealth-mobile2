@@ -5,6 +5,7 @@ type EvenSubscribeMessage = {
   $id: string;
   type: string;
   variant: 'event-subscribe';
+  eventName: string;
 };
 
 
@@ -19,14 +20,14 @@ type EventUpdateMessage<EventData> = {
 };
 
 export function useMobileRPCEventBroadcaster<EventData>(type: string,
-                                                        listener: (callback: (update: EventData) => void) => void) {
+                                                        listener: (eventName: string, callback: (update: EventData) => void) => void) {
 
   return useCallback((event: WebViewMessageEvent, postMessage: (msg: string) => void) => {
 
     const subscribeMessage = toEvenSubscribeMessage<Request>(type, event.nativeEvent.data);
 
     if (subscribeMessage) {
-      listener((update: EventData) => {
+      listener(subscribeMessage.eventName, (update: EventData) => {
         const eventObject: EventUpdateMessage<EventData> = {
           $id: subscribeMessage.$id,
           type: type,
@@ -48,7 +49,7 @@ export function useMobileRPCEventBroadcaster<EventData>(type: string,
 function toEvenSubscribeMessage<Request>(
   type: string,
   data: any,
-): EvenSubscribeMessage<Request> | null {
+): EvenSubscribeMessage | null {
   const obj = messageToObject(data);
 
   if (obj && obj.type === type && obj.variant === 'event-subscribe') {
