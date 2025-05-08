@@ -23,6 +23,7 @@ import { config } from "@/util/config";
 import {usePrivyLogoutListener} from "@/hooks/privy/usePrivyLogoutListener";
 import {usePrivyEthereumWalletRequestListener} from "@/hooks/privy/usePrivyEthereumWalletRequestListener";
 import {usePrivyAuthStatusListener} from "@/hooks/privy/usePrivyAuthStatusListener";
+import {useNotificationsListener} from "@/hooks/notifications/useNotificationsListener";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -71,6 +72,7 @@ export default function Webapp() {
   const privyLogoutListener = usePrivyLogoutListener();
   const privyEthereumWalletRequest = usePrivyEthereumWalletRequestListener()
   const privyAuthStatusListener = usePrivyAuthStatusListener();
+  const rpcNotificationsListener = useNotificationsListener();
 
   const triggerRefresh = useCallback(() => {
 
@@ -178,6 +180,7 @@ export default function Webapp() {
     privyLogoutListener(event, postMessage)
     privyEthereumWalletRequest(event, postMessage)
     privyAuthStatusListener(event, postMessage)
+    rpcNotificationsListener(event, postMessage)
 
     const msg = JSON.parse(event.nativeEvent.data);
 
