@@ -49,7 +49,7 @@ const FRACK_CONFIG: Config = {
   PRIVY_MOBILE_ENABLED: true,
   PRIVY_DEBUG: true,
   WEBAPP_DEBUG_URL: null,
-  // WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-privy-mobile',
+  // WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-mobile',
 }
 
 const BETA_CONFIG: Config = {
