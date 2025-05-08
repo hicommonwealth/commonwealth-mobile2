@@ -18,11 +18,11 @@ import '@ethersproject/shims';
 // END privy polyfills
 
 import {usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
-import {usePrivySignMessageListener} from "@/components/Webapp/usePrivySignMessageListener";
+import {usePrivySignMessageListener} from "@/hooks/privy/usePrivySignMessageListener";
 import { config } from "@/util/config";
-import {usePrivyLogoutListener} from "@/components/Webapp/usePrivyLogoutListener";
-import {usePrivyEthereumWalletRequestListener} from "@/components/Webapp/usePrivyEthereumWalletRequestListener";
-import {usePrivyAuthStatusListener} from "@/components/Webapp/usePrivyAuthStatusListener";
+import {usePrivyLogoutListener} from "@/hooks/privy/usePrivyLogoutListener";
+import {usePrivyEthereumWalletRequestListener} from "@/hooks/privy/usePrivyEthereumWalletRequestListener";
+import {usePrivyAuthStatusListener} from "@/hooks/privy/usePrivyAuthStatusListener";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
