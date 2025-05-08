@@ -1,5 +1,5 @@
 import {useCallback} from "react";
-import {useMobileRPCReceiver} from "@/components/Webapp/useMobileRPCReceiver";
+import {useMobileRPCReceiver} from "@/hooks/rpc/useMobileRPCReceiver";
 import {usePrivy} from "@privy-io/expo";
 
 export function usePrivyLogoutListener() {

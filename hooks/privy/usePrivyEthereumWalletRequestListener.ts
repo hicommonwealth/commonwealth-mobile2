@@ -1,6 +1,6 @@
 import {useEmbeddedEthereumWallet} from "@privy-io/expo";
 import {useCallback} from "react";
-import {useMobileRPCReceiver} from "@/components/Webapp/useMobileRPCReceiver";
+import {useMobileRPCReceiver} from "@/hooks/rpc/useMobileRPCReceiver";
 
 type RequestArguments = {
   method: string;
