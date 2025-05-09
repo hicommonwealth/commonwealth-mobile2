@@ -36,6 +36,9 @@ export const PrivyLogin = () => {
           <Button onPress={() => handleOAuth({provider: 'apple'})} title="Login with Apple" />
         </View>
         <View style={styles.button}>
+          <Button onPress={() => handleOAuth({provider: 'discord'})} title="Login with Discord" />
+        </View>
+        <View style={styles.button}>
           <Button onPress={() => setMode('email')} title="Login with Email" />
         </View>
         <View style={styles.button}>
