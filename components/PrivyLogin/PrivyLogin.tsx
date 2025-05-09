@@ -1,8 +1,10 @@
-import {View, Button, StyleSheet} from "react-native";
+import {View, Button, StyleSheet, Image} from "react-native";
 import {LoginWithOAuthInput, useLoginWithOAuth} from "@privy-io/expo";
 import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
 import {LoginWithSMS} from "@/components/PrivyLogin/LoginWithSMS";
+
+const Logo = require('../../assets/images/adaptive-icon.png')
 
 type AuthMode = 'email' | 'sms';
 
@@ -28,7 +30,11 @@ export const PrivyLogin = () => {
 
   return (
     <View style={styles.container}>
+
       <View style={styles.buttonGroup}>
+
+        <Image source={Logo} style={styles.logo} />
+
         <View style={styles.button}>
           <Button onPress={() => handleOAuth({provider: 'google'})} title="Login with Google" />
         </View>
@@ -44,9 +50,11 @@ export const PrivyLogin = () => {
         <View style={styles.button}>
           <Button onPress={() => setMode('sms')} title="Login with SMS" />
         </View>
-        {/*<View style={styles.button}>
-          <Button onPress={() => login({provider: 'apple'})} title="Login with Apple" />
-        </View>*/}
+
+        <View style={{height: 200}}>
+
+        </View>
+
       </View>
     </View>
   );
@@ -54,15 +62,22 @@ export const PrivyLogin = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#ffffff',
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
+  },
+  section: {
+    flex: 1,
+  },
+  logo: {
+    width: 200,
+    height: 200,
   },
   buttonGroup: {
-    width: '100%',
-    maxWidth: 400,
     gap: 16,
+    padding: 24,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   button: {
     width: '100%',
