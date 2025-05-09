@@ -20,6 +20,7 @@
         "applinks:commonwealth-frack.herokuapp.com"
       ],
       "supportsTablet": true,
+      "usesAppleSignIn": true,
       "infoPlist": {
         "UIBackgroundModes": [
           "remote-notification"
@@ -72,6 +73,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      "expo-apple-authentication",
       "expo-router",
       [
         "expo-splash-screen",
