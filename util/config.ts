@@ -48,8 +48,8 @@ const FRACK_CONFIG: Config = {
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_MOBILE_ENABLED: true,
   PRIVY_DEBUG: true,
-  WEBAPP_DEBUG_URL: null,
-  // WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-mobile',
+  // WEBAPP_DEBUG_URL: null,
+  WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-mobile',
 }
 
 const BETA_CONFIG: Config = {
