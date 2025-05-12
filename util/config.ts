@@ -60,7 +60,7 @@ const BETA_CONFIG: Config = {
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
   PRIVY_MOBILE_ENABLED: true,
-  PRIVY_DEBUG: true,
+  PRIVY_DEBUG: false,
   WEBAPP_DEBUG_URL: null,
 }
 
