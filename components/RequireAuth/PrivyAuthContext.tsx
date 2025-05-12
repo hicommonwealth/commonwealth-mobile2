@@ -1,8 +1,9 @@
-import {createContext, memo, ReactNode, useContext, useEffect, useMemo, useState} from "react";
+import {createContext, memo, ReactNode, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {WalletSsoSource} from "@/util/WalletSsoSource";
 import {useEmbeddedEthereumWallet, useIdentityToken, useOAuthTokens, usePrivy} from "@privy-io/expo";
 import {config} from "@/util/config";
 import React from "react";
+import {toWalletSsoSource} from "@/util/toWalletSsoSource";
 
 /**
  * When the user is authenticated, this provides the data the user needs to
@@ -12,8 +13,8 @@ export interface UserAuth {
   id: string,
   address: string | null,
   identityToken: string,
-  ssoOAuthToken: string,
-  ssoProvider: WalletSsoSource,
+  ssoOAuthToken?: string,
+  ssoProvider?: WalletSsoSource,
 }
 
 export interface IPrivyAuthStatus {
@@ -39,79 +40,75 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   const {getIdentityToken} = useIdentityToken()
   const {wallets} = useEmbeddedEthereumWallet()
   const wallet = wallets[0] ?? undefined
-  const [fetchedIdentityToken, setFetchIdentityToken] = useState<string | null>(null)
-
-  const enabled = config.PRIVY_MOBILE_ENABLED
+  const [accessTokenProvider, setAccessTokenProvider] = useState<WalletSsoSource | null>(null)
+  const [accessToken, setAccessToken] = useState<string | null>(null)
+  const [userAuth, setUserAuth] = useState<UserAuth | null>(null)
   const authenticated = !!user && !!wallet
-
-  const ssoProvider: WalletSsoSource | null = useMemo(() => {
-    return user?.linked_accounts.map(account => {
-      switch(account.type) {
-        case "email":
-          return WalletSsoSource.Email
-        case "phone":
-          return WalletSsoSource.SMS
-        case "farcaster":
-          return WalletSsoSource.Farcaster
-        case "google_oauth":
-          return WalletSsoSource.Google
-        case "twitter_oauth":
-          return WalletSsoSource.Twitter
-        case "apple_oauth":
-          return WalletSsoSource.Apple
-        case "github_oauth":
-          return WalletSsoSource.Github
-        case "discord_oauth":
-          return WalletSsoSource.Discord
-        case "wallet":
-        case "smart_wallet":
-        case "passkey":
-        case "telegram":
-        case "linkedin_oauth":
-        case "spotify_oauth":
-        case "instagram_oauth":
-        case "tiktok_oauth":
-        case "custom_auth":
-        case "cross_app":
-        case "authorization_key":
-        default:
-          return null;
-      }
-    }).find(current => current !== null) ?? null
-  }, [])
-
+  const enabled = config.PRIVY_MOBILE_ENABLED
 
   useOAuthTokens({
     onOAuthTokenGrant: tokens => {
-      console.log("FIXME.1 got tokens: " , JSON.stringify(tokens, null, 2))
+      const source = toWalletSsoSource(tokens.provider)
+
+      if (source) {
+        setAccessTokenProvider(source)
+        setAccessToken(tokens.access_token)
+      } else {
+        console.error("Could not handle provider: " + tokens.provider)
+      }
     }
   })
+
+  const createUserAuth = useCallback((identityToken: string): UserAuth | null => {
+
+    if (user) {
+
+      // FIXME: this is the bug I think... if we have multiple auth tokens
+      // how do I konw which account it is linked to.. ?
+      console.log("Getting access and identity tokens...")
+
+      const userAuth: UserAuth = {
+        id: user.id,
+        identityToken: identityToken,
+        ssoOAuthToken: accessToken ?? undefined,
+        ssoProvider: accessTokenProvider ?? undefined,
+        address: wallet?.address ?? null,
+      }
+
+      return userAuth
+
+    }
+    return null
+
+  }, [user, wallet, getAccessToken, getIdentityToken, accessTokenProvider, accessToken])
 
   useEffect(() => {
 
     async function doAsync() {
       if (user) {
         const identityToken = await getIdentityToken()
-        console.log("FIXME: working with identity token... " + identityToken)
-        setFetchIdentityToken(identityToken)
+        if (identityToken) {
+          const userAuth = createUserAuth(identityToken)
+          setUserAuth(userAuth)
+          console.log("FIXME: working with identity token... " + identityToken)
+        } else {
+          console.error("No identity token.")
+        }
       } else {
         console.log("Clearing identity token... ")
-        setFetchIdentityToken(null)
+        setAccessTokenProvider(null)
+        setAccessToken(null)
+        setUserAuth(null)
       }
     }
 
     doAsync().catch(console.error)
 
-  }, [user])
-
-  // FIXME: useEffect to get the identityToken...
+  }, [user, createUserAuth])
 
   return (
-    // <PrivyAuthContext.Provider value={}>
-    //   {props.children}
-    // </PrivyAuthContext.Provider>
-    <>
+    <PrivyAuthContext.Provider value={{enabled, authenticated, userAuth}}>
       {props.children}
-    </>
+    </PrivyAuthContext.Provider>
   )
 })

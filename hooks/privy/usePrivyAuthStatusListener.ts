@@ -4,7 +4,6 @@ import {IPrivyAuthStatus, usePrivyAuthStatus} from "@/hooks/privy/usePrivyAuthSt
 
 export function usePrivyAuthStatusListener() {
   const privyAuthStatus = usePrivyAuthStatus();
-
   const handler = useCallback(async (request: {}): Promise<IPrivyAuthStatus> => {
     return await privyAuthStatus()
   }, [privyAuthStatus])
