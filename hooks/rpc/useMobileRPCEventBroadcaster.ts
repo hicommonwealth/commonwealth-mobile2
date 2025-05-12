@@ -35,8 +35,6 @@ export function useMobileRPCEventBroadcaster<EventData>(type: string,
           data: update,
         }
 
-        console.log("FIXME sending eventObject:", JSON.stringify(eventObject, null, 2))
-
         postMessage(JSON.stringify(eventObject))
       })
     }

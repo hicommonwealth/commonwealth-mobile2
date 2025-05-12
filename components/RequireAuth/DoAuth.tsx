@@ -14,20 +14,11 @@ export const DoAuth = (props: Props) => {
 
   const { children } = props;
 
-  // FIXME ...
   const {user} = usePrivy();
-  useOAuthTokens({
-    onOAuthTokenGrant: tokens => {
-      console.log("FIXME: got tokens: ", JSON.stringify(tokens, null, 2))
-    }
-  })
-
 
   if (!user) {
     return <PrivyLogin/>
   }
-
-  console.log("FIXME: PRIVY_DEBUG: " + config.PRIVY_DEBUG);
 
   if (config.PRIVY_DEBUG) {
     return (

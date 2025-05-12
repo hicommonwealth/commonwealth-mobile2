@@ -63,10 +63,6 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
 
     if (user) {
 
-      // FIXME: this is the bug I think... if we have multiple auth tokens
-      // how do I konw which account it is linked to.. ?
-      console.log("Getting access and identity tokens...")
-
       const userAuth: UserAuth = {
         id: user.id,
         identityToken: identityToken,
@@ -90,7 +86,6 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
         if (identityToken) {
           const userAuth = createUserAuth(identityToken)
           setUserAuth(userAuth)
-          console.log("FIXME: working with identity token... " + identityToken)
         } else {
           console.error("No identity token.")
         }

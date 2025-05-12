@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {memo, useRef, useState} from 'react';
 import {
   View,
   TextInput,
@@ -15,7 +15,7 @@ type Props = {
   headerText: string;
 };
 
-export const CodeDialog = ({ onComplete, onCancel, headerText }: Props) => {
+export const CodeDialog = memo(({ onComplete, onCancel, headerText }: Props) => {
   const [digits, setDigits] = useState<string[]>(Array(6).fill(''));
   const inputs = useRef<Array<TextInput | null>>([]);
 
@@ -88,7 +88,7 @@ export const CodeDialog = ({ onComplete, onCancel, headerText }: Props) => {
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
