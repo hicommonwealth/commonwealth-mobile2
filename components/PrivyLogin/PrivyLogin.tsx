@@ -13,7 +13,11 @@ export const PrivyLogin = () => {
   const [mode, setMode] = React.useState<AuthMode | undefined>(undefined);
 
   const handleOAuth = (input: LoginWithOAuthInput) => {
-    login(input).catch(console.error);
+    async function doAsync() {
+      const user = await login(input)
+    }
+
+    doAsync().catch(console.error);
   };
 
   if (mode === 'email') {

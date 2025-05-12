@@ -1,12 +1,17 @@
-import {usePrivy} from "@privy-io/expo";
+import {useOAuthTokens, usePrivy} from "@privy-io/expo";
 import {Button, ScrollView, Text} from "react-native";
-import {useSignMessage} from "@privy-io/expo/ui";
-import {usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
+import {usePrivyAuthStatus} from "@/hooks/privy/usePrivyAuthStatus";
+import {useSignMessageWithRequest} from "@/hooks/privy/useSignMessageWithRequest";
 
 export const AuthDebug = () => {
   const {user, logout} = usePrivy();
   const privyAuthStatus = usePrivyAuthStatus()
-  const {signMessage} = useSignMessage()
+  const {signMessage} = useSignMessageWithRequest()
+
+  // FIXME: this DOES work but I need to figure out a way to store this until the auth flow is ready...
+  //useOAuthTokens();
+
+  console.log("user: ", JSON.stringify(user, null, 2))
 
   const handleLogout = () => {
     logout().catch(console.error)
@@ -14,7 +19,9 @@ export const AuthDebug = () => {
 
   const handleSignMessage = () => {
     async function doAsync() {
-      await signMessage({message: 'hello world'});
+      console.log("Going to sign message...")
+      const {signature} = await signMessage({message: 'hello world'});
+      console.log("Got signature: " + signature)
     }
     doAsync().catch(console.error);
   }

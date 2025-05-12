@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {IPrivyAuthStatus, usePrivyAuthStatus} from "@/hooks/usePrivyAuthStatus";
+import {IPrivyAuthStatus, usePrivyAuthStatus} from "@/hooks/privy/usePrivyAuthStatus";
 
 /**
  * The broadcaster sends the actual status to the webapp via the react-native bridge.

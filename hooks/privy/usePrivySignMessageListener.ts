@@ -1,12 +1,12 @@
-import {useSignMessage} from "@privy-io/expo/ui";
 import {useCallback} from "react";
 import {useMobileRPCReceiver} from "@/hooks/rpc/useMobileRPCReceiver";
+import {useSignMessageWithRequest} from "@/hooks/privy/useSignMessageWithRequest";
 
 export function usePrivySignMessageListener() {
 
-  const {signMessage} = useSignMessage()
+  const {signMessage} = useSignMessageWithRequest()
 
-  const handleSignMessage = useCallback(async (message: string): Promise<string> => {
+  const handleSignMessageWithSignMessage = useCallback(async (message: string): Promise<string> => {
     const result = await signMessage({message})
 
     if (typeof result === 'string') {
@@ -18,6 +18,6 @@ export function usePrivySignMessageListener() {
 
   }, [signMessage])
 
-  return useMobileRPCReceiver<string, string>('privy.signMessage', handleSignMessage)
+  return useMobileRPCReceiver<string, string>('privy.signMessage', handleSignMessageWithSignMessage)
 
 }

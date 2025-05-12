@@ -79,6 +79,8 @@ export function usePrivyAuthStatus() {
     async function createUserAuth(): Promise<UserAuth | null> {
       if (user && ssoProvider) {
 
+        // FIXME: this is the bug I think... if we have multiple auth tokens
+        // how do I konw which account it is linked to.. ?
         console.log("Getting access and identity tokens...")
         const accessToken = await getAccessToken()
         const identityToken = await getIdentityToken()
