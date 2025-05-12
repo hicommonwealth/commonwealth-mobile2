@@ -2,6 +2,7 @@ import {config} from "@/util/config"
 import {DoAuth} from "@/components/RequireAuth/DoAuth";
 import {PrivyElements} from "@privy-io/expo/ui";
 import React, {memo} from "react";
+import {PrivyAuthStatusProvider} from "@/components/RequireAuth/PrivyAuthContext";
 
 type Props = {
   children: React.ReactNode;
@@ -20,14 +21,14 @@ export const RequireAuth = memo(function (props: Props){
   // TODO: add the PrivyElements color scheme here...
 
   return (
-    <>
+    <PrivyAuthStatusProvider>
       <PrivyElements config={{
         mfa: {
           enableMfaVerificationUIs: true
         }
       }}/>
       <DoAuth>{children}</DoAuth>
-    </>
+    </PrivyAuthStatusProvider>
   )
 
 })

@@ -17,7 +17,6 @@ import 'react-native-get-random-values';
 import '@ethersproject/shims';
 // END privy polyfills
 
-import {usePrivyAuthStatus} from "@/hooks/privy/usePrivyAuthStatus";
 import {usePrivySignMessageListener} from "@/hooks/privy/usePrivySignMessageListener";
 import { config } from "@/util/config";
 import {usePrivyLogoutListener} from "@/hooks/privy/usePrivyLogoutListener";
