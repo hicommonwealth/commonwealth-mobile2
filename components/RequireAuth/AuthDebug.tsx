@@ -1,7 +1,7 @@
 import {usePrivy} from "@privy-io/expo";
 import {Button, ScrollView, Text} from "react-native";
-import {usePrivyAuthStatus} from "@/hooks/privy/usePrivyAuthStatus";
 import {useSignMessageWithRequest} from "@/hooks/privy/useSignMessageWithRequest";
+import {usePrivyAuthStatus} from "@/components/RequireAuth/PrivyAuthContext";
 
 export const AuthDebug = () => {
   const {user, logout} = usePrivy();
