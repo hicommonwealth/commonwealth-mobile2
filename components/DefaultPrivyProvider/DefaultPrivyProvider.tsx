@@ -12,10 +12,6 @@ export const DefaultPrivyProvider = memo(function DefaultPrivyProvider(
 ) {
   const { children } = props;
 
-  if (!config.PRIVY_MOBILE_ENABLED) {
-    return children;
-  }
-
   // NOTE normally, we would NOT mount the privy components, if the privy
   // feature flag was false, however, Privy won't work with that configuration.
   return (
