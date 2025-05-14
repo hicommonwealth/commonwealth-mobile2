@@ -4,13 +4,14 @@ import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
 type Props = {
   onEnter: (text: string) => void;
   onCancel: () => void;
+  headerText: string;
   placeholder: string;
   inputMode: 'tel' | 'email'
   label: string
 };
 
 export function EnterDialog(props: Props) {
-  const { onCancel, onEnter, label, inputMode, placeholder } = props;
+  const { onCancel, onEnter, label, inputMode, placeholder, headerText } = props;
   const [text, setText] = useState('');
 
   const handleEnter = () => {
@@ -20,6 +21,11 @@ export function EnterDialog(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.loginBox}>
+
+        <Text style={styles.title}>
+          {headerText}
+        </Text>
+
         <TextInput
           value={text}
           onChangeText={setText}
@@ -47,6 +53,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 24,
     backgroundColor: '#ffffff'
+  },
+  title: {
+    marginBottom: 8,
+    fontSize: 32,
+    textAlign: 'center',
   },
   loginBox: {
     width: '100%',

@@ -14,6 +14,7 @@ export function EnterEmail(props: Props) {
                  onCancel={onCancel}
                  placeholder="Email"
                  inputMode="email"
+                 headerText="Login With Your Email Address"
                  label="Send Code"/>
   );
 }

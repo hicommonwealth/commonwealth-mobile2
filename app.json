@@ -2,7 +2,7 @@
   "expo": {
     "name": "Common",
     "slug": "commonxyz",
-    "version": "1.0.43",
+    "version": "1.0.44",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "commonxyz",
@@ -15,7 +15,7 @@
       "androidCollapsedTitle": "Updates from Common"
     },
     "ios": {
-      "buildNumber": "43",
+      "buildNumber": "44",
       "associatedDomains": [
         "applinks:common.xyz",
         "applinks:commonwealth-frack.herokuapp.com"
@@ -31,7 +31,7 @@
       "bundleIdentifier": "xyz.common.mobile"
     },
     "android": {
-      "versionCode":43,
+      "versionCode":44,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

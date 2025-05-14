@@ -14,6 +14,7 @@ export function EnterPhone(props: Props) {
                  onCancel={onCancel}
                  placeholder="Phone Number"
                  inputMode="tel"
+                 headerText="Login With Your Phone Number"
                  label="Send Code"/>
   );
 }
