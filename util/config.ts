@@ -97,4 +97,4 @@ export function setConfig(conf: ConfigName) {
   }
 }
 
-export let config = FRACK_CONFIG
+export let config = PROD_CONFIG
