@@ -5,6 +5,7 @@ import {config} from "@/util/config";
 const ACCEPTED_URL_PATTERNS: RegExp[] = [
   /^https:\/\/auth\.magic\.link/,
   /^https:\/\/auth\.privy\.io/,
+  /^https:\/\/oauth\.telegram\.org/,
   /^https:\/\/api\.magic\.link/,
   /^https:\/\/www\.google\.com\/recaptcha\//,
   /^https:\/\/appleid\.apple\.com/,
