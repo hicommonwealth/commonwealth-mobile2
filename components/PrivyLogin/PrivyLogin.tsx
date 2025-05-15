@@ -13,6 +13,7 @@ export const PrivyLogin = () => {
   const [mode, setMode] = React.useState<AuthMode | undefined>(undefined);
 
   const handleOAuth = (input: LoginWithOAuthInput) => {
+    console.log("Handling login for: " + input.provider)
     async function doAsync() {
       const user = await login(input)
     }

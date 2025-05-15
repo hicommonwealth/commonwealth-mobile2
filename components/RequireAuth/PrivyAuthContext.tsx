@@ -67,6 +67,7 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
         id: user.id,
         identityToken: identityToken,
         ssoOAuthToken: accessToken ?? undefined,
+        // FIXME: this is the bug... there's no accessTokenProvider and maybe no access token!!!
         ssoProvider: accessTokenProvider ?? undefined,
         address: wallet?.address ?? null,
       }
@@ -80,8 +81,12 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
 
   useEffect(() => {
 
+    // FIXME: maybe this is the issue and we have to wait until we have both the
+    // accessToken and accessTokenProvider, and only THEN when we have
+    // everything wo we attempt to login...
     async function doAsync() {
-      if (user) {
+      if (user && accessToken && accessTokenProvider) {
+        console.log("Creating userAuth...")
         const identityToken = await getIdentityToken()
         if (identityToken) {
           const userAuth = createUserAuth(identityToken)
@@ -99,10 +104,14 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
 
     doAsync().catch(console.error)
 
-  }, [user, createUserAuth])
+  }, [user, createUserAuth, accessTokenProvider, accessToken])
 
   return (
-    <PrivyAuthContext.Provider value={{enabled, authenticated, userAuth}}>
+    <PrivyAuthContext.Provider value={{
+                                 enabled,
+                                 authenticated,
+                                 userAuth
+                               }}>
       {props.children}
     </PrivyAuthContext.Provider>
   )
