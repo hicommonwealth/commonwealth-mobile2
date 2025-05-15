@@ -1,6 +1,6 @@
 import {Dimensions, View} from "react-native"
 import React, {useRef, useState} from "react";
-import {Debug} from "./Debug";
+import {DebugView} from "./DebugView";
 
 type ModeType = 'debug' | 'default'
 
@@ -53,7 +53,7 @@ export const DebugGestureView = (props: Props) => {
       onTouchEnd={handleTouchEnd}>
       {mode === 'debug' && (
         <>
-          <Debug onClose={() => setMode('default')}/>
+          <DebugView onClose={() => setMode('default')}/>
         </>
       )}
 

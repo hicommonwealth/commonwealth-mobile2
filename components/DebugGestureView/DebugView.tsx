@@ -13,7 +13,7 @@ const appVersion = Constants.expoConfig?.version;
 
 const logEntries = getLogEntries()
 
-export function Debug(props: Props) {
+export function DebugView(props: Props) {
 
   const remounter = useRemounter()
 
