@@ -2,6 +2,7 @@ import {usePrivy} from "@privy-io/expo";
 import {Button, ScrollView, Text} from "react-native";
 import {useSignMessageWithRequest} from "@/hooks/privy/useSignMessageWithRequest";
 import {usePrivyAuthStatus} from "@/components/RequireAuth/PrivyAuthContext";
+import React from "react";
 
 export const AuthDebug = () => {
   const {user, logout} = usePrivy();
@@ -29,9 +30,14 @@ export const AuthDebug = () => {
 
       <Text>Privy auth status: {JSON.stringify(privyAuthStatus, null, 2)}</Text>
 
-      <Button title="Sign Message" onPress={handleSignMessage}/>
+      {user && (
+        <>
+          <Button title="Sign Message" onPress={handleSignMessage}/>
 
-      <Button title="Logout" onPress={handleLogout}/>
+          <Button title="Logout" onPress={handleLogout}/>
+        </>
+      )}
+
     </ScrollView>
   )
 

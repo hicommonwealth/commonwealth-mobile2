@@ -61,7 +61,8 @@
     "react-native-svg": "15.8.0",
     "react-native-webview": "13.13.5",
     "viem": "^2.29.1",
-    "ox": "0.6.7"
+    "ox": "0.6.7",
+    "@react-native-picker/picker": "2.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

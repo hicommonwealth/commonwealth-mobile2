@@ -23,6 +23,7 @@ import {usePrivyLogoutListener} from "@/hooks/privy/usePrivyLogoutListener";
 import {usePrivyEthereumWalletRequestListener} from "@/hooks/privy/usePrivyEthereumWalletRequestListener";
 import {usePrivyAuthStatusListener} from "@/hooks/privy/usePrivyAuthStatusListener";
 import {useNotificationsListener} from "@/hooks/notifications/useNotificationsListener";
+import {DebugView} from "@/components/DebugGestureView/DebugView";
 
 /**
  * Enable a fake URL bar to debug the URL we're visiting.
@@ -259,10 +260,12 @@ export default function Webapp() {
 
         {mode === 'about' && (
           <>
-            <About onClose={() => setMode('web')}
-                   userId={userInfo?.userId}
-                   knockJWT={userInfo?.knockJWT}
-                   url={url}/>
+            <DebugView onClose={() => setMode('web')}
+                       properties={{
+                         'url': url,
+                         'knockJWT': `${userInfo?.knockJWT}`,
+                         'userId': `${userInfo?.userId ?? ''}`
+                       }}/>
           </>
         )}
 
