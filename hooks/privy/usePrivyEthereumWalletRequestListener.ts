@@ -11,6 +11,11 @@ export function usePrivyEthereumWalletRequestListener() {
   const {wallets} = useEmbeddedEthereumWallet();
 
   const handler = useCallback(async (request: RequestArguments): Promise<any> => {
+
+    if (wallets.length === 0) {
+      throw new Error("No wallets")
+    }
+
     const wallet = wallets[0]; // Replace this with your desired wallet
     const provider = await wallet.getProvider();
 

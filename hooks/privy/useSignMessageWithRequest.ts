@@ -7,6 +7,11 @@ export function useSignMessageWithRequest() {
   const signMessage = useCallback(async (opts: {message: string}): Promise<{signature: string}> => {
 
     const {message} = opts
+
+    if (wallets.length === 0) {
+      throw new Error("No wallets")
+    }
+
     const wallet = wallets[0]; // Replace this with your desired wallet
     const provider = await wallet.getProvider();
 
