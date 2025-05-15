@@ -48,6 +48,7 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
 
   useOAuthTokens({
     onOAuthTokenGrant: tokens => {
+      console.log("onOAuthTokenGrant: ", JSON.stringify(tokens, null, 2))
       const source = toWalletSsoSource(tokens.provider)
 
       if (source) {
@@ -81,7 +82,8 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   useEffect(() => {
 
     async function doAsync() {
-      if (user) {
+      if (user && accessToken && accessTokenProvider) {
+        console.log("Creating userAuth...")
         const identityToken = await getIdentityToken()
         if (identityToken) {
           const userAuth = createUserAuth(identityToken)
@@ -91,18 +93,22 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
         }
       } else {
         console.log("Clearing identity token... ")
-        setAccessTokenProvider(null)
-        setAccessToken(null)
+        // setAccessTokenProvider(null)
+        // setAccessToken(null)
         setUserAuth(null)
       }
     }
 
     doAsync().catch(console.error)
 
-  }, [user, createUserAuth])
+  }, [user, createUserAuth, accessTokenProvider, accessToken])
 
   return (
-    <PrivyAuthContext.Provider value={{enabled, authenticated, userAuth}}>
+    <PrivyAuthContext.Provider value={{
+                                 enabled,
+                                 authenticated,
+                                 userAuth
+                               }}>
       {props.children}
     </PrivyAuthContext.Provider>
   )

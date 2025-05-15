@@ -3,6 +3,7 @@ import {PrivyLogin} from "@/components/PrivyLogin/PrivyLogin";
 import {AuthDebug} from "@/components/RequireAuth/AuthDebug";
 import {config} from "@/util/config";
 import {DebugGestureView} from "@/components/DebugGestureView/DebugGestureView";
+import {usePrivyAuthStatus} from "@/components/RequireAuth/PrivyAuthContext";
 
 type Props = {
   children: React.ReactNode;
@@ -15,9 +16,11 @@ export const DoAuth = (props: Props) => {
 
   const { children } = props;
 
+  const authStatus = usePrivyAuthStatus()
   const {user} = usePrivy();
 
-  if (!user) {
+  console.log("User is: " + user?.id)
+  if (!authStatus.userAuth && !user) {
     return (
       <DebugGestureView>
         <PrivyLogin/>
