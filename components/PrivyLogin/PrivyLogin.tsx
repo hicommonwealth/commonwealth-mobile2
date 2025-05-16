@@ -1,8 +1,9 @@
-import {View, Button, StyleSheet, Image} from "react-native";
+import {View, StyleSheet, Image, TouchableOpacity, Text} from "react-native";
 import {LoginWithOAuthInput, useLoginWithOAuth} from "@privy-io/expo";
 import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
 import {LoginWithSMS} from "@/components/PrivyLogin/LoginWithSMS";
+import { Button } from "react-native-paper";
 
 const Logo = require('../../assets/images/adaptive-icon.png')
 
@@ -40,21 +41,9 @@ export const PrivyLogin = () => {
 
         <Image source={Logo} style={styles.logo} />
 
-        <View style={styles.button}>
-          <Button onPress={() => handleOAuth({provider: 'google'})} title="Login with Google" />
-        </View>
-        <View style={styles.button}>
-          <Button onPress={() => handleOAuth({provider: 'apple'})} title="Login with Apple" />
-        </View>
-        <View style={styles.button}>
-          <Button onPress={() => handleOAuth({provider: 'discord'})} title="Login with Discord" />
-        </View>
-        <View style={styles.button}>
-          <Button onPress={() => setMode('email')} title="Login with Email" />
-        </View>
-        <View style={styles.button}>
-          <Button onPress={() => setMode('sms')} title="Login with SMS" />
-        </View>
+        <LoginButton onClick={() => handleOAuth({provider: 'google'})} text="LOGIN WITH GOOGLE"/>
+        <LoginButton onClick={() => setMode('email')} text="LOGIN WITH EMAIL"/>
+        <LoginButton onClick={() => setMode('sms')} text="LOGIN WITH SMS"/>
 
         <View style={{height: 200}}>
 
@@ -64,6 +53,25 @@ export const PrivyLogin = () => {
     </View>
   );
 };
+
+type LoginButtonProps = {
+  onClick: () => void;
+  text: string;
+}
+
+const LoginButton = (props: LoginButtonProps) => {
+  return (
+    <Button onPress={props.onClick}
+            style={{
+              borderRadius: 4,
+              width: '100%'
+            }}
+            mode='outlined'
+            labelStyle={{ color: 'black' }}>
+      {props.text}
+    </Button>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -78,13 +86,10 @@ const styles = StyleSheet.create({
     height: 200,
   },
   buttonGroup: {
-    gap: 16,
+    gap: 12,
     padding: 24,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  button: {
-    width: '100%',
   },
 });

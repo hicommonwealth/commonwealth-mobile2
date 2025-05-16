@@ -1,4 +1,4 @@
-import {Button, ScrollView, Text, View} from "react-native";
+import {ScrollView, Text, View} from "react-native";
 import React, {useCallback, useState} from "react";
 import Constants from 'expo-constants';
 import {config, ConfigName, setConfig} from "@/util/config";
@@ -6,6 +6,7 @@ import {getLogEntries} from "@/util/interceptLogging";
 import {useRemounter} from "@/components/Remounter/useRemounter";
 import {Picker} from "@react-native-picker/picker";
 import {AuthDebug} from "@/components/RequireAuth/AuthDebug";
+import { Menu, Button } from 'react-native-paper';
 
 type Props = {
   properties?: {[key: string]: string};
@@ -20,6 +21,11 @@ export function DebugView(props: Props) {
 
   const remounter = useRemounter()
   const [selectedView, setSelectedView] = useState<string>('properties');
+  const [menuVisible, setMenuVisible] = React.useState(false);
+
+
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
 
   const changeConfig = useCallback((conf: ConfigName) => {
     setConfig(conf)
@@ -28,15 +34,17 @@ export function DebugView(props: Props) {
 
   return (
     <View style={styles.main}>
-
-      <Picker
-        selectedValue={selectedView}
-        onValueChange={(itemValue) => setSelectedView(itemValue)}>
-        <Picker.Item label="Configs" value="configs" />
-        <Picker.Item label="Properties" value="properties" />
-        <Picker.Item label="Logs" value="logs" />
-        <Picker.Item label="Privy" value="privy" />
-      </Picker>
+a
+      <Menu
+        visible={menuVisible}
+        onDismiss={closeMenu}
+        anchor={<Button onPress={openMenu}>{selectedView}</Button>}
+      >
+        <Menu.Item onPress={() => { setSelectedView('configs'); closeMenu(); }} title="configs" />
+        <Menu.Item onPress={() => { setSelectedView('properties'); closeMenu(); }} title="properties" />
+        <Menu.Item onPress={() => { setSelectedView('logs'); closeMenu(); }} title="logs" />
+        <Menu.Item onPress={() => { setSelectedView('privy'); closeMenu(); }} title="privy" />
+      </Menu>
 
       {selectedView === 'properties' && (
         <>
@@ -79,23 +87,33 @@ export function DebugView(props: Props) {
           <View style={styles.centered}>
 
             <View style={styles.button}>
-              <Button title="Use frack" onPress={() => changeConfig('frack')} />
+              <Button onPress={() => changeConfig('frack')}>
+                Use frack
+              </Button>
             </View>
 
             <View style={styles.button}>
-              <Button title="Use beta" onPress={() => changeConfig('beta')} />
+              <Button onPress={() => changeConfig('beta')}>
+                Use beta
+              </Button>
             </View>
 
             <View style={styles.button}>
-              <Button title="Use test" onPress={() => changeConfig('test')} />
+              <Button onPress={() => changeConfig('test')}>
+                Use test
+              </Button>
             </View>
 
             <View style={styles.button}>
-              <Button title="Use common.xyz" onPress={() => changeConfig('prod')} />
+              <Button onPress={() => changeConfig('prod')}>
+                Use common.xyz
+              </Button>
             </View>
 
             <View style={styles.button}>
-              <Button title="Close" onPress={props.onClose} />
+              <Button onPress={props.onClose}>
+                Close
+              </Button>
             </View>
           </View>
         </>
