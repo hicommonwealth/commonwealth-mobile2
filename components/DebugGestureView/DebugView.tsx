@@ -127,6 +127,7 @@ const styles = {
     flex: 1
   },
   main: {
+    paddingTop: 10,
     flex: 1,
     backgroundColor: 'white'
   },

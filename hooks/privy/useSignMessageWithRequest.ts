@@ -15,6 +15,8 @@ export function useSignMessageWithRequest() {
     const wallet = wallets[0]; // Replace this with your desired wallet
     const provider = await wallet.getProvider();
 
+    console.log("Signing with wallet: " + wallet)
+
     const signature = await provider.request({method: 'personal_sign', params: [message, wallet.address]})
 
     if (typeof signature === 'string') {
