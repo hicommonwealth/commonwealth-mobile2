@@ -4,6 +4,8 @@ import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
 import {LoginWithSMS} from "@/components/PrivyLogin/LoginWithSMS";
 import { Button } from "react-native-paper";
+import GoogleIcon from "@/components/icons/GoogleIcon";
+import EmailIcon from "@/components/icons/EmailIcon";
 
 const Logo = require('../../assets/images/adaptive-icon.png')
 
@@ -41,8 +43,12 @@ export const PrivyLogin = () => {
 
         <Image source={Logo} style={styles.logo} />
 
-        <LoginButton onClick={() => handleOAuth({provider: 'google'})} text="LOGIN WITH GOOGLE"/>
-        <LoginButton onClick={() => setMode('email')} text="LOGIN WITH EMAIL"/>
+        <LoginButton onClick={() => handleOAuth({provider: 'google'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH GOOGLE"/>
+        <LoginButton onClick={() => setMode('email')}
+                     icon={() => <EmailIcon width={48} height={48}/>}
+                     text="LOGIN WITH EMAIL"/>
         <LoginButton onClick={() => setMode('sms')} text="LOGIN WITH SMS"/>
 
         <View style={{height: 200}}>
@@ -57,17 +63,31 @@ export const PrivyLogin = () => {
 type LoginButtonProps = {
   onClick: () => void;
   text: string;
+  icon?: () => JSX.Element
 }
 
 const LoginButton = (props: LoginButtonProps) => {
+  const {icon} = props
   return (
     <Button onPress={props.onClick}
             style={{
               borderRadius: 4,
               width: '100%'
             }}
+            icon={icon}
             mode='outlined'
-            labelStyle={{ color: 'black' }}>
+            contentStyle={{
+              flexDirection: 'row',
+              justifyContent: 'center', // center text+icon
+              alignItems: 'center',
+            }}
+            labelStyle={{
+              color: 'black',
+              textAlign: 'center',
+              flex: 1,
+              paddingRight: 48
+            }}>
+
       {props.text}
     </Button>
   )
