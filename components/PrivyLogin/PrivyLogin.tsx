@@ -43,6 +43,7 @@ export const PrivyLogin = () => {
 
         <Image source={Logo} style={styles.logo} />
 
+        <Text style={styles.banner}>Sign into Common</Text>
         <LoginButton onClick={() => handleOAuth({provider: 'google'})}
                      icon={() => <GoogleIcon width={48} height={48}/>}
                      text="LOGIN WITH GOOGLE"/>
@@ -51,7 +52,7 @@ export const PrivyLogin = () => {
                      text="LOGIN WITH EMAIL"/>
         <LoginButton onClick={() => setMode('sms')} text="LOGIN WITH SMS"/>
 
-        <View style={{height: 200}}>
+        <View style={{flex: 1}}>
 
         </View>
 
@@ -98,12 +99,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     flex: 1,
   },
-  section: {
-    flex: 1,
+  banner: {
+    fontSize: 30,
+    fontWeight: 400,
+    paddingBottom: 10
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
   },
   buttonGroup: {
     gap: 12,
