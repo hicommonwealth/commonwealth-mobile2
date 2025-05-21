@@ -6,6 +6,7 @@ import {LoginWithSMS} from "@/components/PrivyLogin/LoginWithSMS";
 import { Button } from "react-native-paper";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
+import SMSIcon from "@/components/icons/SMSIcon";
 
 const Logo = require('../../assets/images/adaptive-icon.png')
 
@@ -50,7 +51,9 @@ export const PrivyLogin = () => {
         <LoginButton onClick={() => setMode('email')}
                      icon={() => <EmailIcon width={48} height={48}/>}
                      text="LOGIN WITH EMAIL"/>
-        <LoginButton onClick={() => setMode('sms')} text="LOGIN WITH SMS"/>
+        <LoginButton onClick={() => setMode('sms')}
+                     icon={() => <SMSIcon width={48} height={48}/>}
+                     text="LOGIN WITH SMS"/>
 
         <View style={{flex: 1}}>
 
