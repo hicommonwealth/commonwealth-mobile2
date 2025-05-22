@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, Image, StyleSheet, Text, TextInput, View} from 'react-native';
+const Logo = require('../../assets/images/adaptive-icon.png')
 
 type Props = {
   onEnter: (text: string) => void;
@@ -21,6 +22,10 @@ export function EnterDialog(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.loginBox}>
+
+        <View style={styles.logoBox}>
+          <Image source={Logo} style={styles.logo} />
+        </View>
 
         <Text style={styles.title}>
           {headerText}
@@ -48,16 +53,23 @@ export function EnterDialog(props: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 24,
     backgroundColor: '#ffffff'
   },
+  logo: {
+    width: 150,
+    height: 150,
+  },
   title: {
     marginBottom: 8,
     fontSize: 32,
     textAlign: 'center',
+  },
+  logoBox: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   loginBox: {
     width: '100%',

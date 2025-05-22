@@ -40,6 +40,7 @@ export const PrivyLogin = () => {
   return (
     <View style={styles.container}>
 
+      <View style={styles.inner}>
       <View style={styles.buttonGroup}>
 
         <Image source={Logo} style={styles.logo} />
@@ -59,6 +60,7 @@ export const PrivyLogin = () => {
 
         </View>
 
+      </View>
       </View>
     </View>
   );
@@ -101,6 +103,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
+  },
+  inner: {
+    flex: 1,
+    maxWidth: 500,
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto'
   },
   banner: {
     fontSize: 30,
