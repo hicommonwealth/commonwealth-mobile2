@@ -32,6 +32,7 @@
     },
     "android": {
       "versionCode": 50,
+      "runtimeVersion": "1.0.50",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
