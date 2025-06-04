@@ -108,3 +108,17 @@ Then, you have to export the keystore, with the path and alias it provides.
 ```text
 keytool -export -rfc -keystore "@kevin_common_xyz__commonxyz.jks" -alias 6b4b5b92044f12b34b71c7545b1b9342 -file upload_certificate.pem
 ```
+
+# Releasing iOS versions
+
+Once you've released done a 'submit' in a few minutes it will show up in TestFlight.
+
+Which is here:
+
+https://appstoreconnect.apple.com/teams/7df71a49-6b07-4e12-a53e-2b3b86e7855a/apps/6739505409/testflight/ios
+
+once you see that version ready to release:
+
+- Click on the 'Distribution' tab at the top of the browser.
+- Then next to the 'iOS app' at the top left you'll see a blue 'plus' button
+- Click that and add the version number you want to release.  
