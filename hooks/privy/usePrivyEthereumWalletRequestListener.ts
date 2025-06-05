@@ -13,7 +13,7 @@ export function usePrivyEthereumWalletRequestListener() {
   const handler = useCallback(async (request: RequestArguments): Promise<any> => {
 
     if (wallets.length === 0) {
-      throw new Error("No wallets")
+      throw new Error("No wallets for usePrivyEthereumWalletRequestListener")
     }
 
     const wallet = wallets[0]; // Replace this with your desired wallet

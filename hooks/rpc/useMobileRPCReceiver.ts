@@ -50,7 +50,9 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
     if (protoRequest) {
       invoker(protoRequest, postMessage)
         .catch(e => {
-          console.error("Could not handle RPC: ", e)
+          // this should not be console.error or console.warn because expo shows
+          // those to the user.
+          console.log("WARN: Could not handle RPC: ", e)
 
           const protoResponse: ProtoResponseObject<Response> = {
             $id: protoRequest.$id,
@@ -61,8 +63,6 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
               message: (e as any).message ?? 'unknown error'
             }
           }
-
-          console.log("FIXME sending protoResponse:", JSON.stringify(protoResponse, null, 2))
 
           postMessage(JSON.stringify(protoResponse))
         })

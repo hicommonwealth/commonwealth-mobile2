@@ -9,7 +9,7 @@ export function useSignMessageWithRequest() {
     const {message} = opts
 
     if (wallets.length === 0) {
-      throw new Error("No wallets")
+      throw new Error("No wallets for useSignMessageWithRequest")
     }
 
     const wallet = wallets[0]; // Replace this with your desired wallet
