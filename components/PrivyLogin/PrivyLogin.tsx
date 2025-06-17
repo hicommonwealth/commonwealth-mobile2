@@ -8,7 +8,7 @@ import GoogleIcon from "@/components/icons/GoogleIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
 import SMSIcon from "@/components/icons/SMSIcon";
 
-const Logo = require('../../assets/images/adaptive-icon.png')
+const Logo = require('../../assets/images/login-logo.png')
 
 type AuthMode = 'email' | 'sms';
 
@@ -146,8 +146,10 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   logo: {
-    width: 75,
-    height: 75,
+    width: Math.floor(2312 * 0.1),
+    height: Math.floor(450 * 0.1)
+    // width: 75,
+    // height: 75,
   },
   buttonGroup: {
     gap: 12,
