@@ -1,4 +1,4 @@
-import {View, StyleSheet, Image, TouchableOpacity, Text} from "react-native";
+import {View, StyleSheet, Image, TouchableOpacity, Text, Linking} from "react-native";
 import {LoginWithOAuthInput, useLoginWithOAuth} from "@privy-io/expo";
 import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
@@ -24,6 +24,16 @@ export const PrivyLogin = () => {
 
     doAsync().catch(console.error);
   };
+
+  const handlePrivacyPolicy = () => {
+    Linking.openURL('https://common.xyz/privacy')
+      .catch(console.error)
+  }
+
+  const handleTOS = () => {
+    Linking.openURL('https://common.xyz/terms')
+      .catch(console.error)
+  }
 
   if (mode === 'email') {
     return (
@@ -74,7 +84,9 @@ export const PrivyLogin = () => {
                      text="LOGIN WITH SMS"/>
 
         <View style={{flex: 1}}>
-
+          <Text style={styles.terms}>
+            By connecting to Common you agree to our <Text style={styles.link} onPress={handleTOS}>Terms of Service</Text> and <Text style={styles.link} onPress={handlePrivacyPolicy}>Privacy Policy</Text>.
+          </Text>
         </View>
 
       </View>
@@ -134,8 +146,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 75,
+    height: 75,
   },
   buttonGroup: {
     gap: 12,
@@ -144,4 +156,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  link: {
+    color: 'lightblue'
+  },
+  terms: {
+    textAlign: 'center',
+    fontSize: 16
+  }
 });
