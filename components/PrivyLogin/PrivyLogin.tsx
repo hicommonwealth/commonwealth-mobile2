@@ -77,13 +77,13 @@ export const PrivyLogin = () => {
                      text="LOGIN WITH X"/>
 
         <LoginButton onClick={() => setMode('email')}
-                     icon={() => <EmailIcon width={48} height={48}/>}
+                     icon={() => <EmailIcon width={48} height={48} fill={'#1b1a1c'} />}
                      text="LOGIN WITH EMAIL"/>
         <LoginButton onClick={() => setMode('sms')}
-                     icon={() => <SMSIcon width={48} height={48}/>}
+                     icon={() => <SMSIcon width={48} height={48} fill={'#1b1a1c'} />}
                      text="LOGIN WITH SMS"/>
 
-        <View style={{flex: 1}}>
+        <View style={styles.termsSection}>
           <Text style={styles.terms}>
             By connecting to Common you agree to our <Text style={styles.link} onPress={handleTOS}>Terms of Service</Text> and <Text style={styles.link} onPress={handlePrivacyPolicy}>Privacy Policy</Text>.
           </Text>
@@ -106,8 +106,8 @@ const LoginButton = (props: LoginButtonProps) => {
   return (
     <Button onPress={props.onClick}
             style={{
-              borderRadius: 4,
-              width: '100%'
+              borderRadius: 6,
+              width: '100%',
             }}
             icon={icon}
             mode='outlined'
@@ -117,7 +117,7 @@ const LoginButton = (props: LoginButtonProps) => {
               alignItems: 'center',
             }}
             labelStyle={{
-              color: 'black',
+              color: '#1b1a1c',
               textAlign: 'center',
               flex: 1,
               paddingRight: 48
@@ -157,7 +157,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   link: {
-    color: 'lightblue'
+    color: '#2972cc'
+  },
+  termsSection: {
+    flex: 1,
+    justifyContent: 'flex-end'
   },
   terms: {
     textAlign: 'center',
