@@ -7,8 +7,7 @@ import { Button } from "react-native-paper";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
 import SMSIcon from "@/components/icons/SMSIcon";
-
-const Logo = require('../../assets/images/login-logo.png')
+import LoginLogo from "@/components/PrivyLogin/LoginLogo";
 
 type AuthMode = 'email' | 'sms';
 
@@ -53,7 +52,7 @@ export const PrivyLogin = () => {
       <View style={styles.inner}>
       <View style={styles.buttonGroup}>
 
-        <Image source={Logo} style={styles.logo} />
+        <LoginLogo />
 
         <Text style={styles.banner}>Sign into Common</Text>
         <LoginButton onClick={() => handleOAuth({provider: 'google'})}
@@ -144,12 +143,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 400,
     paddingBottom: 10
-  },
-  logo: {
-    width: Math.floor(2312 * 0.1),
-    height: Math.floor(450 * 0.1)
-    // width: 75,
-    // height: 75,
   },
   buttonGroup: {
     gap: 12,
