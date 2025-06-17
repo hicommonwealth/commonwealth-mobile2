@@ -49,6 +49,23 @@ export const PrivyLogin = () => {
         <LoginButton onClick={() => handleOAuth({provider: 'google'})}
                      icon={() => <GoogleIcon width={48} height={48}/>}
                      text="LOGIN WITH GOOGLE"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'apple'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH APPLE"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'github'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH GITHUB"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'discord'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH DISCORD"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'twitter'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH X"/>
+
         <LoginButton onClick={() => setMode('email')}
                      icon={() => <EmailIcon width={48} height={48}/>}
                      text="LOGIN WITH EMAIL"/>
