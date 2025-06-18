@@ -48,9 +48,6 @@ jobs:
             --non-interactive \
             --auto-submit-with-profile production
 
-      - name: ⏳  Wait for build to finish
-        run: eas build:wait --non-interactive
-
       - name: 📤  Submit latest build to stores
         run: |
           eas submit --platform android --latest --non-interactive
