@@ -175,6 +175,8 @@ export default function Webapp() {
 
   const handleMessage = (event: WebViewMessageEvent) => {
 
+    console.log("FIXME: got message: ", JSON.stringify(event.nativeEvent.data, null, 2))
+
     notificationsListener.handleMessage(event)
     signMessageListener(event, postMessage)
     privyLogoutListener(event, postMessage)

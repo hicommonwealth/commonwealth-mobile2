@@ -8,7 +8,12 @@
       "channel": "preview"
     },
     "production": {
-      "autoIncrement": true 
+      "autoIncrement": true
+    },
+    "development": {
+      "ios": {
+        "simulator": true
+      }
     }
   },
   "submit": {

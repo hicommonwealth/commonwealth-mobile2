@@ -43,7 +43,6 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   const [accessTokenProvider, setAccessTokenProvider] = useState<WalletSsoSource | null>(null)
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [userAuth, setUserAuth] = useState<UserAuth | null>(null)
-  const authenticated = !!user && !!wallet
   const enabled = config.PRIVY_MOBILE_ENABLED
 
   useOAuthTokens({
@@ -72,14 +71,22 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
         address: wallet?.address ?? null,
       }
 
+      console.log("FIXME: userAuth is now: " + JSON.stringify(userAuth, null, 2))
+
       return userAuth
 
+    } else {
+      console.log("FIXME: user is null")
     }
     return null
 
   }, [user, wallet, getAccessToken, getIdentityToken, accessTokenProvider, accessToken])
 
   useEffect(() => {
+
+    console.log("FIXME user: ", JSON.stringify(user, null, 2))
+    console.log("FIXME accessToken: ", JSON.stringify(accessToken, null, 2))
+    console.log("FIXME accessTokenProvider: ", JSON.stringify(accessTokenProvider, null, 2))
 
     async function doAsync() {
       if (user && accessToken && accessTokenProvider) {
@@ -106,7 +113,7 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   return (
     <PrivyAuthContext.Provider value={{
                                  enabled,
-                                 authenticated,
+                                 authenticated: !!userAuth,
                                  userAuth
                                }}>
       {props.children}

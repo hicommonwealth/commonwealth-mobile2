@@ -28,7 +28,9 @@ export function useMobileRPCReceiver<Request, Response>(type: string,
 
   const invoker = useCallback(async (protoRequest: ProtoRequestObject<Request>,
                                      postMessage: (msg: string) => void) => {
+
     console.log("protoRequest", JSON.stringify(protoRequest, null, 2))
+
     const data = await handler(protoRequest.data)
 
     const protoResponse: ProtoResponseObject<Response> = {

@@ -7,6 +7,7 @@ export function usePrivyAuthStatusListener() {
   const privyAuthStatus = usePrivyAuthStatus()
 
   const handler = useCallback(async (request: {}): Promise<IPrivyAuthStatus> => {
+    console.log("usePrivyAuthStatusListener: Responding to webapp with: " + JSON.stringify(privyAuthStatus, null, 2))
     return privyAuthStatus
   }, [privyAuthStatus])
 
