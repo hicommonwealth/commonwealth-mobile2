@@ -19,7 +19,7 @@ export const DoAuth = (props: Props) => {
   const authStatus = usePrivyAuthStatus()
   const {user} = usePrivy();
 
-  console.log("User is: " + user?.id)
+  console.log("User is: " + JSON.stringify(user, null, 2))
   if (!authStatus.userAuth && !user) {
     return (
       <DebugGestureView>
