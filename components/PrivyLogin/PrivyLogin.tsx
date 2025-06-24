@@ -1,4 +1,4 @@
-import {View, StyleSheet, Image, TouchableOpacity, Text} from "react-native";
+import {View, StyleSheet, Image, TouchableOpacity, Text, Linking} from "react-native";
 import {LoginWithOAuthInput, useLoginWithOAuth} from "@privy-io/expo";
 import React from "react";
 import {LoginWithEmail} from "@/components/PrivyLogin/LoginWithEmail";
@@ -7,8 +7,7 @@ import { Button } from "react-native-paper";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import EmailIcon from "@/components/icons/EmailIcon";
 import SMSIcon from "@/components/icons/SMSIcon";
-
-const Logo = require('../../assets/images/adaptive-icon.png')
+import LoginLogo from "@/components/PrivyLogin/LoginLogo";
 
 type AuthMode = 'email' | 'sms';
 
@@ -24,6 +23,16 @@ export const PrivyLogin = () => {
 
     doAsync().catch(console.error);
   };
+
+  const handlePrivacyPolicy = () => {
+    Linking.openURL('https://common.xyz/privacy')
+      .catch(console.error)
+  }
+
+  const handleTOS = () => {
+    Linking.openURL('https://common.xyz/terms')
+      .catch(console.error)
+  }
 
   if (mode === 'email') {
     return (
@@ -43,21 +52,40 @@ export const PrivyLogin = () => {
       <View style={styles.inner}>
       <View style={styles.buttonGroup}>
 
-        <Image source={Logo} style={styles.logo} />
+        <LoginLogo />
 
         <Text style={styles.banner}>Sign into Common</Text>
         <LoginButton onClick={() => handleOAuth({provider: 'google'})}
                      icon={() => <GoogleIcon width={48} height={48}/>}
                      text="LOGIN WITH GOOGLE"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'apple'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH APPLE"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'github'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH GITHUB"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'discord'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH DISCORD"/>
+
+        <LoginButton onClick={() => handleOAuth({provider: 'twitter'})}
+                     icon={() => <GoogleIcon width={48} height={48}/>}
+                     text="LOGIN WITH X"/>
+
         <LoginButton onClick={() => setMode('email')}
-                     icon={() => <EmailIcon width={48} height={48}/>}
+                     icon={() => <EmailIcon width={48} height={48} fill={'#1b1a1c'} />}
                      text="LOGIN WITH EMAIL"/>
         <LoginButton onClick={() => setMode('sms')}
-                     icon={() => <SMSIcon width={48} height={48}/>}
+                     icon={() => <SMSIcon width={48} height={48} fill={'#1b1a1c'} />}
                      text="LOGIN WITH SMS"/>
 
-        <View style={{flex: 1}}>
-
+        <View style={styles.termsSection}>
+          <Text style={styles.terms}>
+            By connecting to Common you agree to our <Text style={styles.link} onPress={handleTOS}>Terms of Service</Text> and <Text style={styles.link} onPress={handlePrivacyPolicy}>Privacy Policy</Text>.
+          </Text>
         </View>
 
       </View>
@@ -77,8 +105,8 @@ const LoginButton = (props: LoginButtonProps) => {
   return (
     <Button onPress={props.onClick}
             style={{
-              borderRadius: 4,
-              width: '100%'
+              borderRadius: 6,
+              width: '100%',
             }}
             icon={icon}
             mode='outlined'
@@ -88,7 +116,7 @@ const LoginButton = (props: LoginButtonProps) => {
               alignItems: 'center',
             }}
             labelStyle={{
-              color: 'black',
+              color: '#1b1a1c',
               textAlign: 'center',
               flex: 1,
               paddingRight: 48
@@ -116,10 +144,6 @@ const styles = StyleSheet.create({
     fontWeight: 400,
     paddingBottom: 10
   },
-  logo: {
-    width: 150,
-    height: 150,
-  },
   buttonGroup: {
     gap: 12,
     padding: 24,
@@ -127,4 +151,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  link: {
+    color: '#2972cc'
+  },
+  termsSection: {
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
+  terms: {
+    textAlign: 'center',
+    fontSize: 16
+  }
 });

@@ -43,7 +43,6 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   const [accessTokenProvider, setAccessTokenProvider] = useState<WalletSsoSource | null>(null)
   const [accessToken, setAccessToken] = useState<string | null>(null)
   const [userAuth, setUserAuth] = useState<UserAuth | null>(null)
-  const authenticated = !!user && !!wallet
   const enabled = config.PRIVY_MOBILE_ENABLED
 
   useOAuthTokens({
@@ -106,7 +105,7 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   return (
     <PrivyAuthContext.Provider value={{
                                  enabled,
-                                 authenticated,
+                                 authenticated: !!userAuth,
                                  userAuth
                                }}>
       {props.children}
