@@ -1,6 +1,6 @@
 import {createContext, memo, ReactNode, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {WalletSsoSource} from "@/util/WalletSsoSource";
-import {useEmbeddedEthereumWallet, useIdentityToken, useOAuthTokens, usePrivy} from "@privy-io/expo";
+import {PrivyUser, useEmbeddedEthereumWallet, useIdentityToken, useOAuthTokens, usePrivy} from "@privy-io/expo";
 import {config} from "@/util/config";
 import React from "react";
 import {toWalletSsoSource} from "@/util/toWalletSsoSource";
@@ -81,7 +81,8 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
   useEffect(() => {
 
     async function doAsync() {
-      if (user && accessToken && accessTokenProvider) {
+
+      if (user && ((accessToken && accessTokenProvider) || authHasNoAccessToken(user))) {
         console.log("Creating userAuth...")
         const identityToken = await getIdentityToken()
         if (identityToken) {
@@ -112,3 +113,26 @@ export const PrivyAuthStatusProvider = memo((props: Props) => {
     </PrivyAuthContext.Provider>
   )
 })
+
+
+function authHasNoAccessToken(user: PrivyUser): boolean {
+
+  // TODO: this is a workaround to allow mobile auth for accounts that are
+  // authenticating with email or phone auth.  IF they are phone or email then
+  // they NEVER receive an oauth token so we spend infinity waiting for
+  // onOAuthTokenGrant.
+  //
+  // Right now we are NOT using linked-accounts.  If we do this won't work
+  // because the user would have BOTH phone + google and then this test should
+  // fail.
+  //
+  // A better solution is to use async-storage to set a temporary state that
+  // we're authenticating with and set it to 'phone' so we don't expect the
+  // callback.
+
+  const phone = user.linked_accounts.find(current => current.type === 'phone')
+  const email = user.linked_accounts.find(current => current.type === 'email')
+
+  return !!(phone || email)
+
+}
