@@ -47,13 +47,13 @@ jobs:
             --profile production \
             --non-interactive \
             --auto-submit-with-profile production
+      # Auto submit is enabled by default for now, uncomment if needed
+      # - name: 📤  Submit latest build to stores (Android)
+      #   if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' }}
+      #   run: |
+      #     eas submit --platform android --latest --non-interactive
 
-      - name: 📤  Submit latest build to stores (Android)
-        if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' }}
-        run: |
-          eas submit --platform android --latest --non-interactive
-
-      - name: 📤  Submit latest build to stores (iOS)
-        if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' }}
-        run: |
-          eas submit --platform ios --latest --non-interactive
+      # - name: 📤  Submit latest build to stores (iOS)
+      #   if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' }}
+      #   run: |
+      #     eas submit --platform ios --latest --non-interactive
