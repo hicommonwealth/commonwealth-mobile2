@@ -48,7 +48,12 @@ jobs:
             --non-interactive \
             --auto-submit-with-profile production
 
-      - name: 📤  Submit latest build to stores
+      - name: 📤  Submit latest build to stores (Android)
+        if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all' }}
         run: |
           eas submit --platform android --latest --non-interactive
+
+      - name: 📤  Submit latest build to stores (iOS)
+        if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all' }}
+        run: |
           eas submit --platform ios --latest --non-interactive
