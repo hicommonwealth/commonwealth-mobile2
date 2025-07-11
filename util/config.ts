@@ -46,7 +46,7 @@ const FRACK_CONFIG: Config = {
   KNOCK_PUBLIC_API_KEY: "pk_EkjqgrIByZo85tIqdBkCmihVBtTB_ixY_37oTG_Au1Y",
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
-  PRIVY_MOBILE_ENABLED: true,
+  PRIVY_MOBILE_ENABLED: false,
   PRIVY_DEBUG: false,
   WEBAPP_DEBUG_URL: null,
   // WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-mobile',
@@ -97,4 +97,4 @@ export function setConfig(conf: ConfigName) {
   }
 }
 
-export let config = PROD_CONFIG
+export let config = FRACK_CONFIG
