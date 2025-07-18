@@ -25,6 +25,15 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
+## Detailed Development Guides
+
+For detailed, step-by-step instructions on how to run this project in different environments, please see the following guides. These are much more specific than the generic instructions above.
+
+*   **iOS Simulator (Recommended for Dev):** [How to run on the iOS Simulator](./ios-simulator.manual.md)
+*   **Android Emulator:** [How to run on the Android Emulator](./android-simulator.manual.md)
+*   **Physical iOS Device:** [How to run on a physical iOS Device](./ios.manual.md)
+*   **Physical Android Device:** [How to run on a physical Android Device](./android.manual.md)
+
 ## Get a fresh project
 
 When you're ready, run:
