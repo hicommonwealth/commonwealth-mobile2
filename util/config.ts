@@ -46,7 +46,7 @@ const FRACK_CONFIG: Config = {
   KNOCK_PUBLIC_API_KEY: "pk_EkjqgrIByZo85tIqdBkCmihVBtTB_ixY_37oTG_Au1Y",
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
-  PRIVY_MOBILE_ENABLED: true,
+  PRIVY_MOBILE_ENABLED: false,
   PRIVY_DEBUG: false,
   WEBAPP_DEBUG_URL: null,
   // WEBAPP_DEBUG_URL: 'https://commonwealth-frack.herokuapp.com/_internal/debug-mobile',
@@ -68,12 +68,12 @@ const TEST_CONFIG: Config = {
   name: 'test',
   // TODO: this won't work now because privy requires https
   // for anything other than localhost.
-  MAIN_APP_URL: 'http://192.168.86.42:8080',
+  MAIN_APP_URL: 'https://common.ngrok.app',
   KNOCK_EXPO_CHANNEL_ID: "c416d699-c6ac-4288-8d76-9a792cf53ffa",
   KNOCK_PUBLIC_API_KEY: "pk_RLg22EIJ6jsuci6c7VvBU59gDQJZeFoeBKlOkgJLWvA",
   PRIVY_APP_ID: 'cm8er6mrm00fowbqy8bpw3956',
   PRIVY_CLIENT_ID: 'client-WY5i1Up82Zaa6pQzZqFQHHLGxnuXQkeik7oCbhMW1AwQC',
-  PRIVY_MOBILE_ENABLED: true,
+  PRIVY_MOBILE_ENABLED: false,
   PRIVY_DEBUG: false,
   WEBAPP_DEBUG_URL: null,
 }
